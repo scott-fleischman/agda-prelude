@@ -46,7 +46,7 @@ module Π where
 
   _∘>_ : _
   _∘>_ = seq
-  {-# DISPLAY seq f g = f <∘ g #-}
+  {-# DISPLAY seq f g = f ∘> g #-}
 
 open Π public
   using (Π)

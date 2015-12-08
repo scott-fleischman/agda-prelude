@@ -45,7 +45,7 @@ module ⇒ where
 
   _∘>_ : _
   _∘>_ = seq
-  {-# DISPLAY seq f g = f <∘ g #-}
+  {-# DISPLAY seq f g = f ∘> g #-}
 
   𝓎
     : ∀ ..{ℓ₀ ℓ₁}
