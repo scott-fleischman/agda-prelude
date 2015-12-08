@@ -10,6 +10,9 @@ open import Prelude.Nat
 open import Prelude.One
 open import Prelude.Point
 open import Prelude.Product
+open import Prelude.Product.Indexed
+
+infix 0 _≡_
 
 data _≡_ ..{ℓ} {A : Set ℓ} (a : A) : A → Set ℓ where
   refl : a ≡ a
@@ -17,107 +20,254 @@ data _≡_ ..{ℓ} {A : Set ℓ} (a : A) : A → Set ℓ where
 {-# BUILTIN REFL refl #-}
 
 module ≡ where
-  idn*
-    : ∀ ..{ℓ} {A : Set ℓ} {a : A}
-    → 𝟙₀ ⇒ (a ≡ a)
-  idn* = Δ[ refl ]
 
-  idn : ∀ ..{ℓ} {A : Set ℓ} {a : A} → _
-  idn {a = a} = idn* {a = a} *
-  {-# DISPLAY idn* _ = idn #-}
+  private
+    module # where
+      infixr 1 _<∘_
+      infixr 1 _∘>_
+      infixr 1 [_]*_
+      infixl 2 _⁻¹
 
-  cmp
-    : ∀ ..{ℓ} {A : Set ℓ} {a b c : A}
-    → ((b ≡ c) ⊗ (a ≡ b)) ⇒ (a ≡ c)
-  cmp (refl ⊗., refl) = refl
+      idn*
+        : ∀ ..{ℓ}
+        → {A : Set ℓ}
+        → {a : A}
+        → 𝟙₀ ⇒ (a ≡ a)
+      idn* = Δ[ refl ]
 
-  seq
-    : ∀ ..{ℓ} {A : Set ℓ} {a b c : A}
-    → ((a ≡ b) ⊗ (b ≡ c)) ⇒ (a ≡ c)
-  seq (refl ⊗., refl) = refl
+      pattern idn = refl
+      {-# DISPLAY idn* _ = idn #-}
 
-  inv
-    : ∀ ..{ℓ} {A : Set ℓ} {a b : A}
-    → (a ≡ b) ⇒ (b ≡ a)
-  inv refl = refl
+      cmp
+        : ∀ ..{ℓ}
+        → {A : Set ℓ}
+        → {a b c : A}
+        → ((b ≡ c) ⊗ (a ≡ b)) ⇒ (a ≡ c)
+      cmp (idn ⊗., idn) = idn
 
-  _<∘_ : _
-  _<∘_ = cmp
-  {-# DISPLAY cmp (q ⊗., p) = q <∘ p #-}
+      seq
+        : ∀ ..{ℓ}
+        → {A : Set ℓ}
+        → {a b c : A}
+        → ((a ≡ b) ⊗ (b ≡ c)) ⇒ (a ≡ c)
+      seq (idn ⊗., idn) = idn
 
-  _∘>_ : _
-  _∘>_ = seq
-  {-# DISPLAY seq (p ⊗., q) = p ∘> q #-}
+      inv
+        : ∀ ..{ℓ} {A : Set ℓ} {a b : A}
+        → (a ≡ b) ⇒ (b ≡ a)
+      inv idn = idn
 
-  _⁻¹ : _
-  _⁻¹ = inv
-  {-# DISPLAY inv p = p ⁻¹ #-}
+      _<∘_
+        : ∀ ..{ℓ}
+        → {A : Set ℓ}
+        → {a b c : A}
+        → (ρ₁ : b ≡ c)
+        → (ρ₀ : a ≡ b)
+        → a ≡ c
+      ρ₁ <∘ ρ₀ = cmp (ρ₁ ⊗., ρ₀)
+      {-# DISPLAY cmp (ρ₁ ⊗., ρ₀) = ρ₁ <∘ ρ₀ #-}
 
-  coe
-    : ∀ ..{ℓ₀ ℓ₁} {A : Set ℓ₀} {a b}
-    → (Ψ : A → Set (ℓ₀ ⊔ ℓ₁))
-    → (f : a ≡ b)
-    → (Ψ a ⇒ Ψ b)
-  coe Ψ refl ψ = ψ
+      _∘>_
+        : ∀ ..{ℓ}
+        → {A : Set ℓ}
+        → {a b c : A}
+        → (ρ₀ : a ≡ b)
+        → (ρ₁ : b ≡ c)
+        → a ≡ c
+      ρ₀ ∘> ρ₁ = seq (ρ₀ ⊗., ρ₁)
+      {-# DISPLAY seq (ρ₀ ⊗., ρ₁) = ρ₀ ∘> ρ₁ #-}
 
-  ap₁
-    : ∀ ..{ℓ₀ ℓ₁} {A : Set ℓ₀} {B : Set ℓ₁} {a b}
-    → (F : A ⇒ B)
-    → ((a ≡ b) ⇒ (F a ≡ F b))
-  ap₁ F refl = refl
+      _⁻¹ : _
+      _⁻¹ = inv
+      {-# DISPLAY inv ρ = ρ ⁻¹ #-}
 
-  _$₁_ : _
-  _$₁_ = ap₁
-  {-# DISPLAY ap₁ f p = f $₁ p #-}
+      coe*
+        : ∀ ..{ℓ}
+        → ∀ {A : Set ℓ} {a b}
+        → (Ψ : A → Set₀)
+        → (ρ : a ≡ b)
+        → (Ψ a ⇒ Ψ b)
+      coe* Ψ idn x = x
 
-  idn-lhs
-    : ∀ ..{ℓ}
-    → ∀ {A : Set ℓ} {a b : A}
-    → (ϕ : a ≡ b)
-    → (cmp (idn* * ⊗., ϕ)) ≡ ϕ
-  idn-lhs refl = refl
+      [_]*_
+        : ∀ ..{ℓ}
+        → ∀ {A : Set ℓ} {a b}
+        → {Ψ : A → Set₀}
+        → (ρ : a ≡ b)
+        → (Ψ a ⇒ Ψ b)
+      [_]*_ {Ψ = Ψ} ρ ψ = coe* Ψ ρ ψ
+      {-# DISPLAY coe* Ψ ρ x = [ ρ ]* x #-}
 
-  idn-rhs
-    : ∀ ..{ℓ}
-    → ∀ {A : Set ℓ} {a b : A}
-    → (ϕ : a ≡ b)
-    → (cmp (ϕ ⊗., idn* *)) ≡ ϕ
-  idn-rhs refl = refl
+      ap
+        : ∀ ..{ℓ₀ ℓ₁} {A : Set ℓ₀} {B : Set ℓ₁} {a b}
+        → (F : A ⇒ B)
+        → ((a ≡ b) ⇒ (F a ≡ F b))
+      ap F idn = idn
 
-  cmp-ass
-    : ∀ ..{ℓ}
-    → ∀ {A : Set ℓ} {a b c d : A}
-    → (ϕ : a ≡ b) (ψ : b ≡ c) (ϑ : c ≡ d)
-    → cmp (cmp (ϑ ⊗., ψ) ⊗., ϕ) ≡ cmp (ϑ ⊗., cmp (ψ ⊗., ϕ))
-  cmp-ass refl refl refl = refl
+      _$_ : _
+      _$_ = ap
+      {-# DISPLAY ap f ρ = f $ ρ #-}
 
-  inv-lhs
-    : ∀ ..{ℓ}
-    → ∀ {A : Set ℓ} {a b : A}
-    → (ϕ : a ≡ b)
-    → cmp (inv ϕ ⊗., ϕ) ≡ refl
-  inv-lhs refl = refl
+  module rel where
+    idn
+      : ∀ ..{ℓ}
+      → {A : Set ℓ}
+      → {a : A}
+      → refl {a = a} ≡ refl {a = a}
+    idn = #.idn
 
-  inv-rhs
-    : ∀ ..{ℓ}
-    → ∀ {A : Set ℓ} {a b : A}
-    → (ϕ : a ≡ b)
-    → refl ≡ cmp (ϕ ⊗., inv ϕ)
-  inv-rhs refl = refl
+    cmp
+      : ∀ ..{ℓ}
+      → {A : Set ℓ}
+      → {a b c : A}
+      → {ρ₀ ρ₁ : a ≡ b}
+      → {σ₀ σ₁ : b ≡ c}
+      → (β : σ₀ ≡ σ₁)
+      → (α : ρ₀ ≡ ρ₁)
+      → (σ₀ #.<∘ ρ₀) ≡ (σ₁ #.<∘ ρ₁)
+    cmp #.idn #.idn = #.idn
 
-  J'
+    seq
+      : ∀ ..{ℓ}
+      → {A : Set ℓ}
+      → {a b c : A}
+      → {ρ₀ ρ₁ : a ≡ b}
+      → {σ₀ σ₁ : b ≡ c}
+      → (α : ρ₀ ≡ ρ₁)
+      → (β : σ₀ ≡ σ₁)
+      → (ρ₀ #.∘> σ₀) ≡ (ρ₁ #.∘> σ₁)
+    seq #.idn #.idn = #.idn
+
+    inv
+      : ∀ ..{ℓ}
+      → {A : Set ℓ}
+      → {a b : A}
+      → {ρ₀ ρ₁ : a ≡ b}
+      → (α : ρ₀ ≡ ρ₁)
+      → ρ₀ #.⁻¹ ≡ ρ₁ #.⁻¹
+    inv #.idn = #.idn
+
+  module coh where
+    open #
+
+    idn-λ
+      : ∀ ..{ℓ}
+      → {A : Set ℓ}
+      → {a b : A}
+      → (ϕ : a ≡ b)
+      → (idn <∘ ϕ) ≡ ϕ
+    idn-λ idn = idn
+
+    idn-ρ
+      : ∀ ..{ℓ}
+      → {A : Set ℓ}
+      → {a b : A}
+      → (ϕ : a ≡ b)
+      → (ϕ <∘ idn) ≡ ϕ
+    idn-ρ idn = idn
+
+    cmp-α
+      : ∀ ..{ℓ}
+      → {A : Set ℓ}
+      → {a b c d : A}
+      → (ρ₀ : a ≡ b)
+      → (ρ₁ : b ≡ c)
+      → (ρ₂ : c ≡ d)
+      → ((ρ₂ <∘ ρ₁) <∘ ρ₀) ≡ (ρ₂ <∘ (ρ₁ <∘ ρ₀))
+    cmp-α idn idn idn = idn
+
+    seq-α
+      : ∀ ..{ℓ}
+      → {A : Set ℓ}
+      → {a b c d : A}
+      → (ρ₀ : a ≡ b)
+      → (ρ₁ : b ≡ c)
+      → (ρ₂ : c ≡ d)
+      → (ρ₀ ∘> (ρ₁ ∘> ρ₂)) ≡ ((ρ₀ ∘> ρ₁) ∘> ρ₂)
+    seq-α idn idn idn = idn
+
+    inv-λ
+      : ∀ ..{ℓ}
+      → {A : Set ℓ}
+      → {a b : A}
+      → (ϕ : a ≡ b)
+      → (ϕ ⁻¹ <∘ ϕ) ≡ idn
+    inv-λ idn = idn
+
+    inv-ρ
+      : ∀ ..{ℓ}
+      → {A : Set ℓ}
+      → {a b : A}
+      → (ϕ : a ≡ b)
+      → (ϕ <∘ ϕ ⁻¹) ≡ idn
+    inv-ρ idn = idn
+
+    coe-coh
+      : ∀ ..{ℓ}
+      → ∀ {A : Set ℓ}
+      → (Ψ : A → Set₀)
+      → ∀ {a b}
+      → {ρ₀ ρ₁ : a ≡ b}
+      → (σ : ρ₀ ≡ ρ₁)
+      → {ψ : Ψ a}
+      → coe* Ψ ρ₀ ψ ≡ coe* Ψ ρ₁ ψ
+    coe-coh Ψ idn = idn
+
+    coe-idn
+      : ∀ ..{ℓ}
+      → ∀ {A : Set ℓ}
+      → (Ψ : A → Set₀)
+      → ∀ {a}
+      → {ψ : Ψ a}
+      → coe* Ψ idn ψ ≡ ψ
+    coe-idn Ψ = idn
+
+    coe-cmp
+      : ∀ ..{ℓ}
+      → ∀ {A : Set ℓ}
+      → (Ψ : A → Set₀)
+      → ∀ {a b c}
+      → (ρ₁ : b ≡ c)
+      → (ρ₀ : a ≡ b)
+      → {ψ : Ψ a}
+      → coe* Ψ (ρ₁ <∘ ρ₀) ψ ≡ (coe* Ψ ρ₁ ⇒.<∘ coe* Ψ ρ₀) ψ
+    coe-cmp Ψ idn idn = idn
+
+    coe-inv-λ
+      : ∀ ..{ℓ}
+      → ∀ {A : Set ℓ}
+      → (Ψ : A → Set₀)
+      → ∀ {a b}
+      → (ρ : a ≡ b)
+      → {ψ : Ψ a}
+      → coe* Ψ (ρ ⁻¹ <∘ ρ) ψ ≡ coe* Ψ idn ψ
+    coe-inv-λ Ψ = coe-coh Ψ Π.<∘ inv-λ
+
+    coe-inv-ρ
+      : ∀ ..{ℓ}
+      → ∀ {A : Set ℓ}
+      → (Ψ : A → Set₀)
+      → ∀ {a b}
+      → (ρ : a ≡ b)
+      → {ψ : Ψ b}
+      → coe* Ψ (ρ <∘ ρ ⁻¹) ψ ≡ coe* Ψ idn ψ
+    coe-inv-ρ Ψ = coe-coh Ψ Π.<∘ inv-ρ
+
+  open # public
+
+  ind#
     : ∀ {ℓ₀ ℓ₁} {A : Set ℓ₀} {a : A}
     → (Φ : (b : A) → a ≡ b → Set ℓ₁)
-    → (ϕ : Φ a refl)
+    → (ϕ : Φ a idn)
     → ((b : A) (ψ : a ≡ b) → Φ b ψ)
-  J' Φ ϕ b refl = ϕ
+  ind# Φ ϕ b idn = ϕ
 
-  J
+  ind
     : ∀ {ℓ₀ ℓ₁} {A : Set ℓ₀}
     → (Φ : (a b : A) → a ≡ b → Set ℓ₁)
-    → (ϕ : (a : A) → Φ a a refl)
+    → (ϕ : (a : A) → Φ a a idn)
     → ((a b : A) (ψ : a ≡ b) → Φ a b ψ)
-  J Φ ϕ a = J' (Φ a) (ϕ a)
+  ind Φ ϕ a = ind# (Φ a) (ϕ a)
 
   loop : ∀ ..{ℓ} → Pt ℓ → Pt ℓ
   Pt.type (loop xs) = Pt.base xs ≡ Pt.base xs
