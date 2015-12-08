@@ -28,14 +28,15 @@ module ≡ where
       infixr 1 [_]*_
       infixl 2 _⁻¹
 
+      pattern idn = refl
+
       idn*
         : ∀ ..{ℓ}
         → {A : Set ℓ}
         → {a : A}
         → 𝟙₀ ⇒ (a ≡ a)
-      idn* = Δ[ refl ]
+      idn* = Δ[ idn ]
 
-      pattern idn = refl
       {-# DISPLAY idn* _ = idn #-}
 
       cmp
@@ -271,7 +272,7 @@ module ≡ where
 
   loop : ∀ ..{ℓ} → Pt ℓ → Pt ℓ
   Pt.type (loop xs) = Pt.base xs ≡ Pt.base xs
-  Pt.base (loop xs) = refl
+  Pt.base (loop xs) = idn
 
   loop# : ∀ ..{ℓ} → Nat → Pt ℓ → Pt ℓ
   loop# ze xs = xs
