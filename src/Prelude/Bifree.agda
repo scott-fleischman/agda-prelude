@@ -12,12 +12,12 @@ open import Prelude.Zero
 data Fix : Set where
   + × : Fix
 
-bifree◃ : Fix → Con → Con → Con
-bifree◃ + A B = A Con.+◃ B
-bifree◃ × A B = A Con.×◃ B
+biprod : Fix → Con → Con → Con
+biprod + A B = A Con.+◃ B
+biprod × A B = A Con.×◃ B
 
 bifree : (⊛ : Fix) (Σ : Con) (A : Set) → Set
-bifree ⊛ Σ A = W (bifree◃ ⊛ (Con.κ◃ A) Σ)
+bifree ⊛ Σ A = W (biprod ⊛ (Con.κ◃ A) Σ)
 
 free : (Σ : Con) (A : Set) → Set
 free Σ A = bifree + Σ A
