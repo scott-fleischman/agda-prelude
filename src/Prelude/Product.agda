@@ -13,12 +13,13 @@ module ⊗ where
       snd : B
   open _⊗_ public
 
-  el : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
+  el
+    : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
     → {A : Set ℓ₀}
     → {B : Set ℓ₁}
-    → {Φ : A ⊗ B → Set ℓ₂}
-    → (k : (x : A) (y : B) → Φ (x , y))
-    → (∀ x → Φ x)
+    → {Ψ : A ⊗ B → Set ℓ₂}
+    → (k : (x : A) (y : B) → Ψ (x , y))
+    → (∀ x → Ψ x)
   el k (x , y) = k x y
 
   ⟨_,_⟩ : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
