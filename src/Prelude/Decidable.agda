@@ -7,4 +7,4 @@ open import Prelude.Coproduct
 open import Prelude.Zero
 
 Decidable : ∀ ..{ℓ} (A : Set ℓ) → Set ℓ
-Decidable A = 𝟘.¬⁰ A ⊕ A
+Decidable A = 𝟘.¬₀ A ⊕ A

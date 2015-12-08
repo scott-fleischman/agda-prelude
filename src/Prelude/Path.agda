@@ -19,7 +19,7 @@ data _≡_ ..{ℓ} {A : Set ℓ} (a : A) : A → Set ℓ where
 module ≡ where
   idn*
     : ∀ ..{ℓ} {A : Set ℓ} {a : A}
-    → 𝟙⁰ ⇒ (a ≡ a)
+    → 𝟙₀ ⇒ (a ≡ a)
   idn* = Δ[ refl ]
 
   idn : ∀ ..{ℓ} {A : Set ℓ} {a : A} → _
