@@ -21,6 +21,7 @@ import Prelude.List
 import Prelude.Monad
 import Prelude.Nat
 import Prelude.One
+import Prelude.Point
 import Prelude.Product
 import Prelude.Product.Indexed
 import Prelude.Rose

@@ -115,10 +115,10 @@ module ≡ where
     → ((a b : A) (ψ : a ≡ b) → Φ a b ψ)
   J Φ ϕ a = J' (Φ a) (ϕ a)
 
-  loop : ∀ ..{ℓ} → 𝔘+⦃*⦄ ℓ → 𝔘+⦃*⦄ ℓ
-  𝔘+⦃*⦄.type (loop xs) = 𝔘+⦃*⦄.base xs ≡ 𝔘+⦃*⦄.base xs
-  𝔘+⦃*⦄.base (loop xs) = refl
+  loop : ∀ ..{ℓ} → Pt ℓ → Pt ℓ
+  Pt.type (loop xs) = Pt.base xs ≡ Pt.base xs
+  Pt.base (loop xs) = refl
 
-  loop# : ∀ ..{ℓ} → Nat → 𝔘+⦃*⦄ ℓ → 𝔘+⦃*⦄ ℓ
+  loop# : ∀ ..{ℓ} → Nat → Pt ℓ → Pt ℓ
   loop# ze xs = xs
   loop# (su n) xs = loop# n (loop xs)
