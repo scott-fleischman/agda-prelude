@@ -83,5 +83,6 @@ module Con where
 
 open Con public
   using (Con)
+  using (_◃_)
   using (⟦_⟧◃)
   hiding (module Con)
