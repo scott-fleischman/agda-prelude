@@ -12,7 +12,7 @@ module Π where
   Π : ∀ ..{ℓ₀ ℓ₁} (A : Set ℓ₀) (B : A → Set ℓ₁) → Set (ℓ₀ ⊔ ℓ₁)
   Π A B = (x : A) → B x
 
-  syntax Π A (λ x → B) = [ A ∋ x ] B
+  syntax Π A (λ x → B) = Π[ A ∋ x ] B
 
   _⊆_
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂} {I : Set ℓ₀}

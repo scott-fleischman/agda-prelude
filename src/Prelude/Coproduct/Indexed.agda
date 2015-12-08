@@ -15,7 +15,7 @@ module Σ where
       snd : B fst
   open Σ public
 
-  syntax Σ A (λ x → B) = [ A ∋ x ] B
+  syntax Σ A (λ x → B) = Σ[ A ∋ x ] B
 
   el : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
     → {A : Set ℓ₀} {B : A → Set ℓ₁} {Φ : Σ A B → Set ℓ₂}

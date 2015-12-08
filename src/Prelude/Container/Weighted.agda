@@ -26,7 +26,7 @@ module _ (Σ : Con) where
   infixr 2 ⟦_⟧◃_
 
   ⟦_⟧◃_ : (X : Set) → Set
-  ⟦_⟧◃_ X = ⊕.Σ.[ op Σ ∋ ϑ ] (co Σ ϑ ⊗ (ar Σ ϑ → X))
+  ⟦_⟧◃_ X = ⊕.Σ[ op Σ ∋ ϑ ] (co Σ ϑ ⊗ (ar Σ ϑ → X))
 
   pattern F◃ ϑ n ρ = ϑ ⊕.Σ., (n ⊗., ρ)
 
