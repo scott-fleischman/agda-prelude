@@ -14,6 +14,7 @@ import Prelude.Coproduct.Indexed
 import Prelude.Decidable
 import Prelude.Diagonal
 import Prelude.Fin
+import Prelude.Function
 import Prelude.Functor
 import Prelude.Path
 import Prelude.Families
