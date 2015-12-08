@@ -28,19 +28,19 @@ module Stream where
     : ∀ ..{s ℓ}
     → {A B C : Set ℓ}
     → (f : A → B → C)
-    → (α₀ : Stream {s} A)
-    → (α₁ : Stream {s} B)
+    → (xs : Stream {s} A)
+    → (ys : Stream {s} B)
     → Stream {s} C
-  head (zipWith f α₀ α₁) = f (head α₀) (head α₁)
-  tail (zipWith f α₀ α₁) = zipWith f (tail α₀) (tail α₁)
+  head (zipWith f xs ys) = f (head xs) (head ys)
+  tail (zipWith f xs ys) = zipWith f (tail xs) (tail ys)
 
   repeat
     : ∀ ..{s ℓ}
     → {A : Set ℓ}
     → (a : A)
     → Stream {s} A
-  head (repeat α) = α
-  tail (repeat α) = repeat α
+  head (repeat xs) = xs
+  tail (repeat xs) = repeat xs
 
   unfold
     : ∀ ..{s ℓ}
@@ -48,40 +48,50 @@ module Stream where
     → (x : S)
     → (step : S → A ⊗ S)
     → Stream {s} A
-  head (unfold α step) = ⊗.fst (step α)
-  tail (unfold α step) = unfold (⊗.snd (step α)) step
+  head (unfold xs step) = ⊗.fst (step xs)
+  tail (unfold xs step) = unfold (⊗.snd (step xs)) step
 
-  interleave : ∀ ..{s ℓ} {A : Set ℓ}
-    → (α₀ : Stream {s} A)
-    → (α₁ : ∀ {s′ : Size.< Size.↑ s} → Stream {s′} A)
+  interleave
+    : ∀ ..{s ℓ}
+    → {A : Set ℓ}
+    → (xs : Stream {s} A)
+    → (ys : ∀ {s′ : Size.< Size.↑ s} → Stream {s′} A)
     → Stream {s} A
-  head (interleave α₀ α₁) = head α₀
-  tail (interleave α₀ α₁) {s′} = interleave {s = s′} α₁ (tail α₀)
+  head (interleave xs ys) = head xs
+  tail (interleave xs ys) {s′} = interleave {s = s′} ys (tail xs)
 
-  take : ∀ ..{ℓ} {A : Set ℓ}
+  take
+    : ∀ ..{ℓ}
+    → {A : Set ℓ}
     → (n : Nat)
-    → (α : Stream A)
+    → (xs : Stream A)
     → List A
-  take ze α = []
-  take (su n) α = head α ∷ take n (tail α)
+  take ze xs = []
+  take (su n) xs = head xs ∷ take n (tail xs)
 
-  drop : ∀ ..{ℓ} {A : Set ℓ}
+  drop
+    : ∀ ..{ℓ}
+    → {A : Set ℓ}
     → (n : Nat)
-    → (α : Stream A)
+    → (xs : Stream A)
     → Stream A
-  head (drop ze α) = head α
-  head (drop (su n) α) = head (drop n (tail α))
-  tail (drop ze α) = tail α
-  tail (drop (su n) α) = tail (drop n (tail α))
+  head (drop ze xs) = head xs
+  head (drop (su n) xs) = head (drop n (tail xs))
+  tail (drop ze xs) = tail xs
+  tail (drop (su n) xs) = tail (drop n (tail xs))
 
-  _++_ : ∀ ..{s ℓ} {A : Set ℓ}
+  _++_
+    : ∀ ..{s ℓ}
+    → {A : Set ℓ}
     → (xs : List A)
-    → (α : Stream {Size.↑ s} A)
+    → (ys : Stream {Size.↑ s} A)
     → Stream {Size.↑ s} A
-  [] ++ α = α
-  (x ∷ xs) ++ α = x ∷ (xs ++ α)
+  [] ++ ys = ys
+  (x ∷ xs) ++ ys = x ∷ (xs ++ ys)
 
-  embed : ∀ ..{ℓ} {A : Set ℓ}
+  embed
+    : ∀ ..{ℓ}
+    → {A : Set ℓ}
     → (xs : List A)
     → (κ : A)
     → Stream A
@@ -92,15 +102,15 @@ module Stream where
     → {A : Set ℓ₀}
     → {B : Set ℓ₁}
     → (f : A → B)
-    → (α : Stream {s} A)
+    → (xs : Stream {s} A)
     → Stream {s} B
-  head (map f α) = f (head α)
-  tail (map {i} f α) {j} = map {j} f (tail α {j})
+  head (map f xs) = f (head xs)
+  tail (map {i} f xs) {j} = map {j} f (tail xs {j})
 
   extract
     : ∀ ..{ℓ}
     → {A : Set ℓ}
-    → (α : Stream A)
+    → (xs : Stream A)
     → A
   extract = head
 
@@ -109,9 +119,9 @@ module Stream where
     → {A : Set ℓ₀}
     → {B : Set ℓ₁}
     → (k : Stream A → B)
-    → ((α : Stream A) → Stream B)
-  head (extend k α) = k α
-  tail (extend k α) = extend k (tail α)
+    → ((xs : Stream A) → Stream B)
+  head (extend k xs) = k xs
+  tail (extend k xs) = extend k (tail xs)
 
   instance
     functor : ∀ ..{ℓ} → Functor (Stream {ℓ = ℓ})
@@ -127,6 +137,6 @@ module Stream where
   tab f = map f (unfold 0 ⊗.⟨ ⇒.idn , su_ ⟩)
 
   idx : ∀ ..{ℓ} {A : Set ℓ}
-    → (α : Stream A)
+    → (xs : Stream A)
     → ((n : Nat) → A)
-  idx α n = head (drop n α)
+  idx xs n = head (drop n xs)
