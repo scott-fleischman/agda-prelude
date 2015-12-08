@@ -7,6 +7,7 @@ open import Prelude.Container
 open import Prelude.Coproduct.Indexed
 open import Prelude.Diagonal
 open import Prelude.Families
+open import Prelude.Function
 open import Prelude.Functor
 open import Prelude.Nat
 open import Prelude.One
@@ -33,21 +34,19 @@ module W where
     tail (sup _ tail) = tail
 
   module _ {Σ : Con} where
-    from : CoAlg Con.⟦ Σ ⟧◃_
-    from = CoAlg.Ψ act where
-      act : W Σ → Con.⟦ Σ ⟧◃ W Σ
-      act (sup π₀ π₁) = (π₀ Σ., π₁)
+    from : CoAlg ⟦ Σ ⟧◃
+    CoAlg.car from = W Σ
+    CoAlg.act from (sup ϑ α) = (ϑ Σ., α)
 
-    into : Alg Con.⟦ Σ ⟧◃_
-    into = Alg.Ψ act where
-      act : Con.⟦ Σ ⟧◃ W Σ → W Σ
-      act (π₀ Σ., π₁) = sup π₀ π₁
+    into : Alg ⟦ Σ ⟧◃
+    Alg.car into = W Σ
+    Alg.act into (ϑ Σ., α) = sup ϑ α
 
     iter
       : ∀ ..{s}
-      → (ψ : Alg Con.⟦ Σ ⟧◃_)
+      → (ψ : Alg ⟦ Σ ⟧◃)
       → (W {s} Σ → Alg.car ψ)
-    iter ψ (sup ϑ κ) = Alg.act ψ (ϑ Σ., iter ψ Π.<∘ κ)
+    iter ψ (sup ϑ κ) = Alg.act ψ (ϑ Σ., iter ψ ⇒.<∘ κ)
 
 open W public
   using (W)
