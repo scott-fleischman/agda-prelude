@@ -31,10 +31,10 @@ module Free where
     pattern fork ϑ κ = W.sup (⊕.inr ϑ) κ
 
   leaf : {Σ : Con} {A : Set} → A → free Σ A
-  leaf a = W.sup (⊕.inl a) λ()
+  leaf a = π.leaf a 𝟘.¡
 
   fork : {Σ : Con} {A : Set} → Con.⟦ Σ ⟧◃ (free Σ A) → free Σ A
-  fork (ϑ Σ., κ) = W.sup (⊕.inr ϑ) κ
+  fork (ϑ Σ., κ) = π.fork ϑ κ
 
 module Cofree where
   node : {Σ : Con} {A : Set} → A → Con.⟦ Σ ⟧◃ (cofree Σ A) → cofree Σ A
