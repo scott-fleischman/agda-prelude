@@ -26,28 +26,32 @@ module ≡ where
   idn {a = a} = idn* {a = a} *
   {-# DISPLAY idn* _ = idn #-}
 
-  seq
-    : ∀ ..{ℓ} {A : Set ℓ} {a b c : A}
-    → ((a ≡ b) ⊗ (b ≡ c)) ⇒ (a ≡ c)
-  seq (refl ⊗., refl) = refl
-
-  _∘>_ : _
-  _∘>_ = seq
-  {-# DISPLAY seq (p ⊗., q) = p ∘> q #-}
-
   cmp
     : ∀ ..{ℓ} {A : Set ℓ} {a b c : A}
     → ((b ≡ c) ⊗ (a ≡ b)) ⇒ (a ≡ c)
   cmp (refl ⊗., refl) = refl
 
-  _<∘_ : _
-  _<∘_ = cmp
-  {-# DISPLAY cmp (q ⊗., p) = q <∘ p #-}
+  seq
+    : ∀ ..{ℓ} {A : Set ℓ} {a b c : A}
+    → ((a ≡ b) ⊗ (b ≡ c)) ⇒ (a ≡ c)
+  seq (refl ⊗., refl) = refl
 
   inv
     : ∀ ..{ℓ} {A : Set ℓ} {a b : A}
     → (a ≡ b) ⇒ (b ≡ a)
   inv refl = refl
+
+  _<∘_ : _
+  _<∘_ = cmp
+  {-# DISPLAY cmp (q ⊗., p) = q <∘ p #-}
+
+  _∘>_ : _
+  _∘>_ = seq
+  {-# DISPLAY seq (p ⊗., q) = p ∘> q #-}
+
+  _⁻¹ : _
+  _⁻¹ = inv
+  {-# DISPLAY inv p = p ⁻¹ #-}
 
   coe
     : ∀ ..{ℓ₀ ℓ₁} {A : Set ℓ₀} {a b}
