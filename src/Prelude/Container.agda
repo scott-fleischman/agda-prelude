@@ -15,6 +15,7 @@ module Con where
   infixr 9 _∘◃_
 
   record Con : Set₁ where
+    no-eta-equality
     constructor _◃_
     field
       op : Set₀
