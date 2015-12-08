@@ -2,9 +2,18 @@
 
 module Prelude.Diagonal where
 
+open import Prelude.Product
+
+Δ²[_]
+  : ∀ ..{ℓ₀ ℓ₁}
+  → {A : Set ℓ₀}
+  → {B : Set ℓ₁}
+  → A → A ⊗ A
+Δ²[ a ] = (a ⊗., a)
+
 Δ[_]
   : ∀ ..{ℓ₀ ℓ₁}
   → {A : Set ℓ₀}
   → {B : Set ℓ₁}
-  → A → B → A
+  → A → (B → A)
 Δ[ a ] _ = a
