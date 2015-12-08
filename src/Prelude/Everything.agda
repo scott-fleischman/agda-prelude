@@ -18,6 +18,7 @@ import Prelude.Function
 import Prelude.Functor
 import Prelude.Path
 import Prelude.Families
+import Prelude.Lift
 import Prelude.List
 import Prelude.Monad
 import Prelude.Nat
