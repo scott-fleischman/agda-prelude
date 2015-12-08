@@ -3,9 +3,8 @@
 module Prelude.Decidable where
 
 open import Agda.Primitive
-open import Prelude.Coproduct.Indexed as ∐
-  using ()
+open import Prelude.Coproduct
 open import Prelude.Zero
 
--- t : ∀ ..{ℓ} (A : Set ℓ) → Set ℓ
--- t A = (𝟘.¬⁰ A) ∐.⊕ A
+Decidable : ∀ ..{ℓ} (A : Set ℓ) → Set ℓ
+Decidable A = 𝟘.¬⁰ A ⊕ A
