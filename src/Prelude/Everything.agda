@@ -4,7 +4,6 @@ module Prelude.Everything where
 
 import Prelude.Algebra
 import Prelude.Applicative
-import Prelude.Bifree
 import Prelude.Bool
 import Prelude.Coalgebra
 import Prelude.Comonad
@@ -30,6 +29,7 @@ import Prelude.Signature.Indexed
 import Prelude.Signature.Weighted
 import Prelude.Signature.Tree.Antifounded
 import Prelude.Signature.Tree.Wellfounded
+import Prelude.Signature.Tree.Wellfounded.Bifree
 import Prelude.Size
 import Prelude.Stream
 import Prelude.String

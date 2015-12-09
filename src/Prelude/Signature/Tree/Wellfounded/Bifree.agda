@@ -1,6 +1,6 @@
 {-# OPTIONS --without-K #-}
 
-module Prelude.Bifree where
+module Prelude.Signature.Tree.Wellfounded.Bifree where
 
 open import Agda.Primitive
 open import Prelude.Coproduct
