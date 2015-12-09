@@ -34,7 +34,7 @@ module ≡ where
         : ∀ ..{ℓ}
         → {A : Set ℓ}
         → {a : A}
-        → 𝟙₀ ⇒ (a ≡ a)
+        → 𝟙 ⇒ (a ≡ a)
       idn* = Δ[ idn ]
 
       {-# DISPLAY idn* _ = idn #-}

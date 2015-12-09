@@ -4,25 +4,22 @@ module Prelude.Void where
 
 open import Agda.Primitive
 
-module 𝟘 where
-  data 𝟘 ..{ℓ} : Set ℓ where
+module 𝟘ₙ ..{ℓ} where
+  data 𝟘 : Set ℓ where
 
-  ¬_ : ∀ ..{ℓ₀ ℓ₁} → Set ℓ₀ → Set (ℓ₀ ⊔ ℓ₁)
-  ¬_ {ℓ₁ = ℓ₁} A = A → 𝟘 {ℓ₁}
+  ¬_ : ∀ ..{ℓ₀} → Set ℓ₀ → Set (ℓ₀ ⊔ ℓ)
+  ¬ A = A → 𝟘
 
-  ¡ : ∀ ..{ℓ₀ ℓ₁} {A : Set ℓ₀} → 𝟘 {ℓ₁} → A
+  ¡ : ∀ ..{ℓ₀} {A : Set ℓ₀} → 𝟘 → A
   ¡ ()
 
-  𝟘₀ : Set
-  𝟘₀ = 𝟘
-
-  ¬₀_ : ∀ ..{ℓ₀} → Set ℓ₀ → Set ℓ₀
-  ¬₀_ = ¬_ {ℓ₁ = lzero}
-
-  ¡₀ : ∀ ..{ℓ₀} {A : Set ℓ₀} → 𝟘₀ → A
-  ¡₀ = ¡
+module 𝟘 where
+  open 𝟘ₙ {lzero} public
 
 open 𝟘 public
   using (𝟘)
-  using (𝟘₀)
+  hiding (module 𝟘)
+open 𝟘ₙ public
+  using ()
+  renaming (𝟘 to 𝟘ₙ)
   hiding (module 𝟘)

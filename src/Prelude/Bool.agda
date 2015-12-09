@@ -38,18 +38,17 @@ module 𝟚ₙ ..{ℓ} where
   if tt then lhs else rhs = rhs
 
   ⟦_⟧ : ∀ ..{ℓ₀} (φ : 𝟚) → Set ℓ₀
-  ⟦ ff ⟧ = 𝟘
-  ⟦ tt ⟧ = 𝟙
+  ⟦ ff ⟧ = 𝟘ₙ
+  ⟦ tt ⟧ = 𝟙ₙ
 
 module 𝟚 where
   open 𝟚ₙ {lzero} public
 
 open 𝟚 public
-  renaming (𝟚 to 𝟚ₙ)
-  hiding (module 𝟚)
-  using ()
-open 𝟚ₙ public
   using (𝟚)
+  hiding (module 𝟚)
+open 𝟚ₙ public
+  renaming (𝟚 to 𝟚ₙ)
   using (ff)
   using (tt)
   using (_∧_)
@@ -61,4 +60,3 @@ open 𝟚ₙ public
 {-# BUILTIN BOOL 𝟚 #-}
 {-# BUILTIN FALSE ff #-}
 {-# BUILTIN TRUE tt #-}
-
