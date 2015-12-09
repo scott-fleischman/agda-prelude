@@ -1,5 +1,6 @@
 module Prelude.Container where
 
+open import Agda.Primitive
 open import Prelude.Coproduct
 open import Prelude.Diagonal
 open import Prelude.Families
@@ -68,13 +69,13 @@ module Con where
     module _ {X} where
       infix 4 _∈_
 
-      [_]□ : 𝔓.t X → 𝔓.t (⟦_⟧◃ X)
+      [_]□ : ∀ ..{ℓ} → Fam ℓ X → Fam ℓ (⟦_⟧◃ X)
       [_]□ Φ (F◃ ϑ ρ) = ⊗.Π[ ar Σ ϑ ∋ α ] Φ (ρ α)
 
-      [_]◇ : 𝔓.t X → 𝔓.t (⟦_⟧◃ X)
+      [_]◇ : ∀ ..{ℓ} → Fam ℓ X → Fam ℓ (⟦_⟧◃ X)
       [_]◇ Φ (F◃ ϑ ρ) = ⊕.Σ[ ar Σ ϑ ∋ α ] Φ (ρ α)
 
-      _∈_ : X → 𝔓.t (⟦_⟧◃ X)
+      _∈_ : X → Fam _ (⟦_⟧◃ X)
       x ∈ Γ = [_]◇ (x ≡_) Γ
 
   instance
