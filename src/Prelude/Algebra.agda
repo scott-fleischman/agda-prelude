@@ -8,9 +8,7 @@ open import Prelude.Functor
 
 module Alg where
 
-  record Alg ..{ℓ}
-    (F : Set ℓ → Set ℓ)
-      : Set (lsuc ℓ) where
+  record Alg ..{ℓ} (F : Set ℓ → Set ℓ) : Set (lsuc ℓ) where
     no-eta-equality
     constructor Ψ
     field

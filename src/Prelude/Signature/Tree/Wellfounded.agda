@@ -20,20 +20,20 @@ module W where
   data W ..{s} (Σ : Sig) : Set where
     sup
       : ∀ ..{s′ : Size.< s}
-      → (π₀ : Sig.op Σ)
-      → (π₁ : Sig.ar Σ π₀ → W {s′} Σ)
+      → (head : Sig.op Σ)
+      → (tail : Sig.ar Σ head → W {s′} Σ)
       → W {s} Σ
 
   module _ ..{s} {Σ : Sig} where
     head : W {s} Σ → Sig.op Σ
-    head (sup π₀ _) = π₀
+    head (sup h _) = h
 
     tail
       : (w : W {s} Σ)
       → ∀ ..{s′ : Size.< s}
       → Sig.ar Σ (head w)
       → W Σ
-    tail (sup _ tail) = tail
+    tail (sup _ t) = t
 
   module _ {Σ : Sig} where
     from : CoAlg ⟦ Σ ⟧◃
@@ -48,7 +48,7 @@ module W where
       : ∀ ..{s}
       → (ψ : Alg ⟦ Σ ⟧◃)
       → (W {s} Σ → Alg.car ψ)
-    iter ψ (sup ϑ κ) = Alg.act ψ (ϑ Σ., iter ψ ⇒.<∘ κ)
+    iter ψ (sup ϑ ρ) = Alg.act ψ (ϑ Σ., iter ψ ⇒.<∘ ρ)
 
 open W public
   using (W)

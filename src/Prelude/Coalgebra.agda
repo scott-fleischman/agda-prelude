@@ -7,9 +7,7 @@ open import Prelude.Coproduct.Indexed
 open import Prelude.Functor
 
 module CoAlg where
-  record CoAlg ..{ℓ}
-    (F : Set ℓ → Set ℓ)
-      : Set (lsuc ℓ) where
+  record CoAlg ..{ℓ} (F : Set ℓ → Set ℓ) : Set (lsuc ℓ) where
     no-eta-equality
     constructor Ψ
     field
