@@ -66,8 +66,8 @@ module Sig where
 
     pattern F◃ ϑ ρ = ϑ ⊕.Σ., ρ
 
-    map◃ : ∀ {X Y} → (X → Y) → (⟦_⟧◃ X → ⟦_⟧◃ Y)
-    map◃ f (F◃ ϑ ρ) = F◃ ϑ (f ⊗.Π.<∘ ρ)
+    map : ∀ {X Y} → (X → Y) → (⟦_⟧◃ X → ⟦_⟧◃ Y)
+    map f (F◃ ϑ ρ) = F◃ ϑ (f ⊗.Π.<∘ ρ)
 
     module _ {X} where
       infix 4 _∈_
@@ -83,7 +83,7 @@ module Sig where
 
   instance
     functor : ∀ {Σ} → Functor ⟦ Σ ⟧◃
-    Functor.#.map functor f = ⊕.Σ.⟨ ⊗.Π.idn ⊗ ⊗.Π.cmp f ⟩
+    Functor.#.map (functor {Σ}) = map Σ
 
 open Sig public
   using (Sig)
