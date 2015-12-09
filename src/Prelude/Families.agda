@@ -33,6 +33,9 @@ SET/_ {ℓ₁ = ℓ₁} = Fib ℓ₁
 {-# DISPLAY Fib ℓ I = SET/_ {ℓ} I #-}
 
 module Fam where
+  open Π
+    using (_<∘_)
+
   total
     : ∀ ..{ℓ₀ ℓ₁}
     → {I : Set ℓ₀}
@@ -71,7 +74,8 @@ module Fam where
     → {I : Set ℓ₀}
     → Fib (ℓ₀ ⊔ ℓ₁) I
     → Fam (ℓ₀ ⊔ ℓ₁) I
-  fib = inv Π.<∘ map
+  fib = inv <∘ map
+  {-# DISPLAY inv <∘ map = fib #-}
 
 module Fib where
   fam
