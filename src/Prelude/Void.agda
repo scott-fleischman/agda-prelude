@@ -1,6 +1,6 @@
 {-# OPTIONS --without-K #-}
 
-module Prelude.Zero where
+module Prelude.Void where
 
 open import Agda.Primitive
 

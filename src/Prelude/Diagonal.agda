@@ -2,6 +2,7 @@
 
 module Prelude.Diagonal where
 
+open import Agda.Primitive
 open import Prelude.Product
 
 Δ²[_]

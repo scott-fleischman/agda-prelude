@@ -10,7 +10,7 @@ open import Prelude.Function
 open import Prelude.Functor
   using (Functor)
 open import Prelude.List
-open import Prelude.Nat
+open import Prelude.Natural
 open import Prelude.Product
 open import Prelude.Size
 

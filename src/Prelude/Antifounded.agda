@@ -11,10 +11,10 @@ open import Prelude.Diagonal
 open import Prelude.Families
 open import Prelude.Function
 open import Prelude.Functor
-open import Prelude.Nat
-open import Prelude.One
+open import Prelude.Natural
 open import Prelude.Product.Indexed
 open import Prelude.Size
+open import Prelude.Unit
 open import Prelude.Wellfounded
 
 module M where

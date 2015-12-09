@@ -1,3 +1,5 @@
+{-# OPTIONS --without-K #-}
+
 module Prelude.Container where
 
 open import Agda.Primitive
@@ -5,10 +7,10 @@ open import Prelude.Coproduct
 open import Prelude.Diagonal
 open import Prelude.Families
 open import Prelude.Functor
-open import Prelude.One
 open import Prelude.Path
 open import Prelude.Product
-open import Prelude.Zero
+open import Prelude.Unit
+open import Prelude.Void
 
 module Con where
   infixr 0 Σ◃

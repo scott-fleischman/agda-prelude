@@ -1,9 +1,10 @@
 {-# OPTIONS --without-K #-}
 
-module Prelude.Fin where
+module Prelude.Finite where
 
+open import Agda.Primitive
 open import Prelude.Coproduct
-open import Prelude.Nat
+open import Prelude.Natural
 
 module Fin where
   data Fin : (n : Nat) → Set where

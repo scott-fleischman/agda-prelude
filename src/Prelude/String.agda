@@ -2,7 +2,8 @@
 
 module Prelude.String where
 
-open import Prelude.Two
+open import Agda.Primitive
+open import Prelude.Bool
 
 postulate
   String : Set

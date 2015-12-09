@@ -4,7 +4,7 @@ module Prelude.Applicative where
 
 open import Agda.Primitive
 open import Prelude.Functor
-import Prelude.One as #1
+open import Prelude.Unit
 
 record Applicative ..{ℓ₀ ℓ₁}
   (T : Set ℓ₀ → Set ℓ₁)

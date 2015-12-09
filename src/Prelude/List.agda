@@ -7,7 +7,7 @@ open import Prelude.Size
 open import Prelude.Functor
   using (Functor)
 open import Prelude.Monad
-open import Prelude.Nat
+open import Prelude.Natural
 open import Prelude.Product.Indexed
 
 module List where

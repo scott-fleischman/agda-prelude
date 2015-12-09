@@ -1,7 +1,8 @@
 {-# OPTIONS --without-K #-}
 
-module Prelude.Nat where
+module Prelude.Natural where
 
+open import Agda.Primitive
 open import Prelude.Size
 
 module Nat where

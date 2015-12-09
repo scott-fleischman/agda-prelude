@@ -2,6 +2,8 @@
 
 module Prelude.Size where
 
+open import Agda.Primitive
+
 module Size where
   {-# BUILTIN SIZEUNIV U #-}
   {-# BUILTIN SIZE t #-}

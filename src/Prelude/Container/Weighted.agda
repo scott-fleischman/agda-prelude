@@ -8,10 +8,10 @@ open import Prelude.Coproduct.Indexed
 open import Prelude.Diagonal
 open import Prelude.Families
 open import Prelude.Functor
-open import Prelude.One
 open import Prelude.Path
 open import Prelude.Product
-open import Prelude.Zero
+open import Prelude.Unit
+open import Prelude.Void
 
 record Con : Set₁ where
   constructor _◃[_]_

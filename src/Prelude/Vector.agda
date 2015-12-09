@@ -1,10 +1,10 @@
 {-# OPTIONS --without-K #-}
 
-module Prelude.Vec where
+module Prelude.Vector where
 
 open import Agda.Primitive
-open import Prelude.Nat
-open import Prelude.Fin
+open import Prelude.Natural
+open import Prelude.Finite
 open import Prelude.Size
 
 module Vec where

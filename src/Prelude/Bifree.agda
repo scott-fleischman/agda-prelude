@@ -2,13 +2,14 @@
 
 module Prelude.Bifree where
 
+open import Agda.Primitive
 open import Prelude.Container
 open import Prelude.Coproduct
 open import Prelude.Coproduct.Indexed
 open import Prelude.Diagonal
 open import Prelude.Product
+open import Prelude.Void
 open import Prelude.Wellfounded
-open import Prelude.Zero
 
 data Fix : Set where
   + × : Fix

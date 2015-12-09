@@ -1,3 +1,5 @@
+{-# OPTIONS --without-K #-}
+
 module Prelude.Coproduct.Indexed where
 
 open import Agda.Primitive
