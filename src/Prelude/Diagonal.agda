@@ -6,9 +6,8 @@ open import Agda.Primitive
 open import Prelude.Product
 
 Δ²[_]
-  : ∀ ..{ℓ₀ ℓ₁}
-  → {A : Set ℓ₀}
-  → {B : Set ℓ₁}
+  : ∀ ..{ℓ}
+  → {A : Set ℓ}
   → A → A ⊗ A
 Δ²[ a ] = (a ⊗., a)
 
