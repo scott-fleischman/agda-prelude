@@ -42,6 +42,13 @@ module ⊗ where
     → (X₀ ⊗ X₁ → A ⊗ B)
   ⟨ f ⊗ g ⟩ = ⟨ f ⇒.<∘ fst , g ⇒.<∘ snd ⟩
 
+  swap
+    : ∀ ..{ℓ₀ ℓ₁}
+    → {A : Set ℓ₀}
+    → {B : Set ℓ₁}
+    → (A ⊗ B) ⇒ (B ⊗ A)
+  swap = ⟨ snd , fst ⟩
+
   open import Prelude.Product.Indexed public
 
 open ⊗ public
