@@ -5,6 +5,7 @@ module Prelude.Everything where
 import Prelude.Algebra
 import Prelude.Antifounded
 import Prelude.Applicative
+import Prelude.Bifree
 import Prelude.Coalgebra
 import Prelude.Comonad
 import Prelude.Container
