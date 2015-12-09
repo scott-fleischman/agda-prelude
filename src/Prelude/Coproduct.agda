@@ -4,6 +4,7 @@ module Prelude.Coproduct where
 
 open import Agda.Primitive
 open import Prelude.Function
+open import Prelude.Void
 
 module ⊕ where
   infix 1 _⊕_
@@ -45,6 +46,39 @@ module ⊕ where
     → (g : B → X₁)
     → (A ⊕ B → X₀ ⊕ X₁)
   [ f ⊕ g ] = [ inl ⇒.<∘ f , inr ⇒.<∘ g ]
+
+  module mon where
+    #α
+      : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
+      → {A : Set ℓ₀}
+      → {B : Set ℓ₁}
+      → {C : Set ℓ₂}
+      → (A ⊕ B) ⊕ C → A ⊕ (B ⊕ C)
+    #α (inl (inl a))= inl a
+    #α (inl (inr b))= inr (inl b)
+    #α (inr c) = inr (inr c)
+
+    #β
+      : ∀ ..{ℓ₀ ℓ₁}
+      → {A : Set ℓ₀}
+      → {B : Set ℓ₁}
+      → (A ⊕ B) → (B ⊕ A)
+    #β (inl a) = inr a
+    #β (inr b) = inl b
+
+    #λ
+      : ∀ ..{ℓ}
+      → {A : Set ℓ}
+      → (𝟘 ⊕ A) → A
+    #λ (inl ())
+    #λ (inr a) = a
+
+    #ρ
+      : ∀ ..{ℓ}
+      → {A : Set ℓ}
+      → (A ⊕ 𝟘) → A
+    #ρ (inl a) = a
+    #ρ (inr ())
 
   open import Prelude.Coproduct.Indexed public
 
