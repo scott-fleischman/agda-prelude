@@ -13,6 +13,13 @@ _⇒_
   → Set (ℓ₀ ⊔ ℓ₁)
 A ⇒ B = A → B
 
+_⇐_
+  : ∀ ..{ℓ₀ ℓ₁}
+  → (B : Set ℓ₀)
+  → (A : Set ℓ₁)
+  → _
+B ⇐ A = A ⇒ B
+
 module ⇒ where
   infixr 1 _<∘_
   infixr 1 _∘>_
