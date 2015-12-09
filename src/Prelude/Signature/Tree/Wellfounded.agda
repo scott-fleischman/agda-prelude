@@ -1,11 +1,10 @@
 {-# OPTIONS --without-K #-}
 
-module Prelude.Wellfounded where
+module Prelude.Signature.Tree.Wellfounded where
 
 open import Agda.Primitive
 open import Prelude.Algebra
 open import Prelude.Coalgebra
-open import Prelude.Container
 open import Prelude.Coproduct.Indexed
 open import Prelude.Diagonal
 open import Prelude.Families
@@ -13,29 +12,30 @@ open import Prelude.Function
 open import Prelude.Functor
 open import Prelude.Natural
 open import Prelude.Product.Indexed
+open import Prelude.Signature
 open import Prelude.Size
 open import Prelude.Unit
 
 module W where
-  data W ..{s} (Σ : Con) : Set where
+  data W ..{s} (Σ : Sig) : Set where
     sup
       : ∀ ..{s′ : Size.< s}
-      → (π₀ : Con.op Σ)
-      → (π₁ : Con.ar Σ π₀ → W {s′} Σ)
+      → (π₀ : Sig.op Σ)
+      → (π₁ : Sig.ar Σ π₀ → W {s′} Σ)
       → W {s} Σ
 
-  module _ ..{s} {Σ : Con} where
-    head : W {s} Σ → Con.op Σ
+  module _ ..{s} {Σ : Sig} where
+    head : W {s} Σ → Sig.op Σ
     head (sup π₀ _) = π₀
 
     tail
       : (w : W {s} Σ)
       → ∀ ..{s′ : Size.< s}
-      → Con.ar Σ (head w)
+      → Sig.ar Σ (head w)
       → W Σ
     tail (sup _ tail) = tail
 
-  module _ {Σ : Con} where
+  module _ {Σ : Sig} where
     from : CoAlg ⟦ Σ ⟧◃
     CoAlg.car from = W Σ
     CoAlg.act from (sup ϑ α) = (ϑ Σ., α)

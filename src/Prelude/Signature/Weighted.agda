@@ -1,6 +1,6 @@
 {-# OPTIONS --without-K #-}
 
-module Prelude.Container.Weighted where
+module Prelude.Signature.Weighted where
 
 open import Agda.Primitive
 open import Prelude.Coproduct
@@ -13,15 +13,15 @@ open import Prelude.Product
 open import Prelude.Unit
 open import Prelude.Void
 
-record Con : Set₁ where
+record Sig : Set₁ where
   constructor _◃[_]_
   field
     op : Set₀
     co : (ϑ : op) → Set₀
     ar : (ϑ : op) → Set₀
 
-module _ (Σ : Con) where
-  open Con
+module _ (Σ : Sig) where
+  open Sig
 
   infixr 2 ⟦_⟧◃_
 

@@ -3,14 +3,11 @@
 module Prelude.Everything where
 
 import Prelude.Algebra
-import Prelude.Antifounded
 import Prelude.Applicative
 import Prelude.Bifree
 import Prelude.Bool
 import Prelude.Coalgebra
 import Prelude.Comonad
-import Prelude.Container
-import Prelude.Container.Weighted
 import Prelude.Coproduct
 import Prelude.Coproduct.Indexed
 import Prelude.Decidable
@@ -28,10 +25,14 @@ import Prelude.Point
 import Prelude.Product
 import Prelude.Product.Indexed
 import Prelude.Rose
+import Prelude.Signature
+import Prelude.Signature.Indexed
+import Prelude.Signature.Weighted
+import Prelude.Signature.Tree.Antifounded
+import Prelude.Signature.Tree.Wellfounded
 import Prelude.Size
 import Prelude.Stream
 import Prelude.String
 import Prelude.Unit
 import Prelude.Vector
 import Prelude.Void
-import Prelude.Wellfounded

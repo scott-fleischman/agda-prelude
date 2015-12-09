@@ -3,28 +3,28 @@
 module Prelude.Bifree where
 
 open import Agda.Primitive
-open import Prelude.Container
 open import Prelude.Coproduct
 open import Prelude.Coproduct.Indexed
 open import Prelude.Diagonal
 open import Prelude.Product
+open import Prelude.Signature
+open import Prelude.Signature.Tree.Wellfounded
 open import Prelude.Void
-open import Prelude.Wellfounded
 
 data Fix : Set where
   + × : Fix
 
-biprod : Fix → Con → Con → Con
-biprod + A B = A Con.+◃ B
-biprod × A B = A Con.×◃ B
+biprod : Fix → (Σ₀ Σ₁ : Sig) → Sig
+biprod + Σ₀ Σ₁ = Σ₀ Sig.+◃ Σ₁
+biprod × Σ₀ Σ₁ = Σ₀ Sig.×◃ Σ₁
 
-bifree : (⊛ : Fix) (Σ : Con) (A : Set) → Set
-bifree ⊛ Σ A = W (biprod ⊛ (Con.κ◃ A) Σ)
+bifree : (⊛ : Fix) (Σ : Sig) (A : Set) → Set
+bifree ⊛ Σ A = W (biprod ⊛ (Sig.κ◃ A) Σ)
 
-free : (Σ : Con) (A : Set) → Set
+free : (Σ : Sig) (A : Set) → Set
 free Σ A = bifree + Σ A
 
-cofree : (Σ : Con) (A : Set) → Set
+cofree : (Σ : Sig) (A : Set) → Set
 cofree Σ A = bifree × Σ A
 
 module Free where
@@ -32,12 +32,12 @@ module Free where
     pattern leaf ⊥ a = W.sup (⊕.inl a) ⊥
     pattern fork ϑ κ = W.sup (⊕.inr ϑ) κ
 
-  leaf : {Σ : Con} {A : Set} → A → free Σ A
+  leaf : {Σ : Sig} {A : Set} → A → free Σ A
   leaf {Σ = op ◃ ar} = π.leaf 𝟘.¡
 
-  fork : {Σ : Con} {A : Set} → Con.⟦ Σ ⟧◃ (free Σ A) → free Σ A
+  fork : {Σ : Sig} {A : Set} → Sig.⟦ Σ ⟧◃ (free Σ A) → free Σ A
   fork {Σ = op ◃ ar} = Σ.el π.fork
 
 module Cofree where
-  node : {Σ : Con} {A : Set} → A → Con.⟦ Σ ⟧◃ (cofree Σ A) → cofree Σ A
+  node : {Σ : Sig} {A : Set} → A → Sig.⟦ Σ ⟧◃ (cofree Σ A) → cofree Σ A
   node {Σ = op ◃ ar} a (ϑ Σ., ρ) = W.sup (a ⊗., ϑ) ⊕.[ 𝟘.¡ , ρ ]

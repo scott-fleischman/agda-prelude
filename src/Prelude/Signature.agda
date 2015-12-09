@@ -1,6 +1,6 @@
 {-# OPTIONS --without-K #-}
 
-module Prelude.Container where
+module Prelude.Signature where
 
 open import Agda.Primitive
 open import Prelude.Coproduct
@@ -12,52 +12,52 @@ open import Prelude.Product
 open import Prelude.Unit
 open import Prelude.Void
 
-module Con where
+module Sig where
   infixr 0 Σ◃
   infixr 0 Π◃
   infixr 9 _∘◃_
 
-  record Con : Set₁ where
+  record Sig : Set₁ where
     no-eta-equality
     constructor _◃_
     field
       op : Set₀
       ar : (ϑ : op) → Set₀
-  open Con public
+  open Sig public
 
   _-_ : ∀ ..{ℓ₀ ℓ₁} (X : Set ℓ₀) (x : X) → Set _
   _-_ {ℓ₁ = ℓ₁} X x = ⊕.Σ[ X ∋ y ] 𝟘.¬_ {ℓ₁ = ℓ₁} (x ≡ y)
 
-  κ◃ : Set → Con
+  κ◃ : Set → Sig
   κ◃ A = A ◃ Δ[ 𝟘 ]
 
-  _+◃_ : (Σ₀ Σ₁ : Con) → Con
+  _+◃_ : (Σ₀ Σ₁ : Sig) → Sig
   (𝒪₀ ◃ 𝔄₀) +◃ (𝒪₁ ◃ 𝔄₁) = (𝒪₀ ⊕ 𝒪₁) ◃ ⊕.[ 𝔄₀ , 𝔄₁ ]
 
-  _×◃_ : (Σ₀ Σ₁ : Con) → Con
+  _×◃_ : (Σ₀ Σ₁ : Sig) → Sig
   (𝒪₀ ◃ 𝔄₀) ×◃ (𝒪₁ ◃ 𝔄₁) = (𝒪₀ ⊗ 𝒪₁) ◃ ⊗.el λ ϑ₀ ϑ₁ → 𝔄₀ ϑ₀ ⊕ 𝔄₁ ϑ₁
 
-  Σ◃ : (A : Set) (B : A → Con) → Con
+  Σ◃ : (A : Set) (B : A → Sig) → Sig
   Σ◃ A B = ⊕.Σ A (op ⊗.Π.<∘ B) ◃ ⊕.Σ.el (ar ⊗.Π.<∘ B)
 
-  Π◃ : (A : Set) (B : A → Con) → Con
+  Π◃ : (A : Set) (B : A → Sig) → Sig
   Π◃ A B = ⊗.Π A (op ⊗.Π.<∘ B) ◃ λ f → ⊕.Σ[ A ∋ a ] ar (B a) (f a)
 
   syntax Σ◃ A (λ x → B) = Σ◃[ A ∋ x ] B
   syntax Π◃ A (λ x → B) = Π◃[ A ∋ x ] B
 
-  _∘◃_ : (Σ₀ Σ₁ : Con) → Con
+  _∘◃_ : (Σ₀ Σ₁ : Sig) → Sig
   (𝒪 ◃ 𝔄) ∘◃ Σ =
     Σ◃[ 𝒪 ∋ ϑ ] Π◃[ 𝔄 ϑ ∋ α ] Σ
 
-  _→◃_ : (Σ₀ Σ₁ : Con) → Set
+  _→◃_ : (Σ₀ Σ₁ : Sig) → Set
   (𝒪₀ ◃ 𝔄₀) →◃ (𝒪₁ ◃ 𝔄₁) =
     ⊕.Σ[ (𝒪₀ → 𝒪₁) ∋ f ] ⊗.Π[ 𝒪₀ ∋ ϑ ] (𝔄₁ (f ϑ) → 𝔄₀ ϑ)
 
-  ∂ : Con → Con
+  ∂ : Sig → Sig
   ∂ (𝒪 ◃ 𝔄) = ⊕.Σ 𝒪 𝔄 ◃ ⊕.Σ.el λ ϑ α → 𝔄 ϑ - α
 
-  module _ (Σ : Con) where
+  module _ (Σ : Sig) where
     infixr 2 ⟦_⟧◃
 
     ⟦_⟧◃ : (X : Set) → Set
@@ -84,8 +84,8 @@ module Con where
     functor : ∀ {Σ} → Functor ⟦ Σ ⟧◃
     Functor.#.map functor f = ⊕.Σ.⟨ ⊗.Π.idn ⊗ ⊗.Π.cmp f ⟩
 
-open Con public
-  using (Con)
+open Sig public
+  using (Sig)
   using (_◃_)
   using (⟦_⟧◃)
-  hiding (module Con)
+  hiding (module Sig)
