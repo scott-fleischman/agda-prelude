@@ -56,8 +56,8 @@ module ⇒ where
     → {X₁ : Set ℓ₁}
     → {A : Set ℓ₂}
     → {B : Set ℓ₃}
-    → (f : X₀ → A)
-    → (g : B → X₁)
+    → (f : A ⇐ X₀)
+    → (g : B ⇒ X₁)
     → (A ⇒ B) → (X₀ ⇒ X₁)
   [ f ⇒ g ] = λ⇑ (ap <∘ ⊗.⟨ cmp g ⊗ f ⟩)
 
