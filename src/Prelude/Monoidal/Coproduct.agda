@@ -63,6 +63,13 @@ module ⊕ where
     → (A ⊕ B → X₀ ⊕ X₁)
   [ f ⊕ g ] = [ inl <∘ f , inr <∘ g ]
 
+  -- codiagonal
+  ∇[_]
+    : ∀ ..{ℓ}
+    → {A : Set ℓ}
+    → A ⊕ A → A
+  ∇[_] = [ idn , idn ]
+
   -- associator isomorphism
   α⇒
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
