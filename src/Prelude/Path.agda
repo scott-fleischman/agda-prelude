@@ -3,7 +3,6 @@
 module Prelude.Path where
 
 open import Agda.Primitive
-open import Prelude.Diagonal
 open import Prelude.Function
 open import Prelude.Monoidal.Coproduct
 open import Prelude.Monoidal.Product
@@ -35,7 +34,7 @@ module ≡ where
         → {A : Set ℓ}
         → {a : A}
         → 𝟙 ⇒ (a ≡ a)
-      idn* = Δ[ idn ]
+      idn* = ⇒.Δ[ idn ]
 
       {-# DISPLAY idn* _ = idn #-}
 

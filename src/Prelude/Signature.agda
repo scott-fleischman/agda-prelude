@@ -3,8 +3,8 @@
 module Prelude.Signature where
 
 open import Agda.Primitive
-open import Prelude.Diagonal
 open import Prelude.Families
+open import Prelude.Function
 open import Prelude.Functor
 open import Prelude.Monoidal.Coproduct
 open import Prelude.Monoidal.Product
@@ -28,7 +28,7 @@ module Sig where
   _-_ {ℓ₁ = ℓ₁} X x = ⊕.Σ[ X ∋ y ] 𝟘ₙ.¬_ {ℓ = ℓ₁} (x ≡ y)
 
   κ◃ : Set → Sig
-  κ◃ A = A ◃ Δ[ 𝟘 ]
+  κ◃ A = A ◃ ⇒.Δ[ 𝟘 ]
   {-# DISPLAY _◃_ A Δ[ 𝟘 ] = κ◃ A #-}
 
   _+◃_ : (Σ₀ Σ₁ : Sig) → Sig

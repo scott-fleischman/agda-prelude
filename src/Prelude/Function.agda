@@ -12,6 +12,7 @@ module ⇒ where
 
   open ⊗
     using (_,_)
+    using (fst)
 
   λ⇑
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
@@ -39,3 +40,10 @@ module ⇒ where
     → {B : Set ℓ₁}
     → (A ⇒ B) ⊗ A → B
   ap (f , a) = f a
+
+  Δ[_]
+    : ∀ ..{ℓ₀ ℓ₁}
+    → {A : Set ℓ₀}
+    → {B : Set ℓ₁}
+    → A → (B → A)
+  Δ[_] = λ⇑ fst

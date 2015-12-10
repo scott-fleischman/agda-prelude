@@ -8,7 +8,6 @@ import Prelude.Bool
 import Prelude.Coalgebra
 import Prelude.Comonad
 import Prelude.Decidable
-import Prelude.Diagonal
 import Prelude.Families
 import Prelude.Finite
 import Prelude.Function.Boot

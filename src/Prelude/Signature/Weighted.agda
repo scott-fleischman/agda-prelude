@@ -3,7 +3,6 @@
 module Prelude.Signature.Weighted where
 
 open import Agda.Primitive
-open import Prelude.Diagonal
 open import Prelude.Families
 open import Prelude.Functor
 open import Prelude.Path

@@ -15,6 +15,7 @@ module ⊗ where
   open _⊗_ public
 
   open ⇒
+    using (idn)
     using (_<∘_)
 
   el
@@ -47,6 +48,13 @@ module ⊗ where
     → (g : X₁ → B)
     → (X₀ ⊗ X₁ → A ⊗ B)
   ⟨ f ⊗ g ⟩ = ⟨ f <∘ fst , g <∘ snd ⟩
+
+  -- diagonal
+  Δ[_]
+    : ∀ ..{ℓ}
+    → {A : Set ℓ}
+    → A → A ⊗ A
+  Δ[_] = ⟨ idn , idn ⟩
 
   -- associator isomorphism
   α⇒

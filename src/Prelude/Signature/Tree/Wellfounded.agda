@@ -5,7 +5,6 @@ module Prelude.Signature.Tree.Wellfounded where
 open import Agda.Primitive
 open import Prelude.Algebra
 open import Prelude.Coalgebra
-open import Prelude.Diagonal
 open import Prelude.Families
 open import Prelude.Function
 open import Prelude.Functor

@@ -1,6 +1,5 @@
 module Prelude.Signature.Indexed where
 
-open import Prelude.Diagonal
 open import Prelude.Families
 open import Prelude.Functor
 open import Prelude.Path

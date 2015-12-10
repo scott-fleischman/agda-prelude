@@ -3,7 +3,6 @@
 module Prelude.Signature.Tree.Wellfounded.Bifree where
 
 open import Agda.Primitive
-open import Prelude.Diagonal
 open import Prelude.Monoidal.Coproduct
 open import Prelude.Monoidal.Coproduct.Indexed
 open import Prelude.Monoidal.Product
