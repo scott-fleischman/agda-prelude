@@ -128,7 +128,7 @@ module ⊕ where
     → {A : Set ℓ₀}
     → {B : Set ℓ₁}
     → {C : Set ℓ₂}
-    → A ⊗ (B ⊕ C) ⇒ (A ⊗ B) ⊕ (A ⊗ C)
+    → (A ⊗ B) ⊕ (A ⊗ C) ⇐ A ⊗ (B ⊕ C)
   δ⇐ = λ⇓[ a ] [ inl <∘ _,_ a , inr <∘ _,_ a ]
 
   open import Prelude.Monoidal.Coproduct.Indexed public

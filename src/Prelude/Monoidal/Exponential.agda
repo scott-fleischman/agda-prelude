@@ -45,5 +45,5 @@ module ⇒ where
     : ∀ ..{ℓ₀ ℓ₁}
     → {A : Set ℓ₀}
     → {B : Set ℓ₁}
-    → A → (B → A)
+    → A ⇒ (B ⇒ A)
   Δ[_] = λ⇑ fst
