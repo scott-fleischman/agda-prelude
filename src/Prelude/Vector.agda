@@ -47,3 +47,9 @@ module Vec where
     → (Fin n → A) → Vec A n
   tab {n = ze} f = []
   tab {n = su n} f = f ze ∷ tab λ i → f (su i)
+
+open Vec public
+  using (Vec)
+  using ([])
+  using (_∷_)
+  hiding (module Vec)
