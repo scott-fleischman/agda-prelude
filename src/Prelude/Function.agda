@@ -3,61 +3,39 @@
 module Prelude.Function where
 
 open import Agda.Primitive
-
-infixr 0 _⇒_
-infixl 0 _⇐_
-
-_⇒_
-  : ∀ ..{ℓ₀ ℓ₁}
-  → (A : Set ℓ₀)
-  → (B : Set ℓ₁)
-  → Set (ℓ₀ ⊔ ℓ₁)
-A ⇒ B = A → B
-
-_⇐_
-  : ∀ ..{ℓ₀ ℓ₁}
-  → (B : Set ℓ₀)
-  → (A : Set ℓ₁)
-  → _
-B ⇐ A = A ⇒ B
+open import Prelude.Function.Boot public
+  hiding (module ⇒)
+open import Prelude.Monoidal.Product
 
 module ⇒ where
-  infixr 1 _<∘_
-  infixr 1 _∘>_
+  open Prelude.Function.Boot.⇒ public
 
-  idn
-    : ∀ ..{ℓ}
-    → {A : Set ℓ}
-    → (A → A)
-  idn x = x
+  open ⊗
+    using (_,_)
 
-  cmp
+  λ⇑
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
-    → {A : Set ℓ₀} {B : Set ℓ₁} {C : Set ℓ₂}
-    → (g : B → C)
-    → (f : A → B)
-    → (A → C)
-  (cmp g f) x = g (f x)
+    → {A : Set ℓ₀}
+    → {B : Set ℓ₁}
+    → {C : Set ℓ₂}
+    → (A ⊗ B → C)
+    → (A → B ⇒ C)
+  λ⇑ f a b = f (a , b)
 
-  seq
+  λ⇓
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
-    → {A : Set ℓ₀} {B : Set ℓ₁} {C : Set ℓ₂}
-    → (f : A → B)
-    → (g : B → C)
-    → (A → C)
-  seq f g = cmp g f
+    → {A : Set ℓ₀}
+    → {B : Set ℓ₁}
+    → {C : Set ℓ₂}
+    → (A → B ⇒ C)
+    → (A ⊗ B → C)
+  λ⇓ f (a , b) = f a b
 
-  _<∘_ : _
-  _<∘_ = cmp
-  {-# DISPLAY cmp g f = g <∘ f #-}
+  syntax λ⇓ (λ a → M) = λ⇓[ a ] M
 
-  _∘>_ : _
-  _∘>_ = seq
-  {-# DISPLAY seq f g = f ∘> g #-}
-
-  𝓎
+  ap
     : ∀ ..{ℓ₀ ℓ₁}
     → {A : Set ℓ₀}
-    → {R : Set ℓ₁}
-    → (x : A) (k : A → R) → R
-  𝓎 x k = k x
+    → {B : Set ℓ₁}
+    → (A ⇒ B) ⊗ A → B
+  ap (f , a) = f a

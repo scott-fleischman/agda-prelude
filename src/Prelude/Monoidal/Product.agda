@@ -3,7 +3,7 @@
 module Prelude.Monoidal.Product where
 
 open import Agda.Primitive
-open import Prelude.Function
+open import Prelude.Function.Boot
 open import Prelude.Unit
 
 module ⊗ where
@@ -26,6 +26,7 @@ module ⊗ where
     → (∀ x → Ψ x)
   el k (x , y) = k x y
 
+  -- tupling
   ⟨_,_⟩ : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
     → {X : Set ℓ₀}
     → {A : Set ℓ₁}
@@ -35,6 +36,7 @@ module ⊗ where
     → (X → A ⊗ B)
   ⟨ f , g ⟩ x = (f x , g x)
 
+  -- functoriality
   ⟨_⊗_⟩
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂ ℓ₃}
     → {X₀ : Set ℓ₀}
@@ -46,6 +48,7 @@ module ⊗ where
     → (X₀ ⊗ X₁ → A ⊗ B)
   ⟨ f ⊗ g ⟩ = ⟨ f <∘ fst , g <∘ snd ⟩
 
+  -- associator isomorphism
   α⇒
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
     → {A : Set ℓ₀}
@@ -62,13 +65,7 @@ module ⊗ where
     → ((A ⊗ B) ⊗ C) ⇐ (A ⊗ (B ⊗ C))
   α⇐ = ⟨ ⟨ fst , fst <∘ snd ⟩ , snd <∘ snd ⟩
 
-  β
-    : ∀ ..{ℓ₀ ℓ₁}
-    → {A : Set ℓ₀}
-    → {B : Set ℓ₁}
-    → (A ⊗ B) ⇒ (B ⊗ A)
-  β = ⟨ snd , fst ⟩
-
+  -- left unitor isomorphism
   λ⇒
     : ∀ ..{ℓ}
     → {A : Set ℓ}
@@ -81,6 +78,7 @@ module ⊗ where
     → (𝟙 ⊗ A) ⇐ A
   λ⇐ = ⟨ 𝟙.! , ⇒.idn ⟩
 
+  -- right unitor isomorphism
   ρ⇒
     : ∀ ..{ℓ}
     → {A : Set ℓ}
@@ -92,6 +90,14 @@ module ⊗ where
     → {A : Set ℓ}
     → (A ⊗ 𝟙) ⇐ A
   ρ⇐ = ⟨ ⇒.idn , 𝟙.! ⟩
+
+  -- braiding
+  β
+    : ∀ ..{ℓ₀ ℓ₁}
+    → {A : Set ℓ₀}
+    → {B : Set ℓ₁}
+    → (A ⊗ B) ⇒ (B ⊗ A)
+  β = ⟨ snd , fst ⟩
 
   open import Prelude.Monoidal.Product.Indexed public
 

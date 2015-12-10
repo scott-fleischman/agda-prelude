@@ -4,14 +4,25 @@ module Prelude.Monoidal.Coproduct where
 
 open import Agda.Primitive
 open import Prelude.Function
+open import Prelude.Monoidal.Product
 open import Prelude.Void
 
 module ⊕ where
   infix 1 _⊕_
   infix 1 [_,_]
 
+  open ⊗
+    using (_,_)
+    using (fst)
+    using (snd)
+    using (⟨_,_⟩)
+    using (⟨_⊗_⟩)
+
   open ⇒
+    using (idn)
     using (_<∘_)
+    using (λ⇑)
+    using (λ⇓)
 
   data _⊕_ ..{ℓ₀ ℓ₁} (A : Set ℓ₀) (B : Set ℓ₁) : Set (ℓ₀ ⊔ ℓ₁) where
     inl : A → A ⊕ B
@@ -28,6 +39,7 @@ module ⊕ where
   el k₀ k₁ (inl a) = k₀ a
   el k₀ k₁ (inr b) = k₁ b
 
+  -- cotupling
   [_,_]
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
     → {A : Set ℓ₀}
@@ -39,6 +51,7 @@ module ⊕ where
   [ f , g ] (inl a) = f a
   [ f , g ] (inr b) = g b
 
+  -- functoriality
   [_⊕_]
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂ ℓ₃}
     → {X₀ : Set ℓ₀}
@@ -50,6 +63,7 @@ module ⊕ where
     → (A ⊕ B → X₀ ⊕ X₁)
   [ f ⊕ g ] = [ inl <∘ f , inr <∘ g ]
 
+  -- associator isomorphism
   α⇒
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
     → {A : Set ℓ₀}
@@ -66,13 +80,7 @@ module ⊕ where
     → ((A ⊕ B) ⊕ C) ⇐ (A ⊕ (B ⊕ C))
   α⇐ = [ inl <∘ inl , [ inl <∘ inr , inr ] ]
 
-  β
-    : ∀ ..{ℓ₀ ℓ₁}
-    → {A : Set ℓ₀}
-    → {B : Set ℓ₁}
-    → (A ⊕ B) ⇒ (B ⊕ A)
-  β = [ inr , inl ]
-
+  -- left unitor isomorphism
   λ⇒
     : ∀ ..{ℓ}
     → {A : Set ℓ}
@@ -85,6 +93,7 @@ module ⊕ where
     → (𝟘 ⊕ A) ⇐ A
   λ⇐ = inr
 
+  -- right unitor isomorphism
   ρ⇒
     : ∀ ..{ℓ}
     → {A : Set ℓ}
@@ -96,6 +105,31 @@ module ⊕ where
     → {A : Set ℓ}
     → (A ⊕ 𝟘) ⇐ A
   ρ⇐ = inl
+
+  -- braiding
+  β
+    : ∀ ..{ℓ₀ ℓ₁}
+    → {A : Set ℓ₀}
+    → {B : Set ℓ₁}
+    → (A ⊕ B) ⇒ (B ⊕ A)
+  β = [ inr , inl ]
+
+  -- distributor isomorphism
+  δ⇒
+    : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
+    → {A : Set ℓ₀}
+    → {B : Set ℓ₁}
+    → {C : Set ℓ₂}
+    → (A ⊗ B) ⊕ (A ⊗ C) ⇒ A ⊗ (B ⊕ C)
+  δ⇒ = [ ⟨ idn ⊗ inl ⟩ , ⟨ fst , inr <∘ snd ⟩ ]
+
+  δ⇐
+    : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
+    → {A : Set ℓ₀}
+    → {B : Set ℓ₁}
+    → {C : Set ℓ₂}
+    → A ⊗ (B ⊕ C) ⇒ (A ⊗ B) ⊕ (A ⊗ C)
+  δ⇐ = λ⇓[ a ] [ inl <∘ _,_ a , inr <∘ _,_ a ]
 
   open import Prelude.Monoidal.Coproduct.Indexed public
 

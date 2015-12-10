@@ -11,6 +11,7 @@ import Prelude.Decidable
 import Prelude.Diagonal
 import Prelude.Families
 import Prelude.Finite
+import Prelude.Function.Boot
 import Prelude.Function
 import Prelude.Functor
 import Prelude.Lift
