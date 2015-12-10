@@ -50,11 +50,14 @@ module ⊗ where
   ⟨ f ⊗ g ⟩ = ⟨ f <∘ fst , g <∘ snd ⟩
 
   -- diagonal
-  Δ[_]
+  Δ
     : ∀ ..{ℓ}
     → {A : Set ℓ}
     → A → A ⊗ A
-  Δ[_] = ⟨ idn , idn ⟩
+  Δ = ⟨ idn , idn ⟩
+
+  Δ[_] : _
+  Δ[_] = Δ
 
   -- associator isomorphism
   α⇒

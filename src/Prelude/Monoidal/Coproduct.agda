@@ -64,11 +64,14 @@ module ⊕ where
   [ f ⊕ g ] = [ inl <∘ f , inr <∘ g ]
 
   -- codiagonal
-  ∇[_]
+  ∇
     : ∀ ..{ℓ}
     → {A : Set ℓ}
     → A ⊕ A → A
-  ∇[_] = [ idn , idn ]
+  ∇ = [ idn , idn ]
+
+  ∇[_] : _
+  ∇[_] = ∇
 
   -- associator isomorphism
   α⇒
