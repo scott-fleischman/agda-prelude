@@ -3,8 +3,8 @@
 module Prelude.Monoidal.Product where
 
 open import Agda.Primitive
-open import Prelude.Function.Boot
-open import Prelude.Unit
+open import Prelude.Monoidal.Exponential.Boot
+open import Prelude.Monoidal.Unit
 
 module ⊗ where
   record _⊗_ ..{ℓ₀ ℓ₁} (A : Set ℓ₀) (B : Set ℓ₁) : Set (ℓ₀ ⊔ ℓ₁) where

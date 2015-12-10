@@ -6,15 +6,15 @@ open import Agda.Primitive
 open import Prelude.Algebra
 open import Prelude.Coalgebra
 open import Prelude.Families
-open import Prelude.Function
 open import Prelude.Functor
 open import Prelude.Natural
 open import Prelude.Monoidal.Coproduct.Indexed
+open import Prelude.Monoidal.Exponential
 open import Prelude.Monoidal.Product.Indexed
+open import Prelude.Monoidal.Unit
 open import Prelude.Signature
 open import Prelude.Signature.Tree.Wellfounded
 open import Prelude.Size
-open import Prelude.Unit
 
 module M where
   record M ..{s} (Σ : Sig) : Set where

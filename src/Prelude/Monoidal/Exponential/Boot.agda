@@ -1,6 +1,6 @@
 {-# OPTIONS --without-K #-}
 
-module Prelude.Function.Boot where
+module Prelude.Monoidal.Exponential.Boot where
 
 open import Agda.Primitive
 

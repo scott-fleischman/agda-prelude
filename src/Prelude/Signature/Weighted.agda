@@ -9,8 +9,8 @@ open import Prelude.Path
 open import Prelude.Monoidal.Coproduct
 open import Prelude.Monoidal.Coproduct.Indexed
 open import Prelude.Monoidal.Product
-open import Prelude.Unit
-open import Prelude.Void
+open import Prelude.Monoidal.Unit
+open import Prelude.Monoidal.Void
 
 record Sig : Set₁ where
   constructor _◃[_]_

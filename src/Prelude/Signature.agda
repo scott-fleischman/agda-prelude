@@ -4,13 +4,13 @@ module Prelude.Signature where
 
 open import Agda.Primitive
 open import Prelude.Families
-open import Prelude.Function
 open import Prelude.Functor
+open import Prelude.Monoidal.Exponential
 open import Prelude.Monoidal.Coproduct
 open import Prelude.Monoidal.Product
+open import Prelude.Monoidal.Unit
+open import Prelude.Monoidal.Void
 open import Prelude.Path
-open import Prelude.Unit
-open import Prelude.Void
 
 module Sig where
   infixr 0 Σ◃

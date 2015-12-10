@@ -1,14 +1,14 @@
 {-# OPTIONS --without-K #-}
 
-module Prelude.Function where
+module Prelude.Monoidal.Exponential where
 
 open import Agda.Primitive
-open import Prelude.Function.Boot public
+open import Prelude.Monoidal.Exponential.Boot public
   hiding (module ⇒)
 open import Prelude.Monoidal.Product
 
 module ⇒ where
-  open Prelude.Function.Boot.⇒ public
+  open Prelude.Monoidal.Exponential.Boot.⇒ public
 
   open ⊗
     using (_,_)

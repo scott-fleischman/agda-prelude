@@ -3,8 +3,8 @@
 module Prelude.Bool where
 
 open import Agda.Primitive
-open import Prelude.Unit
-open import Prelude.Void
+open import Prelude.Monoidal.Unit
+open import Prelude.Monoidal.Void
 
 module 𝟚ₙ ..{ℓ} where
   data 𝟚 : Set ℓ where

@@ -6,9 +6,9 @@ open import Agda.Primitive
 open import Prelude.Monoidal.Coproduct
 open import Prelude.Monoidal.Coproduct.Indexed
 open import Prelude.Monoidal.Product
+open import Prelude.Monoidal.Void
 open import Prelude.Signature
 open import Prelude.Signature.Tree.Wellfounded
-open import Prelude.Void
 
 data Fix : Set where
   + × : Fix

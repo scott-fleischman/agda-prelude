@@ -3,13 +3,13 @@
 module Prelude.Path where
 
 open import Agda.Primitive
-open import Prelude.Function
 open import Prelude.Monoidal.Coproduct
+open import Prelude.Monoidal.Exponential
 open import Prelude.Monoidal.Product
 open import Prelude.Monoidal.Product.Indexed
+open import Prelude.Monoidal.Unit
 open import Prelude.Natural
 open import Prelude.Point
-open import Prelude.Unit
 
 infix 0 _≡_
 

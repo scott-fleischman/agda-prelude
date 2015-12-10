@@ -3,9 +3,9 @@
 module Prelude.Monoidal.Coproduct where
 
 open import Agda.Primitive
-open import Prelude.Function
+open import Prelude.Monoidal.Exponential
 open import Prelude.Monoidal.Product
-open import Prelude.Void
+open import Prelude.Monoidal.Void
 
 module ⊕ where
   infix 1 _⊕_

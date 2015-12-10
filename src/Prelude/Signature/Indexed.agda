@@ -5,8 +5,8 @@ open import Prelude.Functor
 open import Prelude.Path
 open import Prelude.Monoidal.Coproduct
 open import Prelude.Monoidal.Product
-open import Prelude.Unit
-open import Prelude.Void
+open import Prelude.Monoidal.Unit
+open import Prelude.Monoidal.Void
 
 record Sig (S O : Set₀) : Set₁ where
   constructor _◃_⊣_
