@@ -3,13 +3,13 @@
 module Prelude.Signature.Weighted where
 
 open import Agda.Primitive
-open import Prelude.Coproduct
-open import Prelude.Coproduct.Indexed
 open import Prelude.Diagonal
 open import Prelude.Families
 open import Prelude.Functor
 open import Prelude.Path
-open import Prelude.Product
+open import Prelude.Monoidal.Coproduct
+open import Prelude.Monoidal.Coproduct.Indexed
+open import Prelude.Monoidal.Product
 open import Prelude.Unit
 open import Prelude.Void
 

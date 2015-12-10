@@ -9,7 +9,7 @@ open import Prelude.Functor
   using (Functor)
 open import Prelude.List
 open import Prelude.Monad
-open import Prelude.Product.Indexed
+open import Prelude.Monoidal.Product.Indexed
 open import Prelude.Size
 open import Prelude.String
 

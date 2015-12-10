@@ -8,7 +8,7 @@ open import Prelude.Functor
   using (Functor)
 open import Prelude.Monad
 open import Prelude.Natural
-open import Prelude.Product.Indexed
+open import Prelude.Monoidal.Product.Indexed
 
 module List where
   infixr 1 _∷_

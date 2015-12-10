@@ -4,7 +4,7 @@ module Prelude.Comonad where
 
 open import Agda.Primitive
 open import Prelude.Functor as Functor
-open import Prelude.Product
+open import Prelude.Monoidal.Product
 
 module Comonad where
   record # ..{ℓ₀ ℓ₁}

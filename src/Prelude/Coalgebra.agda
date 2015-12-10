@@ -3,7 +3,7 @@
 module Prelude.Coalgebra where
 
 open import Agda.Primitive
-open import Prelude.Coproduct.Indexed
+open import Prelude.Monoidal.Coproduct.Indexed
 open import Prelude.Functor
 
 module CoAlg where

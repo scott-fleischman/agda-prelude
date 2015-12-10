@@ -3,8 +3,8 @@
 module Prelude.Families where
 
 open import Agda.Primitive
-open import Prelude.Coproduct.Indexed
-open import Prelude.Product.Indexed
+open import Prelude.Monoidal.Coproduct.Indexed
+open import Prelude.Monoidal.Product.Indexed
 open import Prelude.Path
 
 Fam

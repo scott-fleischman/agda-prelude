@@ -1,9 +1,9 @@
 {-# OPTIONS --without-K #-}
 
-module Prelude.Coproduct.Indexed where
+module Prelude.Monoidal.Coproduct.Indexed where
 
 open import Agda.Primitive
-open import Prelude.Product.Indexed
+open import Prelude.Monoidal.Product.Indexed
 
 module Σ where
   infix 0 Σ

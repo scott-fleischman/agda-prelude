@@ -1,6 +1,6 @@
 {-# OPTIONS --without-K #-}
 
-module Prelude.Coproduct where
+module Prelude.Monoidal.Coproduct where
 
 open import Agda.Primitive
 open import Prelude.Function
@@ -97,7 +97,7 @@ module ⊕ where
     → (A ⊕ 𝟘) ⇐ A
   ρ⇐ = inl
 
-  open import Prelude.Coproduct.Indexed public
+  open import Prelude.Monoidal.Coproduct.Indexed public
 
 open ⊕ public
   using (_⊕_)

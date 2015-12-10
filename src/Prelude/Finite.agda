@@ -3,7 +3,7 @@
 module Prelude.Finite where
 
 open import Agda.Primitive
-open import Prelude.Coproduct
+open import Prelude.Monoidal.Coproduct
 open import Prelude.Natural
 
 module Fin where

@@ -1,6 +1,6 @@
 {-# OPTIONS --without-K #-}
 
-module Prelude.Product where
+module Prelude.Monoidal.Product where
 
 open import Agda.Primitive
 open import Prelude.Function
@@ -93,7 +93,7 @@ module ⊗ where
     → (A ⊗ 𝟙) ⇐ A
   ρ⇐ = ⟨ ⇒.idn , 𝟙.! ⟩
 
-  open import Prelude.Product.Indexed public
+  open import Prelude.Monoidal.Product.Indexed public
 
 open ⊗ public
   using (_⊗_)

@@ -1,6 +1,6 @@
 {-# OPTIONS --without-K #-}
 
-module Prelude.Product.Indexed where
+module Prelude.Monoidal.Product.Indexed where
 
 open import Agda.Primitive
 

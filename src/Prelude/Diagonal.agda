@@ -3,7 +3,7 @@
 module Prelude.Diagonal where
 
 open import Agda.Primitive
-open import Prelude.Product
+open import Prelude.Monoidal.Product
 
 Δ²[_]
   : ∀ ..{ℓ}

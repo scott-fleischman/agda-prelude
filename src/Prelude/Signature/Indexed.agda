@@ -1,11 +1,11 @@
 module Prelude.Signature.Indexed where
 
-open import Prelude.Coproduct
 open import Prelude.Diagonal
 open import Prelude.Families
 open import Prelude.Functor
 open import Prelude.Path
-open import Prelude.Product
+open import Prelude.Monoidal.Coproduct
+open import Prelude.Monoidal.Product
 open import Prelude.Unit
 open import Prelude.Void
 

@@ -5,7 +5,7 @@ module Prelude.Monad where
 open import Agda.Primitive
 open import Prelude.Applicative
 open import Prelude.Functor
-open import Prelude.Product.Indexed
+open import Prelude.Monoidal.Product.Indexed
 
 module Monad where
   record # ..{ℓ₀ ℓ₁}

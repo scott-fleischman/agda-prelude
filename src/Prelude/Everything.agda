@@ -7,8 +7,6 @@ import Prelude.Applicative
 import Prelude.Bool
 import Prelude.Coalgebra
 import Prelude.Comonad
-import Prelude.Coproduct
-import Prelude.Coproduct.Indexed
 import Prelude.Decidable
 import Prelude.Diagonal
 import Prelude.Families
@@ -18,11 +16,14 @@ import Prelude.Functor
 import Prelude.Lift
 import Prelude.List
 import Prelude.Monad
+import Prelude.Monoidal
+import Prelude.Monoidal.Coproduct
+import Prelude.Monoidal.Coproduct.Indexed
+import Prelude.Monoidal.Product
+import Prelude.Monoidal.Product.Indexed
 import Prelude.Natural
 import Prelude.Path
 import Prelude.Point
-import Prelude.Product
-import Prelude.Product.Indexed
 import Prelude.Rose
 import Prelude.Signature
 import Prelude.Signature.Indexed

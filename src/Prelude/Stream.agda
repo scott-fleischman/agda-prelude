@@ -4,14 +4,14 @@ module Prelude.Stream where
 
 open import Agda.Primitive
 open import Prelude.Comonad
-open import Prelude.Coproduct
-open import Prelude.Coproduct.Indexed
 open import Prelude.Function
 open import Prelude.Functor
   using (Functor)
 open import Prelude.List
 open import Prelude.Natural
-open import Prelude.Product
+open import Prelude.Monoidal.Coproduct
+open import Prelude.Monoidal.Coproduct.Indexed
+open import Prelude.Monoidal.Product
 open import Prelude.Size
 
 module Stream where

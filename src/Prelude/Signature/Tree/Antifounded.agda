@@ -5,13 +5,13 @@ module Prelude.Signature.Tree.Antifounded where
 open import Agda.Primitive
 open import Prelude.Algebra
 open import Prelude.Coalgebra
-open import Prelude.Coproduct.Indexed
 open import Prelude.Diagonal
 open import Prelude.Families
 open import Prelude.Function
 open import Prelude.Functor
 open import Prelude.Natural
-open import Prelude.Product.Indexed
+open import Prelude.Monoidal.Coproduct.Indexed
+open import Prelude.Monoidal.Product.Indexed
 open import Prelude.Signature
 open import Prelude.Signature.Tree.Wellfounded
 open import Prelude.Size
