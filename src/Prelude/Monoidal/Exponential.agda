@@ -41,6 +41,16 @@ module ⇒ where
     → (A ⇒ B) ⊗ A → B
   ap (f , a) = f a
 
+  [_⇒_]
+    : ∀ ..{ℓ₀ ℓ₁ ℓ₂ ℓ₃}
+    → {X₀ : Set ℓ₀}
+    → {X₁ : Set ℓ₁}
+    → {A : Set ℓ₂}
+    → {B : Set ℓ₃}
+    → (f : X₀ → A)
+    → (g : B → X₁)
+    → (A ⇒ B) → (X₀ ⇒ X₁)
+  [ f ⇒ g ] = λ⇑ (ap <∘ ⊗.⟨ cmp g ⊗ f ⟩)
   Δ[_]
     : ∀ ..{ℓ₀ ℓ₁}
     → {A : Set ℓ₀}
