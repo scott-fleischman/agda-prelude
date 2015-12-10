@@ -5,6 +5,7 @@ module Prelude.Function where
 open import Agda.Primitive
 
 infixr 0 _⇒_
+infixl 0 _⇐_
 
 _⇒_
   : ∀ ..{ℓ₀ ℓ₁}
