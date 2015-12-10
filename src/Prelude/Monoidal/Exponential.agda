@@ -14,6 +14,7 @@ module ⇒ where
     using (_,_)
     using (fst)
 
+  -- currying
   λ⇑
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
     → {A : Set ℓ₀}
@@ -23,6 +24,7 @@ module ⇒ where
     → (A → B ⇒ C)
   λ⇑ f a b = f (a , b)
 
+  -- uncurrying
   λ⇓
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
     → {A : Set ℓ₀}
@@ -34,6 +36,7 @@ module ⇒ where
 
   syntax λ⇓ (λ a → M) = λ⇓[ a ] M
 
+  -- evaluation
   ap
     : ∀ ..{ℓ₀ ℓ₁}
     → {A : Set ℓ₀}
@@ -41,6 +44,7 @@ module ⇒ where
     → (A ⇒ B) ⊗ A → B
   ap (f , a) = f a
 
+  -- functoriality
   [_⇒_]
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂ ℓ₃}
     → {X₀ : Set ℓ₀}
@@ -51,6 +55,8 @@ module ⇒ where
     → (g : B → X₁)
     → (A ⇒ B) → (X₀ ⇒ X₁)
   [ f ⇒ g ] = λ⇑ (ap <∘ ⊗.⟨ cmp g ⊗ f ⟩)
+
+  -- diagonal
   Δ[_]
     : ∀ ..{ℓ₀ ℓ₁}
     → {A : Set ℓ₀}
