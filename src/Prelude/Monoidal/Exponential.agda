@@ -5,6 +5,7 @@ module Prelude.Monoidal.Exponential where
 open import Agda.Primitive
 open import Prelude.Monoidal.Exponential.Boot public
   hiding (module ⇒)
+open import Prelude.Monoidal.Void
 open import Prelude.Monoidal.Product
 
 module ⇒ where
@@ -13,6 +14,10 @@ module ⇒ where
   open ⊗
     using (_,_)
     using (fst)
+
+  open 𝟘 public
+    using (¬_)
+    renaming (𝟘 to ⊥)
 
   -- currying
   λ⇑
@@ -63,3 +68,30 @@ module ⇒ where
     → {B : Set ℓ₁}
     → A ⇒ (B ⇒ A)
   Δ[_] = λ⇑ fst
+
+  -- dialogue isomorphism
+  ψ⇒
+    : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
+    → {A : Set ℓ₀}
+    → {B : Set ℓ₁}
+    → {C : Set ℓ₂}
+    → (A ⊗ B → ¬ C) ⇒ (A → ¬ (B ⊗ C))
+  ψ⇒ f = λ⇑ (λ⇓ f <∘ ⊗.α⇐)
+
+  ψ⇐
+    : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
+    → {A : Set ℓ₀}
+    → {B : Set ℓ₁}
+    → {C : Set ℓ₂}
+    → (A ⊗ B → ¬ C) ⇐ (A → ¬ (B ⊗ C))
+  ψ⇐ f = λ⇑ (λ⇓ f <∘ ⊗.α⇒)
+
+  -- dialogue
+  --   : ∀ ..{ℓ₀ ℓ₁ ℓ₂ ℓ₃}
+  --   → {A : Set ℓ₀}
+  --   → {B : Set ℓ₁}
+  --   → {C : Set ℓ₂}
+  --   → {D : Set ℓ₃}
+  --   → ([ idn ⇒ [ ⊗.α⇒ ⇒ idn ] ] <∘ (ψ⇒ <∘ ψ⇒) <∘ [ ⊗.α⇒ ⇒ idn ])
+  --   ≡  ψ⇒ {A = A}{B ⊗ C}{D}
+  -- dialogue = ≡.idn
