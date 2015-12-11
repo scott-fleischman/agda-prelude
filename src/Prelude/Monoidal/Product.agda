@@ -7,6 +7,8 @@ open import Prelude.Monoidal.Exponential.Boot
 open import Prelude.Monoidal.Unit
 
 module ⊗ where
+  infixr 0 _,_
+
   record _⊗_ ..{ℓ₀ ℓ₁} (A : Set ℓ₀) (B : Set ℓ₁) : Set (ℓ₀ ⊔ ℓ₁) where
     constructor _,_
     field
