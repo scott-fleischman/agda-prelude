@@ -47,6 +47,10 @@ module ⇒ where
     → (A → C)
   seq f g = cmp g f
 
+  ↻ : _
+  ↻ = idn
+  {-# DISPLAY idn = ↻ #-}
+
   _<∘_ : _
   _<∘_ = cmp
   {-# DISPLAY cmp g f = g <∘ f #-}
