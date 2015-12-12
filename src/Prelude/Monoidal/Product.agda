@@ -51,16 +51,6 @@ module ⊗ where
     → (X₀ ⊗ X₁ → A ⊗ B)
   ⟨ f ⊗ g ⟩ = ⟨ f <∘ fst , g <∘ snd ⟩
 
-  -- diagonal
-  Δ
-    : ∀ ..{ℓ}
-    → {A : Set ℓ}
-    → A → A ⊗ A
-  Δ = ⟨ idn , idn ⟩
-
-  Δ[_] : _
-  Δ[_] = Δ
-
   -- associator isomorphism
   α⇒
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂}

@@ -17,6 +17,7 @@ import Prelude.Monad
 import Prelude.Monoidal
 import Prelude.Monoidal.Coproduct
 import Prelude.Monoidal.Coproduct.Indexed
+import Prelude.Monoidal.Diagonal
 import Prelude.Monoidal.Exponential
 import Prelude.Monoidal.Exponential.Boot
 import Prelude.Monoidal.Product

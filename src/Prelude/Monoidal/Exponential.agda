@@ -61,14 +61,6 @@ module ⇒ where
     → (A ⇒ B) → (X₀ ⇒ X₁)
   [ f ⇒ g ] = λ⇑ (ap <∘ ⊗.⟨ cmp g ⊗ f ⟩)
 
-  -- diagonal
-  Δ[_]
-    : ∀ ..{ℓ₀ ℓ₁}
-    → {A : Set ℓ₀}
-    → {B : Set ℓ₁}
-    → A ⇒ (B ⇒ A)
-  Δ[_] = λ⇑ fst
-
   -- dialogue isomorphism
   ψ⇒
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
