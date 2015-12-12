@@ -3,7 +3,10 @@
 module Prelude.Families where
 
 open import Agda.Primitive
+open import Prelude.Monoidal.Coproduct
 open import Prelude.Monoidal.Coproduct.Indexed
+open import Prelude.Monoidal.Exponential
+open import Prelude.Monoidal.Product
 open import Prelude.Monoidal.Product.Indexed
 open import Prelude.Path
 
@@ -36,6 +39,31 @@ module Fam where
   open Π
     using (_<∘_)
 
+  _∈_
+    : ∀ ..{ℓ₀ ℓ₁}
+    → {A : Set ℓ₀}
+    → (a : A)
+    → (Ψ : Fam ℓ₁ A)
+    → Set ℓ₁
+  a ∈ Ψ = Ψ a
+
+  _⊆[_]_
+    : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
+    → {A : Set ℓ₀}
+    → (Ψ : Fam ℓ₁ A)
+    → (a : A)
+    → (Φ : Fam ℓ₂ A)
+    → Set (ℓ₁ ⊔ ℓ₂)
+  Ψ ⊆[ a ] Φ = a ∈ Ψ → a ∈ Φ
+
+  _⊆_
+    : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
+    → {A : Set ℓ₀}
+    → (Ψ : Fam ℓ₁ A)
+    → (Φ : Fam ℓ₂ A)
+    → Set (ℓ₀ ⊔ ℓ₁ ⊔ ℓ₂)
+  Ψ ⊆ Φ = ∀ {x} → Ψ ⊆[ x ] Φ
+
   total
     : ∀ ..{ℓ₀ ℓ₁}
     → {I : Set ℓ₀}
@@ -54,7 +82,7 @@ module Fam where
     : ∀ ..{ℓ₀ ℓ₁}
     → {I : Set ℓ₀}
     → {Ψ : Fam ℓ₁ I}
-    → ((E : total Ψ) → Ψ (display E))
+    → ((E : total Ψ) → display E ∈ Ψ)
   map = Σ.snd
 
   inv
@@ -76,6 +104,20 @@ module Fam where
     → Fam (ℓ₀ ⊔ ℓ₁) I
   fib = inv <∘ map
   {-# DISPLAY inv <∘ map = fib #-}
+
+  Σ[_]
+    : {A : Set}
+    → {B : Set}
+    → (f : A ⇒ B)
+    → Fam lzero A ⇒ Fam lzero B
+  Σ[ f ] Ψ b = ⊕.Σ[ _ ∋ a ] ((f a ≡ b) ⊗ (a ∈ Ψ))
+
+  Π[_]
+    : {A : Set}
+    → {B : Set}
+    → (f : A ⇒ B)
+    → Fam lzero A ⇒ Fam lzero B
+  Π[ f ] Ψ b = ⊗.Π[ _ ∋ a ] ((b ≡ f a) ⇒ (a ∈ Ψ))
 
 module Fib where
   fam
