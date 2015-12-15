@@ -82,17 +82,17 @@ module ≡ where
       {-# DISPLAY inv ρ = ρ ⁻¹ #-}
 
       coe*
-        : ∀ ..{ℓ}
-        → ∀ {A : Set ℓ} {a b}
-        → (Ψ : A → Set₀)
+        : ∀ ..{ℓ₀ ℓ₁}
+        → ∀ {A : Set ℓ₀} {a b}
+        → (Ψ : A → Set ℓ₁)
         → (ρ : a ≡ b)
         → (Ψ a ⇒ Ψ b)
       coe* Ψ idn x = x
 
       [_]*_
-        : ∀ ..{ℓ}
-        → ∀ {A : Set ℓ} {a b}
-        → {Ψ : A → Set₀}
+        : ∀ ..{ℓ₀ ℓ₁}
+        → ∀ {A : Set ℓ₀} {a b}
+        → {Ψ : A → Set ℓ₁}
         → (ρ : a ≡ b)
         → (Ψ a ⇒ Ψ b)
       [_]*_ {Ψ = Ψ} ρ ψ = coe* Ψ ρ ψ
