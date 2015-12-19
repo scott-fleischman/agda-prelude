@@ -3,6 +3,7 @@
 module Prelude.Monoidal.Exponential.Boot where
 
 open import Agda.Primitive
+open import Prelude.Display
 
 infixr 0 _⇒_
 infixl 0 _⇐_
@@ -22,8 +23,8 @@ _⇐_
 B ⇐ A = A ⇒ B
 
 module ⇒ where
-  infixr 1 _<∘_
-  infixr 1 _∘>_
+  infixr 1 _⟔_
+  infixr 1 _⟓_
 
   idn
     : ∀ ..{ℓ}
@@ -49,12 +50,17 @@ module ⇒ where
 
   ↻ : _
   ↻ = idn
-  {-# DISPLAY idn = ↻ #-}
 
-  _<∘_ : _
-  _<∘_ = cmp
-  {-# DISPLAY cmp g f = g <∘ f #-}
+  _⟔_ : _
+  _⟔_ = cmp
 
-  _∘>_ : _
-  _∘>_ = seq
-  {-# DISPLAY seq f g = f ∘> g #-}
+  _⟓_ : _
+  _⟓_ = seq
+
+  {-# DISPLAY idn = ᵈ.↻ #-}
+  {-# DISPLAY cmp g f = g ᵈ.⟔ f #-}
+  {-# DISPLAY seq f g = f ᵈ.⟓ g #-}
+
+  {-# DISPLAY ↻ = ᵈ.↻ #-}
+  {-# DISPLAY _⟔_ g f = g ᵈ.⟔ f #-}
+  {-# DISPLAY _⟓_ f g = f ᵈ.⟓ g #-}

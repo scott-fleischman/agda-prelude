@@ -59,7 +59,7 @@ module ⇒ where
     → (f : A ⇐ X₀)
     → (g : B ⇒ X₁)
     → (A ⇒ B) → (X₀ ⇒ X₁)
-  [ f ⇒ g ] = λ⇑ (ap <∘ ⊗.⟨ cmp g ⊗ f ⟩)
+  [ f ⇒ g ] = λ⇑ (ap ⟔ ⊗.⟨ cmp g ⊗ f ⟩)
 
   -- dialogue isomorphism
   ψ⇒
@@ -68,7 +68,7 @@ module ⇒ where
     → {B : Set ℓ₁}
     → {C : Set ℓ₂}
     → (A ⊗ B → ¬ C) ⇒ (A → ¬ (B ⊗ C))
-  ψ⇒ f = λ⇑ (λ⇓ f <∘ ⊗.α⇐)
+  ψ⇒ f = λ⇑ (λ⇓ f ⟔ ⊗.α⇐)
 
   ψ⇐
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
@@ -76,7 +76,7 @@ module ⇒ where
     → {B : Set ℓ₁}
     → {C : Set ℓ₂}
     → (A ⊗ B → ¬ C) ⇐ (A → ¬ (B ⊗ C))
-  ψ⇐ f = λ⇑ (λ⇓ f <∘ ⊗.α⇒)
+  ψ⇐ f = λ⇑ (λ⇓ f ⟔ ⊗.α⇒)
 
   -- dialogue
   --   : ∀ ..{ℓ₀ ℓ₁ ℓ₂ ℓ₃}
@@ -84,6 +84,6 @@ module ⇒ where
   --   → {B : Set ℓ₁}
   --   → {C : Set ℓ₂}
   --   → {D : Set ℓ₃}
-  --   → ([ idn ⇒ [ ⊗.α⇒ ⇒ idn ] ] <∘ (ψ⇒ <∘ ψ⇒) <∘ [ ⊗.α⇒ ⇒ idn ])
+  --   → ([ idn ⇒ [ ⊗.α⇒ ⇒ idn ] ] ⟔ (ψ⇒ ⟔ ψ⇒) ⟔ [ ⊗.α⇒ ⇒ idn ])
   --   ≡  ψ⇒ {A = A}{B ⊗ C}{D}
   -- dialogue = ≡.idn

@@ -44,7 +44,7 @@ module Σ where
     → (f : X₀ → A)
     → (g : ∀ {x₀} → X₁ x₀ → B (f x₀))
     → (Σ X₀ X₁ → Σ A B)
-  ⟨ f ⊗ g ⟩ = ⟨ f Π.<∘ fst , g Π.<∘ snd ⟩
+  ⟨ f ⊗ g ⟩ = ⟨ f Π.⟔ fst , g Π.⟔ snd ⟩
 
 open Σ public
   using (Σ)

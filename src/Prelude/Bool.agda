@@ -3,6 +3,8 @@
 module Prelude.Bool where
 
 open import Agda.Primitive
+open import Prelude.Display
+  renaming (module Display to ᵈ)
 open import Prelude.Monoidal.Unit
 open import Prelude.Monoidal.Void
 
@@ -22,11 +24,9 @@ module 𝟚ₙ ..{ℓ} where
 
   _∨_ : _
   _∨_ = or
-  {-# DISPLAY or p q = p ∨ q #-}
 
   _∧_ : _
   _∧_ = and
-  {-# DISPLAY and p q = p ∧ q #-}
 
   if_then_else_
     : ∀ ..{ℓ₀}
@@ -40,6 +40,9 @@ module 𝟚ₙ ..{ℓ} where
   ⟦_⟧ : ∀ ..{ℓ₀} (φ : 𝟚) → Set ℓ₀
   ⟦ ff ⟧ = 𝟘ₙ
   ⟦ tt ⟧ = 𝟙ₙ
+
+  {-# DISPLAY or p q = p ᵈ.∨ q #-}
+  {-# DISPLAY and p q = p ᵈ.∧ q #-}
 
 module 𝟚 where
   open 𝟚ₙ {lzero} public

@@ -47,7 +47,7 @@ module W where
       : ∀ ..{s}
       → (ψ : Alg ⟦ Σ ⟧◃)
       → (W {s} Σ → Alg.car ψ)
-    iter ψ (sup ϑ ρ) = Alg.act ψ (ϑ Σ., iter ψ ⇒.<∘ ρ)
+    iter ψ (sup ϑ ρ) = Alg.act ψ (ϑ Σ., iter ψ ⇒.⟔ ρ)
 
 open W public
   using (W)

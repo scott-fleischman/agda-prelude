@@ -3,11 +3,12 @@
 module Prelude.Monoidal.Product.Indexed where
 
 open import Agda.Primitive
+open import Prelude.Display
 
 module Π where
   infixr 0 _⊆_
-  infixr 1 _<∘_
-  infixr 1 _∘>_
+  infixr 1 _⟔_
+  infixr 1 _⟓_
 
   Π : ∀ ..{ℓ₀ ℓ₁} (A : Set ℓ₀) (B : A → Set ℓ₁) → Set (ℓ₀ ⊔ ℓ₁)
   Π A B = (x : A) → B x
@@ -40,13 +41,14 @@ module Π where
     → ((a : A) → C (f a))
   seq f g = cmp g f
 
-  _<∘_ : _
-  _<∘_ = cmp
-  {-# DISPLAY cmp g f = g <∘ f #-}
+  _⟔_ : _
+  _⟔_ = cmp
 
-  _∘>_ : _
-  _∘>_ = seq
-  {-# DISPLAY seq f g = f ∘> g #-}
+  _⟓_ : _
+  _⟓_ = seq
+
+  {-# DISPLAY cmp g f = g ᵈ.⟔ f #-}
+  {-# DISPLAY seq f g = f ᵈ.⟓ g #-}
 
 open Π public
   using (Π)

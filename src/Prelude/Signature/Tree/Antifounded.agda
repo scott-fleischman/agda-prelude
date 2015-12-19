@@ -53,7 +53,7 @@ module M where
       → (ψ : CoAlg ⟦ Σ ⟧◃)
       → ((x : CoAlg.car ψ) → M {s} Σ)
     M.head (iter ψ x) = Σ.fst (CoAlg.act ψ x)
-    M.tail (iter ψ x) = iter ψ ⇒.<∘ Σ.snd (CoAlg.act ψ x)
+    M.tail (iter ψ x) = iter ψ ⇒.⟔ Σ.snd (CoAlg.act ψ x)
 
   emb : ∀ ..{s} {Σ} → W {s} Σ → M {s} Σ
   emb {s}{Σ} = iter coalg where

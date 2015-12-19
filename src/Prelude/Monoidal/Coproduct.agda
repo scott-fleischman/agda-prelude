@@ -3,6 +3,7 @@
 module Prelude.Monoidal.Coproduct where
 
 open import Agda.Primitive
+open import Prelude.Display
 open import Prelude.Monoidal.Exponential
 open import Prelude.Monoidal.Product
 open import Prelude.Monoidal.Void
@@ -20,7 +21,8 @@ module ⊕ where
 
   open ⇒
     using (idn)
-    using (_<∘_)
+    using (_⟔_)
+    using (_⟓_)
     using (λ⇑)
     using (λ⇓)
 
@@ -61,7 +63,7 @@ module ⊕ where
     → (f : A → X₀)
     → (g : B → X₁)
     → (A ⊕ B → X₀ ⊕ X₁)
-  [ f ⊕ g ] = [ inl <∘ f , inr <∘ g ]
+  [ f ⊕ g ] = [ inl ⟔ f , inr ⟔ g ]
 
   -- associator isomorphism
   α⇒
@@ -70,7 +72,7 @@ module ⊕ where
     → {B : Set ℓ₁}
     → {C : Set ℓ₂}
     → ((A ⊕ B) ⊕ C) ⇒ (A ⊕ (B ⊕ C))
-  α⇒ = [ [ inl , inr <∘ inl ] , inr <∘ inr ]
+  α⇒ = [ [ inl , inr ⟔ inl ] , inr ⟔ inr ]
 
   α⇐
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
@@ -78,7 +80,7 @@ module ⊕ where
     → {B : Set ℓ₁}
     → {C : Set ℓ₂}
     → ((A ⊕ B) ⊕ C) ⇐ (A ⊕ (B ⊕ C))
-  α⇐ = [ inl <∘ inl , [ inl <∘ inr , inr ] ]
+  α⇐ = [ inl ⟔ inl , [ inl ⟔ inr , inr ] ]
 
   -- left unitor isomorphism
   λ⇒
@@ -121,7 +123,7 @@ module ⊕ where
     → {B : Set ℓ₁}
     → {C : Set ℓ₂}
     → (A ⊗ B) ⊕ (A ⊗ C) ⇒ A ⊗ (B ⊕ C)
-  δ⇒ = [ ⟨ idn ⊗ inl ⟩ , ⟨ fst , inr <∘ snd ⟩ ]
+  δ⇒ = [ ⟨ idn ⊗ inl ⟩ , ⟨ fst , inr ⟔ snd ⟩ ]
 
   δ⇐
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
@@ -129,9 +131,13 @@ module ⊕ where
     → {B : Set ℓ₁}
     → {C : Set ℓ₂}
     → (A ⊗ B) ⊕ (A ⊗ C) ⇐ A ⊗ (B ⊕ C)
-  δ⇐ = λ⇓[ a ] [ inl <∘ _,_ a , inr <∘ _,_ a ]
+  δ⇐ = λ⇓[ a ] [ inl ⟔ _,_ a , inr ⟔ _,_ a ]
 
   open import Prelude.Monoidal.Coproduct.Indexed public
+
+  {-# DISPLAY inl a = ᵈ.inl a #-}
+  {-# DISPLAY inr b = ᵈ.inr b #-}
+  {-# DISPLAY _⊕_ A B = A ᵈ.ᵈ.⊕ B #-}
 
 open ⊕ public
   using (_⊕_)

@@ -3,6 +3,7 @@
 module Prelude.Monoidal.Product where
 
 open import Agda.Primitive
+open import Prelude.Display
 open import Prelude.Monoidal.Exponential.Boot
 open import Prelude.Monoidal.Unit
 
@@ -18,7 +19,8 @@ module ⊗ where
 
   open ⇒
     using (idn)
-    using (_<∘_)
+    using (_⟔_)
+    using (_⟓_)
 
   el
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
@@ -49,7 +51,7 @@ module ⊗ where
     → (f : X₀ → A)
     → (g : X₁ → B)
     → (X₀ ⊗ X₁ → A ⊗ B)
-  ⟨ f ⊗ g ⟩ = ⟨ f <∘ fst , g <∘ snd ⟩
+  ⟨ f ⊗ g ⟩ = ⟨ f ⟔ fst , g ⟔ snd ⟩
 
   -- associator isomorphism
   α⇒
@@ -58,7 +60,7 @@ module ⊗ where
     → {B : Set ℓ₁}
     → {C : Set ℓ₂}
     → ((A ⊗ B) ⊗ C) ⇒ (A ⊗ (B ⊗ C))
-  α⇒ = ⟨ fst <∘ fst , ⟨ snd <∘ fst , snd ⟩ ⟩
+  α⇒ = ⟨ fst ⟔ fst , ⟨ snd ⟔ fst , snd ⟩ ⟩
 
   α⇐
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
@@ -66,7 +68,7 @@ module ⊗ where
     → {B : Set ℓ₁}
     → {C : Set ℓ₂}
     → ((A ⊗ B) ⊗ C) ⇐ (A ⊗ (B ⊗ C))
-  α⇐ = ⟨ ⟨ fst , fst <∘ snd ⟩ , snd <∘ snd ⟩
+  α⇐ = ⟨ ⟨ fst , fst ⟔ snd ⟩ , snd ⟔ snd ⟩
 
   -- left unitor isomorphism
   λ⇒
@@ -103,6 +105,10 @@ module ⊗ where
   β = ⟨ snd , fst ⟩
 
   open import Prelude.Monoidal.Product.Indexed public
+
+  {-# DISPLAY fst p = ᵈ.fst p #-}
+  {-# DISPLAY snd p = ᵈ.snd p #-}
+  {-# DISPLAY _⊗_ A B = A ᵈ.ᵈ.⊗ B #-}
 
 open ⊗ public
   using (_⊗_)

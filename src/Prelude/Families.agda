@@ -37,7 +37,7 @@ SET/_ {ℓ₁ = ℓ₁} = Fib ℓ₁
 
 module Fam where
   open Π
-    using (_<∘_)
+    using (_⟔_)
 
   _∈_
     : ∀ ..{ℓ₀ ℓ₁}
@@ -102,8 +102,8 @@ module Fam where
     → {I : Set ℓ₀}
     → Fib (ℓ₀ ⊔ ℓ₁) I
     → Fam (ℓ₀ ⊔ ℓ₁) I
-  fib = inv <∘ map
-  {-# DISPLAY inv <∘ map = fib #-}
+  fib = inv ⟔ map
+  {-# DISPLAY inv ⟔ map = fib #-}
 
   Σ[_]
     : {A : Set}

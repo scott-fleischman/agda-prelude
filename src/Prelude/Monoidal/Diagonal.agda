@@ -13,7 +13,7 @@ open import Prelude.Monoidal.Void
 
 open ⇒
   using (↻)
-  using (_<∘_)
+  using (_⟔_)
   using (λ⇑)
 open ⊗
   using (⟨_,_⟩)
@@ -44,7 +44,7 @@ module Δ ..{ℓ₀} {A : Set ℓ₀} where
     → {B : Set ℓ₁}
     → (f : A ⇒ B)
     → Fam lzero B ⇒ Fam lzero A
-  * f ψ = ψ <∘ f
+  * f ψ = ψ ⟔ f
 
   ⁰ₙ[_] = ⁰ₙ
   ⁰[_] = ⁰

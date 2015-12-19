@@ -30,4 +30,4 @@ module _ (Σ : Sig) where
   pattern F◃ ϑ n ρ = ϑ ⊕.Σ., (n ⊗., ρ)
 
   map◃ : ∀ {X Y} → (X → Y) → (⟦_⟧◃_ X → ⟦_⟧◃_ Y)
-  map◃ f (F◃ ϑ n ρ) = F◃ ϑ n (f ⊗.Π.<∘ ρ)
+  map◃ f (F◃ ϑ n ρ) = F◃ ϑ n (f ⊗.Π.⟔ ρ)
