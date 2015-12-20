@@ -17,8 +17,8 @@ module Rose where
   data Rose ..{s ℓ} (A : Set ℓ) : Set ℓ where
     node
       : {s′ : Size.< s}
-      → (hd : A)
-      → (tl : List (Rose {s′} A))
+      → (head : A)
+      → (tail : List (Rose {s′} A))
       → Rose {s} A
 
   map : ∀ ..{s ℓ} {A B : Set ℓ}
