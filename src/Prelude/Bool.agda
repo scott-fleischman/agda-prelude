@@ -4,7 +4,6 @@ module Prelude.Bool where
 
 open import Agda.Primitive
 open import Prelude.Display
-  renaming (module Display to ᵈ)
 open import Prelude.Monoidal.Unit
 open import Prelude.Monoidal.Void
 
