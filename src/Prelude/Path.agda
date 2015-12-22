@@ -93,21 +93,32 @@ module ≡ where
         → (Ψ a ⇒ Ψ b)
       [_]*_ {Ψ = Ψ} ρ ψ = coe* Ψ ρ ψ
 
-      ap
-        : ∀ ..{ℓ₀ ℓ₁} {A : Set ℓ₀} {B : Set ℓ₁} {a b}
+      ap¹
+        : ∀ ..{ℓ₀ ℓ₁}
+        → {A : Set ℓ₀} {B : Set ℓ₁}
+        → ∀ {a₀ a₁}
         → (F : A ⇒ B)
-        → ((a ≡ b) ⇒ (F a ≡ F b))
-      ap F idn = idn
+        → ((a₀ ≡ a₁) ⇒ (F a₀ ≡ F a₁))
+      ap¹ F idn = idn
+
+      ap²
+        : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
+        → {A : Set ℓ₀} {B : Set ℓ₁} {C : Set ℓ₂}
+        → ∀ {a₀ a₁}
+        → ∀ {b₀ b₁}
+        → (F : (A ⊗ B) ⇒ C)
+        → ((a₀ ≡ a₁) ⊗ (b₀ ≡ b₁)) ⇒ (F (a₀ ⊗., b₀) ≡ F (a₁ ⊗., b₁))
+      ap² F (idn ⊗., idn) = idn
 
       _·_ : _
-      _·_ = ap
+      _·_ = ap¹
 
       {-# DISPLAY idn* _ = idn #-}
       {-# DISPLAY cmp (ρ₁ ⊗., ρ₀) = ρ₁ ᵈ.⟔ ρ₀ #-}
       {-# DISPLAY seq (ρ₀ ⊗., ρ₁) = ρ₀ ᵈ.⟓ ρ₁ #-}
       {-# DISPLAY inv ρ = ρ ᵈ.⁻¹ #-}
       {-# DISPLAY coe* Ψ ρ x = [ ρ ]* x #-}
-      {-# DISPLAY ap f ρ = f ᵈ.· ρ #-}
+      {-# DISPLAY ap¹ f ρ = f ᵈ.· ρ #-}
 
   module ≾ where
     idn
