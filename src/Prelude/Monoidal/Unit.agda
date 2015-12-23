@@ -11,6 +11,10 @@ module 𝟙↑ ..{ℓ} where
   ! : ∀ ..{ℓ₀} {A : Set ℓ₀} → A → 𝟙
   ! _ = *
 
+  instance
+    trivial : 𝟙
+    trivial = *
+
 module 𝟙 where
   open 𝟙↑ {lzero} public
 
