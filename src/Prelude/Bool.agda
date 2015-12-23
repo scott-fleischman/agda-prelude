@@ -48,9 +48,6 @@ module 𝟚 where
 
 open 𝟚 public
   using (𝟚)
-  hiding (module 𝟚)
-open 𝟚↑ public
-  renaming (𝟚 to 𝟚↑)
   using (ff)
   using (tt)
   using (_∧_)
