@@ -4,7 +4,7 @@ module Prelude.Monoidal.Unit where
 
 open import Agda.Primitive
 
-module 𝟙ₙ ..{ℓ} where
+module 𝟙↑ ..{ℓ} where
   record 𝟙 : Set ℓ where
     constructor *
 
@@ -12,13 +12,13 @@ module 𝟙ₙ ..{ℓ} where
   ! _ = *
 
 module 𝟙 where
-  open 𝟙ₙ {lzero} public
+  open 𝟙↑ {lzero} public
 
 open 𝟙 public
   using (𝟙)
   using (*)
   hiding (module 𝟙)
-open 𝟙ₙ public
+open 𝟙↑ public
   using ()
-  renaming (𝟙 to 𝟙ₙ)
+  renaming (𝟙 to 𝟙↑)
   hiding (module 𝟙)

@@ -7,7 +7,7 @@ open import Prelude.Display
 open import Prelude.Monoidal.Unit
 open import Prelude.Monoidal.Void
 
-module 𝟚ₙ ..{ℓ} where
+module 𝟚↑ ..{ℓ} where
   data 𝟚 : Set ℓ where
     ff tt : 𝟚
 
@@ -37,20 +37,20 @@ module 𝟚ₙ ..{ℓ} where
   if tt then lhs else rhs = rhs
 
   ⟦_⟧ : ∀ ..{ℓ₀} (φ : 𝟚) → Set ℓ₀
-  ⟦ ff ⟧ = 𝟘ₙ
-  ⟦ tt ⟧ = 𝟙ₙ
+  ⟦ ff ⟧ = 𝟘↑
+  ⟦ tt ⟧ = 𝟙↑
 
   {-# DISPLAY or p q = p ᵈ.∨ q #-}
   {-# DISPLAY and p q = p ᵈ.∧ q #-}
 
 module 𝟚 where
-  open 𝟚ₙ {lzero} public
+  open 𝟚↑ {lzero} public
 
 open 𝟚 public
   using (𝟚)
   hiding (module 𝟚)
-open 𝟚ₙ public
-  renaming (𝟚 to 𝟚ₙ)
+open 𝟚↑ public
+  renaming (𝟚 to 𝟚↑)
   using (ff)
   using (tt)
   using (_∧_)

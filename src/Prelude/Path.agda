@@ -162,23 +162,23 @@ module ≡ where
   module ⊢ where
     open #
 
-    idn-λ
+    λ⇒
       : ∀ ..{ℓ}
       → {A : Set ℓ}
       → {a b : A}
       → (ϕ : a ≡ b)
       → (idn ⟔ ϕ) ≡ ϕ
-    idn-λ idn = idn
+    λ⇒ idn = idn
 
-    idn-ρ
+    ρ⇒
       : ∀ ..{ℓ}
       → {A : Set ℓ}
       → {a b : A}
       → (ϕ : a ≡ b)
       → (ϕ ⟔ idn) ≡ ϕ
-    idn-ρ idn = idn
+    ρ⇒ idn = idn
 
-    cmp-α
+    α⇒
       : ∀ ..{ℓ}
       → {A : Set ℓ}
       → {a b c d : A}
@@ -186,84 +186,75 @@ module ≡ where
       → (ρ₁ : b ≡ c)
       → (ρ₂ : c ≡ d)
       → ((ρ₂ ⟔ ρ₁) ⟔ ρ₀) ≡ (ρ₂ ⟔ (ρ₁ ⟔ ρ₀))
-    cmp-α idn idn idn = idn
+    α⇒ idn idn idn = idn
 
-    seq-α
-      : ∀ ..{ℓ}
-      → {A : Set ℓ}
-      → {a b c d : A}
-      → (ρ₀ : a ≡ b)
-      → (ρ₁ : b ≡ c)
-      → (ρ₂ : c ≡ d)
-      → (ρ₀ ⟓ (ρ₁ ⟓ ρ₂)) ≡ ((ρ₀ ⟓ ρ₁) ⟓ ρ₂)
-    seq-α idn idn idn = idn
-
-    inv-λ
+    λ⁻¹
       : ∀ ..{ℓ}
       → {A : Set ℓ}
       → {a b : A}
       → (ϕ : a ≡ b)
       → (ϕ ⁻¹ ⟔ ϕ) ≡ idn
-    inv-λ idn = idn
+    λ⁻¹ idn = idn
 
-    inv-ρ
+    ρ⁻¹
       : ∀ ..{ℓ}
       → {A : Set ℓ}
       → {a b : A}
       → (ϕ : a ≡ b)
       → (ϕ ⟔ ϕ ⁻¹) ≡ idn
-    inv-ρ idn = idn
+    ρ⁻¹ idn = idn
 
-    coe-coh
-      : ∀ ..{ℓ}
-      → ∀ {A : Set ℓ}
-      → (Ψ : A → Set₀)
-      → ∀ {a b}
-      → {ρ₀ ρ₁ : a ≡ b}
-      → (σ : ρ₀ ≡ ρ₁)
-      → {ψ : Ψ a}
-      → coe* Ψ ρ₀ ψ ≡ coe* Ψ ρ₁ ψ
-    coe-coh Ψ idn = idn
+    module coe where
+      coe-coh
+        : ∀ ..{ℓ}
+        → ∀ {A : Set ℓ}
+        → (Ψ : A → Set₀)
+        → ∀ {a b}
+        → {ρ₀ ρ₁ : a ≡ b}
+        → (σ : ρ₀ ≡ ρ₁)
+        → {ψ : Ψ a}
+        → coe* Ψ ρ₀ ψ ≡ coe* Ψ ρ₁ ψ
+      coe-coh Ψ idn = idn
 
-    coe-idn
-      : ∀ ..{ℓ}
-      → ∀ {A : Set ℓ}
-      → (Ψ : A → Set₀)
-      → ∀ {a}
-      → {ψ : Ψ a}
-      → coe* {a = a} Ψ idn ≡ ⇒.idn
-    coe-idn Ψ = idn
+      coe-idn
+        : ∀ ..{ℓ}
+        → ∀ {A : Set ℓ}
+        → (Ψ : A → Set₀)
+        → ∀ {a}
+        → {ψ : Ψ a}
+        → coe* {a = a} Ψ idn ≡ ⇒.idn
+      coe-idn Ψ = idn
 
-    coe-cmp
-      : ∀ ..{ℓ}
-      → ∀ {A : Set ℓ}
-      → (Ψ : A → Set₀)
-      → ∀ {a b c}
-      → (ρ₁ : b ≡ c)
-      → (ρ₀ : a ≡ b)
-      → {ψ : Ψ a}
-      → coe* Ψ (ρ₁ ⟔ ρ₀) ψ ≡ (coe* Ψ ρ₁ ⇒.⟔ coe* Ψ ρ₀) ψ
-    coe-cmp Ψ idn idn = idn
+      coe-cmp
+        : ∀ ..{ℓ}
+        → ∀ {A : Set ℓ}
+        → (Ψ : A → Set₀)
+        → ∀ {a b c}
+        → (ρ₁ : b ≡ c)
+        → (ρ₀ : a ≡ b)
+        → {ψ : Ψ a}
+        → coe* Ψ (ρ₁ ⟔ ρ₀) ψ ≡ (coe* Ψ ρ₁ ⇒.⟔ coe* Ψ ρ₀) ψ
+      coe-cmp Ψ idn idn = idn
 
-    coe-inv-λ
-      : ∀ ..{ℓ}
-      → ∀ {A : Set ℓ}
-      → (Ψ : A → Set₀)
-      → ∀ {a b}
-      → (ρ : a ≡ b)
-      → {ψ : Ψ a}
-      → coe* Ψ (ρ ⁻¹ ⟔ ρ) ψ ≡ coe* Ψ idn ψ
-    coe-inv-λ Ψ = coe-coh Ψ Π.⟔ inv-λ
+      coe-inv-λ
+        : ∀ ..{ℓ}
+        → ∀ {A : Set ℓ}
+        → (Ψ : A → Set₀)
+        → ∀ {a b}
+        → (ρ : a ≡ b)
+        → {ψ : Ψ a}
+        → coe* Ψ (ρ ⁻¹ ⟔ ρ) ψ ≡ coe* Ψ idn ψ
+      coe-inv-λ Ψ = coe-coh Ψ Π.⟔ λ⁻¹
 
-    coe-inv-ρ
-      : ∀ ..{ℓ}
-      → ∀ {A : Set ℓ}
-      → (Ψ : A → Set₀)
-      → ∀ {a b}
-      → (ρ : a ≡ b)
-      → {ψ : Ψ b}
-      → coe* Ψ (ρ ⟔ ρ ⁻¹) ψ ≡ coe* Ψ idn ψ
-    coe-inv-ρ Ψ = coe-coh Ψ Π.⟔ inv-ρ
+      coe-inv-ρ
+        : ∀ ..{ℓ}
+        → ∀ {A : Set ℓ}
+        → (Ψ : A → Set₀)
+        → ∀ {a b}
+        → (ρ : a ≡ b)
+        → {ψ : Ψ b}
+        → coe* Ψ (ρ ⟔ ρ ⁻¹) ψ ≡ coe* Ψ idn ψ
+      coe-inv-ρ Ψ = coe-coh Ψ Π.⟔ ρ⁻¹
 
   open # public
 
