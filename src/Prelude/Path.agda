@@ -9,7 +9,6 @@ open import Prelude.Monoidal.Exponential
 open import Prelude.Monoidal.Product
 open import Prelude.Monoidal.Product.Indexed
 open import Prelude.Monoidal.Unit
-open import Prelude.Natural
 open import Prelude.Point
 
 infix 0 _≡_
@@ -271,11 +270,3 @@ module ≡ where
     → (ϕ : (a : A) → Φ a a idn)
     → ((a b : A) (ψ : a ≡ b) → Φ a b ψ)
   ind Φ ϕ a = ind# (Φ a) (ϕ a)
-
-  loop : ∀ ..{ℓ} → Pt ℓ → Pt ℓ
-  Pt.type (loop xs) = Pt.base xs ≡ Pt.base xs
-  Pt.base (loop xs) = idn
-
-  loop# : ∀ ..{ℓ} → Nat → Pt ℓ → Pt ℓ
-  loop# ze xs = xs
-  loop# (su n) xs = loop# n (loop xs)
