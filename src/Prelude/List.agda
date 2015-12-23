@@ -18,32 +18,37 @@ module List where
     [] : List {s} A
     _∷_ : {s′ : Size.< s} (x : A) (xs : List {s′} A) → List {s} A
 
-  _++_ : ∀ ..{s ℓ} {A : Set ℓ}
+  _++_
+    : ∀ ..{s ℓ} {A : Set ℓ}
     → (xs : List {s} A)
     → (ys : List {s} A)
     → List {Size.∞} A
   [] ++ ys = ys
   (x ∷ xs) ++ ys = x ∷ (xs ++ ys)
 
-  len : ∀ ..{ℓ} {A : Set ℓ}
+  len
+    : ∀ ..{ℓ} {A : Set ℓ}
     → (xs : List A)
     → Nat
   len [] = ze
   len (_ ∷ xs) = su (len xs)
 
-  map : ∀ ..{s ℓ₀ ℓ₁} {A : Set ℓ₀} {B : Set ℓ₁}
+  map
+    : ∀ ..{s ℓ₀ ℓ₁} {A : Set ℓ₀} {B : Set ℓ₁}
     → (f : A → B)
     → (xs : List {s} A)
     → List {s} B
   map f [] = []
   map f (x ∷ xs) = f x ∷ map f xs
 
-  return : ∀ ..{ℓ} {A : Set ℓ}
+  return
+    : ∀ ..{ℓ} {A : Set ℓ}
     → (x : A)
     → List A
   return = _∷ []
 
-  bind : ∀ ..{s ℓ₀ ℓ₁} {A : Set ℓ₀} {B : Set ℓ₁}
+  bind
+    : ∀ ..{s ℓ₀ ℓ₁} {A : Set ℓ₀} {B : Set ℓ₁}
     → (k : A → List {s} B)
     → ((xs : List {s} A) → List {Size.∞} B)
   bind k [] = []
