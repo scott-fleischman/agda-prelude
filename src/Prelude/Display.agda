@@ -4,20 +4,7 @@ module Prelude.Display where
 
 module ᵈ where
   private
-    data #0 : Set where
-
-    record #1 : Set where
-      constructor #*
-
-    module Op where
-      Constant : Set
-      Constant = #1
-
-      Unary : Set
-      Unary = #0 → #0
-
-      Binary : Set
-      Binary = #0 → #0 → #0
+    record Op : Set where
 
   infix 0 _→₁_
   infix 0 _→₂_
@@ -27,62 +14,62 @@ module ᵈ where
   infixr 4 _·_
 
   module ᵈ where
-    _⊗_ : Op.Binary
-    _⊗_ ()
+    _⊗_ : Op
+    _⊗_ = _
 
-    _⊕_ : Op.Binary
-    _⊕_ ()
+    _⊕_ : Op
+    _⊕_ = _
 
-  ↻₀ : Op.Constant
+  ↻₀ : Op
   ↻₀ = _
 
-  _→₁_ : Op.Binary
-  _→₁_ ()
+  _→₁_ : Op
+  _→₁_ = _
 
-  _→₂_ : Op.Binary
-  _→₂_ ()
+  _→₂_ : Op
+  _→₂_ = _
 
-  ↻ : Op.Constant
+  ↻ : Op
   ↻ = _
 
-  _⁻¹ : Op.Unary
-  _⁻¹ ()
+  _⁻¹ : Op
+  _⁻¹ = _
 
-  _·_ : Op.Binary
-  _·_ ()
+  _·_ : Op
+  _·_ = _
 
-  _⟔_ : Op.Binary
-  _⟔_ ()
+  _⟔_ : Op
+  _⟔_ = _
 
-  _⟓_ : Op.Binary
-  _⟓_ ()
+  _⟓_ : Op
+  _⟓_ = _
 
-  _∨_ : Op.Binary
-  _∨_ ()
+  _∨_ : Op
+  _∨_ = _
 
-  _∧_ : Op.Binary
-  _∧_ ()
+  _∧_ : Op
+  _∧_ = _
 
-  fst : Op.Unary
-  fst ()
+  fst : Op
+  fst = _
 
-  snd : Op.Unary
-  snd ()
+  snd : Op
+  snd = _
 
-  ⟨_,_⟩ : Op.Binary
-  ⟨_,_⟩ ()
+  ⟨_,_⟩ : Op
+  ⟨_,_⟩ = _
 
-  ⟨_⊗_⟩ : Op.Binary
-  ⟨_⊗_⟩ ()
+  ⟨_⊗_⟩ : Op
+  ⟨_⊗_⟩ = _
 
-  inl : Op.Unary
-  inl ()
+  inl : Op
+  inl = _
 
-  inr : Op.Unary
-  inr ()
+  inr : Op
+  inr = _
 
-  [_,_] : Op.Binary
-  [_,_] ()
+  [_,_] : Op
+  [_,_] = _
 
-  [_⊕_] : Op.Binary
-  [_⊕_] ()
+  [_⊕_] : Op
+  [_⊕_] = _
