@@ -13,6 +13,7 @@ import Prelude.Decidable
 import Prelude.Families
 import Prelude.Finite
 import Prelude.Functor
+import Prelude.Integer
 import Prelude.Lift
 import Prelude.List
 import Prelude.Monad

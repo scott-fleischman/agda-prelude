@@ -19,16 +19,16 @@ module Nat where
     su_ : Nat → Nat
   {-# BUILTIN NATURAL Nat #-}
 
-  private
-    fromNat# : Nat → Nat
-    fromNat# n = n
-
   record ⊆ (A : Set) : Set where
     no-eta-equality
     field
       fromNat : Nat → A
   open ⊆ ⦃ … ⦄ public
   {-# BUILTIN FROMNAT fromNat #-}
+
+  private
+    fromNat# : Nat → Nat
+    fromNat# n = n
 
   instance
     nat⊆nat : ⊆ Nat
