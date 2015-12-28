@@ -10,6 +10,7 @@ import Prelude.Colist
 import Prelude.Conatural
 import Prelude.Comonad
 import Prelude.Decidable
+import Prelude.Evaluation.Strategy
 import Prelude.Families
 import Prelude.Finite
 import Prelude.Functor
