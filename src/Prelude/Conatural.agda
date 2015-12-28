@@ -3,6 +3,8 @@
 module Prelude.Conatural where
 
 open import Agda.Primitive
+open import Prelude.Natural
+  using (module Nat)
 
 module ∞Nat where
   mutual
@@ -32,6 +34,14 @@ module ∞Nat where
   π (m * n) with π m
   … | ze· = π n
   … | su· o = su· (o * n)
+
+  fromNat : Nat.Nat → ∞Nat
+  fromNat Nat.ze = ze
+  fromNat (Nat.su n) = su (fromNat n)
+
+  instance
+    nat⊆∞nat : Nat.⊆ ∞Nat
+    nat⊆∞nat = record { fromNat = fromNat }
 
 open ∞Nat public
   hiding (module ∞Nat)

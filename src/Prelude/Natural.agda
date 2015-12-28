@@ -19,6 +19,21 @@ module Nat where
     su_ : Nat → Nat
   {-# BUILTIN NATURAL Nat #-}
 
+  private
+    fromNat# : Nat → Nat
+    fromNat# n = n
+
+  record ⊆ (A : Set) : Set where
+    no-eta-equality
+    field
+      fromNat : Nat → A
+  open ⊆ ⦃ … ⦄ public
+  {-# BUILTIN FROMNAT fromNat #-}
+
+  instance
+    nat⊆nat : ⊆ Nat
+    nat⊆nat = record { fromNat = fromNat# }
+
   pred : Nat → Nat
   pred ze = ze
   pred (su n) = n
