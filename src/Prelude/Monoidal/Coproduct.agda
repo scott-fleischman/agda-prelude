@@ -30,7 +30,7 @@ module ⊕ where
     inl : A → A ⊕ B
     inr : B → A ⊕ B
 
-  el
+  elim
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
     → {A : Set ℓ₀}
     → {B : Set ℓ₁}
@@ -38,8 +38,8 @@ module ⊕ where
     → (k₀ : (a : A) → Ψ (inl a))
     → (k₁ : (b : B) → Ψ (inr b))
     → (∀ x → Ψ x)
-  el k₀ k₁ (inl a) = k₀ a
-  el k₀ k₁ (inr b) = k₁ b
+  elim k₀ k₁ (inl a) = k₀ a
+  elim k₀ k₁ (inr b) = k₁ b
 
   -- cotupling
   [_,_]

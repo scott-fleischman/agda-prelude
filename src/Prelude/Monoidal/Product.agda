@@ -22,14 +22,14 @@ module ⊗ where
     using (_⟔_)
     using (_⟓_)
 
-  el
+  elim
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
     → {A : Set ℓ₀}
     → {B : Set ℓ₁}
     → {Ψ : A ⊗ B → Set ℓ₂}
     → (k : (x : A) (y : B) → Ψ (x , y))
     → (∀ x → Ψ x)
-  el k (x , y) = k x y
+  elim k (x , y) = k x y
 
   -- tupling
   ⟨_,_⟩ : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
