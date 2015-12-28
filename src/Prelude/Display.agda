@@ -5,6 +5,7 @@ module Prelude.Display where
 module ᵈ where
   private
     record Op : Set where
+      no-eta-equality
 
   infix 0 _→₁_
   infix 0 _→₂_
@@ -15,82 +16,82 @@ module ᵈ where
 
   module ᵈ where
     _⊗_ : Op
-    _⊗_ = _
+    _⊗_ = record {}
 
     _⊕_ : Op
-    _⊕_ = _
+    _⊕_ = record {}
 
   ∣_∣ : Op
-  ∣_∣ = _
+  ∣_∣ = record {}
 
   _⇒_ : Op
-  _⇒_ = _
+  _⇒_ = record {}
 
   _⇐_ : Op
-  _⇐_ = _
+  _⇐_ = record {}
 
   ↻₀ : Op
-  ↻₀ = _
+  ↻₀ = record {}
 
   _→₁_ : Op
-  _→₁_ = _
+  _→₁_ = record {}
 
   _→₂_ : Op
-  _→₂_ = _
+  _→₂_ = record {}
 
   _→₁₂_ : Op
-  _→₁₂_ = _
+  _→₁₂_ = record {}
 
   ↻ : Op
-  ↻ = _
+  ↻ = record {}
 
   _⁻¹ : Op
-  _⁻¹ = _
+  _⁻¹ = record {}
 
   _·_ : Op
-  _·_ = _
+  _·_ = record {}
 
   _⟔_ : Op
-  _⟔_ = _
+  _⟔_ = record {}
 
   _⟓_ : Op
-  _⟓_ = _
+  _⟓_ = record {}
 
   _∨_ : Op
-  _∨_ = _
+  _∨_ = record {}
 
   _∧_ : Op
-  _∧_ = _
+  _∧_ = record {}
 
   𝟘 : Op
-  𝟘 = _
+  𝟘 = record {}
 
   inl : Op
-  inl = _
+  inl = record {}
 
   inr : Op
-  inr = _
+  inr = record {}
 
   [_,_] : Op
-  [_,_] = _
+  [_,_] = record {}
 
   [_⊕_] : Op
-  [_⊕_] = _
+  [_⊕_] = record {}
 
   𝟙 : Op
-  𝟙 = _
+  𝟙 = record {}
 
   * : Op
-  * = _
+  * = record {}
 
   fst : Op
-  fst = _
+  fst = record {}
 
   snd : Op
-  snd = _
+  snd = record {}
 
   ⟨_,_⟩ : Op
-  ⟨_,_⟩ = _
+  ⟨_,_⟩ = record {}
 
   ⟨_⊗_⟩ : Op
-  ⟨_⊗_⟩ = _
+  ⟨_⊗_⟩ = record {}
