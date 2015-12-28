@@ -12,6 +12,8 @@ module 𝟙↑ ..{ℓ} where
   ! : ∀ ..{ℓ₀} {A : Set ℓ₀} → A → 𝟙
   ! _ = *
 
+  {-# DISPLAY * = ᵈ.* #-}
+
   instance
     trivial : 𝟙
     trivial = *
