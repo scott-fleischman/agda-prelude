@@ -22,6 +22,9 @@ _⇐_
   → _
 B ⇐ A = A ⇒ B
 
+{-# DISPLAY _⇒_ A B = A ᵈ.⇒ B #-}
+{-# DISPLAY _⇐_ A B = A ᵈ.⇐ B #-}
+
 module ⇒ where
   infixr 1 _⟔_
   infixr 1 _⟓_
