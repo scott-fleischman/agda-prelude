@@ -26,13 +26,9 @@ module Nat where
   open ⊆ ⦃ … ⦄ public
   {-# BUILTIN FROMNAT fromNat #-}
 
-  private
-    fromNat# : Nat → Nat
-    fromNat# n = n
-
   instance
     nat⊆nat : ⊆ Nat
-    nat⊆nat = record { fromNat = fromNat# }
+    nat⊆nat = record { fromNat = λ x → x }
 
   pred : Nat → Nat
   pred ze = ze

@@ -20,14 +20,13 @@ module Int where
   open ⊆ ⦃ … ⦄ public
   {-# BUILTIN FROMNEG fromNeg #-}
 
-  private
-    fromNeg# : Nat → Int
-    fromNeg# ze = pos 0
-    fromNeg# (su n) = negS n
-
   instance
     int⊆int : ⊆ Int
-    int⊆int = record { fromNeg = fromNeg# }
+    int⊆int = record { fromNeg = λ
+        { (ze) → pos 0
+        ; (su n) → negS n
+        }
+      }
 
     nat⊆int : Nat.⊆ Int
     nat⊆int = record { fromNat = pos }
