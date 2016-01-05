@@ -7,6 +7,7 @@ open import Prelude.Decidable
 open import Prelude.Monoidal
   hiding (*)
 open import Prelude.Path
+  hiding (refl)
 open import Prelude.Size
 
 module Nat where
@@ -37,6 +38,13 @@ module Nat where
   data _≤_ (m : Nat) : Nat → Set where
     stop : m ≤ m
     step : ∀ {n} (φ : m ≤ n) → m ≤ su n
+
+  refl : ∀ {n} → n ≤ n
+  refl = stop
+
+  tran : ∀ {m n o} → n ≤ o → m ≤ n → m ≤ o
+  tran (stop) p = p
+  tran (step q) p = step (tran q p)
 
   z≤n : ∀ {n} → 0 ≤ n
   z≤n {ze} = stop
