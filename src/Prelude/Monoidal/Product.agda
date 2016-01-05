@@ -53,14 +53,14 @@ module ⊗ where
     → (X₀ ⊗ X₁ → A ⊗ B)
   ⟨ f ⊗ g ⟩ = ⟨ f ⟔ fst , g ⟔ snd ⟩
 
-  transpose
+  interchange
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂ ℓ₃}
     → {A : Set ℓ₀}
     → {B : Set ℓ₁}
     → {C : Set ℓ₂}
     → {D : Set ℓ₃}
     → (A ⊗ B) ⊗ (C ⊗ D) ⇒ (A ⊗ C) ⊗ (B ⊗ D)
-  transpose = ⟨ ⟨ fst ⊗ fst ⟩ , ⟨ snd ⊗ snd ⟩ ⟩
+  interchange = ⟨ ⟨ fst ⊗ fst ⟩ , ⟨ snd ⊗ snd ⟩ ⟩
 
   -- associator isomorphism
   α⇒
