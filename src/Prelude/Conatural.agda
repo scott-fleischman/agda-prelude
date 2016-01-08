@@ -14,16 +14,24 @@ module ∞Nat where
 
     record ∞Nat : Set where
       coinductive
-      constructor ∞
+      constructor ι
       field
         π : pt
   open ∞Nat public
 
-  pattern ze = ∞ ze·
-  pattern su_ n = ∞ (su· n)
+  pattern ze = ι ze·
+  pattern su_ n = ι (su· n)
 
-  ω : ∞Nat
-  π ω = su· ω
+  fromNat : Nat.Nat → ∞Nat
+  fromNat Nat.ze = ze
+  fromNat (Nat.su n) = su (fromNat n)
+
+  instance
+    nat⊆∞nat : Nat.⊆ ∞Nat
+    nat⊆∞nat = record { fromNat = fromNat }
+
+  ∞ : ∞Nat
+  π ∞ = su· ∞
 
   _+_ : ∞Nat → ∞Nat → ∞Nat
   π (m + n) with π m
@@ -34,14 +42,6 @@ module ∞Nat where
   π (m * n) with π m
   … | ze· = π n
   … | su· o = su· (o * n)
-
-  fromNat : Nat.Nat → ∞Nat
-  fromNat Nat.ze = ze
-  fromNat (Nat.su n) = su (fromNat n)
-
-  instance
-    nat⊆∞nat : Nat.⊆ ∞Nat
-    nat⊆∞nat = record { fromNat = fromNat }
 
 open ∞Nat public
   hiding (module ∞Nat)

@@ -13,6 +13,7 @@ module Eval where
       → (x : A)
       → (∀ x → B x)
       → B x
+
     primForceLemma
       : ∀ {ℓ₀ ℓ₁}
       → {A : Set ℓ₀} {B : A → Set ℓ₁}
