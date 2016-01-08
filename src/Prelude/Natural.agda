@@ -11,7 +11,6 @@ open import Prelude.Path
 open import Prelude.Size
 
 module Nat where
-  infix 0 _≤_
   infix 0 _≟_
   infix 0 _≤?_
 
@@ -35,29 +34,41 @@ module Nat where
   pred ze = ze
   pred (su n) = n
 
-  data _≤_ (m : Nat) : Nat → Set where
-    stop : m ≤ m
-    step : ∀ {n} (φ : m ≤ n) → m ≤ su n
+  module ≤ where
+    infix 0 _≤_
 
-  refl : ∀ {n} → n ≤ n
-  refl = stop
+    data _≤_ (m : Nat) : Nat → Set where
+      stop : m ≤ m
+      step : ∀ {n} (φ : m ≤ n) → m ≤ su n
 
-  tran : ∀ {m n o} → n ≤ o → m ≤ n → m ≤ o
-  tran (stop) p = p
-  tran (step q) p = step (tran q p)
+    idn : ∀ {n} → n ≤ n
+    idn = stop
 
-  z≤n : ∀ {n} → 0 ≤ n
-  z≤n {ze} = stop
-  z≤n {su n} = step z≤n
+    cmp : ∀ {m n o} → n ≤ o → m ≤ n → m ≤ o
+    cmp (stop) p = p
+    cmp (step q) p = step (cmp q p)
 
-  s≤s : ∀ {m n} → m ≤ n → su m ≤ su n
-  s≤s stop = stop
-  s≤s (step φ) = step (s≤s φ)
+    seq : ∀ {m n o} → m ≤ n → n ≤ o → m ≤ o
+    seq p q = cmp q p
 
-  p≤p : ∀ {m n} → su m ≤ su n → m ≤ n
-  p≤p stop = stop
-  p≤p (step stop) = step stop
-  p≤p (step (step φ)) = step (p≤p (step φ))
+    z≤n : ∀ {n} → 0 ≤ n
+    z≤n {ze} = stop
+    z≤n {su n} = step z≤n
+
+    s≤s : ∀ {m n} → m ≤ n → su m ≤ su n
+    s≤s stop = stop
+    s≤s (step φ) = step (s≤s φ)
+
+    p≤p : ∀ {m n} → su m ≤ su n → m ≤ n
+    p≤p stop = stop
+    p≤p (step stop) = step stop
+    p≤p (step (step φ)) = step (p≤p (step φ))
+  open ≤ public
+    hiding (module _≤_)
+    using (_≤_)
+    using (stop)
+    using (step)
+  open ≤
 
   _+_ : (m n : Nat) → Nat
   ze + n = n
