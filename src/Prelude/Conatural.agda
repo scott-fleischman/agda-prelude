@@ -30,6 +30,11 @@ module ∞Nat where
     nat⊆∞nat : Nat.⊆ ∞Nat
     nat⊆∞nat = record { fromNat = fromNat }
 
+  pred : ∞Nat → ∞Nat
+  π (pred n) with π n
+  … | ze· = ze·
+  … | su· m = π m
+
   ∞ : ∞Nat
   π ∞ = su· ∞
 
