@@ -14,6 +14,7 @@ import Prelude.Evaluation.Strategy
 import Prelude.Families
 import Prelude.Finite
 import Prelude.Functor
+import Prelude.Inspect
 import Prelude.Integer
 import Prelude.Lift
 import Prelude.List
