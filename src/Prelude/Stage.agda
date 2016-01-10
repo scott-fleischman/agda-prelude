@@ -9,17 +9,17 @@ open import Prelude.Size
 mutual
   data Stage ..{s ℓ} (A : Set ℓ) : Set ℓ where
     stop : A → Stage {s} A
-    hold : Stage∞ {s} A → Stage {s} A
+    hold : [Stage] {s} A → Stage {s} A
 
-  record Stage∞ ..{s ℓ} (A : Set ℓ) : Set ℓ where
+  record [Stage] ..{s ℓ} (A : Set ℓ) : Set ℓ where
     no-eta-equality
     coinductive
     constructor ι
     field
       π : ..{s′ : Size.< s} → Stage {s′} A
-open Stage∞
+open [Stage]
 
-loop : ∀ ..{ℓ} {A : Set ℓ} → Stage∞ A
+loop : ∀ ..{ℓ} {A : Set ℓ} → [Stage] A
 π loop = hold loop
 
 wait : ∀ ..{ℓ} {A : Set ℓ} → Stage A → Stage A
@@ -39,14 +39,14 @@ mutual
     → (A → B)
     → (Stage {s} A → Stage {s} B)
   map f (stop x) = stop (f x)
-  map f (hold m) = hold (map∞ f m)
+  map f (hold m) = hold ([map] f m)
 
-  map∞
+  [map]
     : ∀ ..{s ℓ₀ ℓ₁}
     → {A : Set ℓ₀}{B : Set ℓ₁}
     → (A → B)
-    → (Stage∞ {s} A → Stage∞ {s} B)
-  π (map∞ f m) = map f (π m)
+    → ([Stage] {s} A → [Stage] {s} B)
+  π ([map] f m) = map f (π m)
 
 mutual
   bind
@@ -55,14 +55,14 @@ mutual
     → (A → Stage {s} B)
     → (Stage {s} A → Stage {s} B)
   bind k (stop x) = k x
-  bind k (hold m) = hold (bind∞ k m)
+  bind k (hold m) = hold ([bind] k m)
 
-  bind∞
+  [bind]
     : ∀ ..{s ℓ₀ ℓ₁}
     → {A : Set ℓ₀}{B : Set ℓ₁}
     → (A → Stage {s} B)
-    → (Stage∞ {s} A → Stage∞ {s} B)
-  π (bind∞ k m) = bind k (π m)
+    → ([Stage] {s} A → [Stage] {s} B)
+  π ([bind] k m) = bind k (π m)
 
   instance
     functor : ∀ ..{s ℓ} → Functor (Stage {s}{ℓ})
