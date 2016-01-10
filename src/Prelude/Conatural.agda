@@ -29,6 +29,13 @@ module Nat∞ where
     nat⊆∞nat : Nat.⊆ Nat∞
     nat⊆∞nat = record { fromNat = fromNat }
 
+  mutual
+    ∞ : Nat∞
+    ∞ = su [∞]
+
+    [∞] : [Nat∞]
+    [Nat∞].π [∞] = ∞
+
   pred : Nat∞ → Nat∞
   pred (ze) = ze
   pred (su n) = [Nat∞].π n
@@ -122,6 +129,14 @@ module Nat∞ where
     z≲n : ∀ {n} → 0 ≲ n
     z≲n = stop
 
+    mutual
+      n≲∞ : ∀ {n} → n ≲ ∞
+      n≲∞ {ze} = stop
+      n≲∞ {su n} = step [n≲∞]
+
+      [n≲∞] : ∀ {n} → n [≲] [∞]
+      π [n≲∞] = n≲∞
+
     s≲s : ∀ {m n} → m ≲ n → su (ι m) ≲ su (ι n)
     s≲s (stop) = step (ι stop)
     s≲s (step p) = step (ι (step p))
@@ -138,13 +153,6 @@ module Nat∞ where
 
   open [Nat∞]
     using (π)
-
-  mutual
-    ∞ : Nat∞
-    ∞ = su [∞]
-
-    [∞] : [Nat∞]
-    π [∞] = ∞
 
   mutual
     _+_ : Nat∞ → Nat∞ → Nat∞
