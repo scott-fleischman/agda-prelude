@@ -40,6 +40,7 @@ import Prelude.Signature.Tree.Antifounded
 import Prelude.Signature.Tree.Wellfounded
 import Prelude.Signature.Tree.Wellfounded.Bifree
 import Prelude.Size
+import Prelude.Stage
 import Prelude.Stream
 import Prelude.String
 import Prelude.Vector
