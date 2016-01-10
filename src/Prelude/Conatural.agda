@@ -145,6 +145,14 @@ module Nat∞ where
     p≲p (stop) = stop
     p≲p (step p) = π p
 
+    mutual
+      beq-leq : ∀ {m n} → m ≈ n → m ≲ n
+      beq-leq (ze) = stop
+      beq-leq (su p) = step ([beq-leq] p)
+
+      [beq-leq] : ∀ {m n} → m [≈] n → m [≲] n
+      π ([beq-leq] p) = beq-leq (≈.π p)
+
   open ≲ public
     using (_≲_)
     using (_[≲]_)
