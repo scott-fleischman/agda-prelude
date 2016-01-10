@@ -84,6 +84,12 @@ module Nat∞ where
       [inv] : ∀ {m n} → m [≈] n → n [≈] m
       π ([inv] p) = inv (π p)
 
+    ∞-1≈∞ : pred ∞ ≈ ∞
+    ∞-1≈∞ = su [idn]
+
+    ∞+1≈∞ : su (ι ∞) ≈ ∞
+    ∞+1≈∞ = su (ι idn)
+
   open ≈ public
     using (_≈_)
     using (_[≈]_)
