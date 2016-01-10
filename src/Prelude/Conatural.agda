@@ -101,8 +101,8 @@ module Nat∞ where
 
     mutual
       data _≲_ : (m n : Nat∞) → Set where
-        stop : ∀ {n} → ze ≲ n
-        step : ∀ {m n} → m [≲] n → su m ≲ su n
+        ze : ∀ {n} → ze ≲ n
+        su_ : ∀ {m n} → m [≲] n → su m ≲ su n
 
       record _[≲]_ (m n : [Nat∞]) : Set where
         no-eta-equality
@@ -114,16 +114,16 @@ module Nat∞ where
 
     mutual
       idn : ∀ {m} → m ≲ m
-      idn {ze} = stop
-      idn {su n} = step [idn]
+      idn {ze} = ze
+      idn {su n} = su [idn]
 
       [idn] : ∀ {m} → m [≲] m
       π [idn] = idn
 
     mutual
       cmp : ∀ {m n o} → n ≲ o → m ≲ n → m ≲ o
-      cmp q stop = stop
-      cmp (step q) (step p) = step ([cmp] q p)
+      cmp q ze = ze
+      cmp (su q) (su p) = su ([cmp] q p)
 
       [cmp] : ∀ {m n o} → n [≲] o → m [≲] n → m [≲] o
       π ([cmp] q p) = cmp (π q) (π p)
@@ -132,28 +132,28 @@ module Nat∞ where
     seq p q = cmp q p
 
     z≲n : ∀ {n} → 0 ≲ n
-    z≲n = stop
+    z≲n = ze
 
     mutual
       n≲∞ : ∀ {n} → n ≲ ∞
-      n≲∞ {ze} = stop
-      n≲∞ {su n} = step [n≲∞]
+      n≲∞ {ze} = ze
+      n≲∞ {su n} = su [n≲∞]
 
       [n≲∞] : ∀ {n} → n [≲] [∞]
       π [n≲∞] = n≲∞
 
     s≲s : ∀ {m n} → m ≲ n → su (ι m) ≲ su (ι n)
-    s≲s (stop) = step (ι stop)
-    s≲s (step p) = step (ι (step p))
+    s≲s (ze) = su (ι ze)
+    s≲s (su p) = su (ι (su p))
 
     p≲p : ∀ {m n} → m ≲ n → pred m ≲ pred n
-    p≲p (stop) = stop
-    p≲p (step p) = π p
+    p≲p (ze) = ze
+    p≲p (su p) = π p
 
     mutual
       beq-leq : ∀ {m n} → m ≈ n → m ≲ n
-      beq-leq (ze) = stop
-      beq-leq (su p) = step ([beq-leq] p)
+      beq-leq (ze) = ze
+      beq-leq (su p) = su ([beq-leq] p)
 
       [beq-leq] : ∀ {m n} → m [≈] n → m [≲] n
       π ([beq-leq] p) = beq-leq (≈.π p)
@@ -161,8 +161,6 @@ module Nat∞ where
   open ≲ public
     using (_≲_)
     using (_[≲]_)
-    using (step)
-    using (stop)
 
   open [Nat∞]
     using (π)
