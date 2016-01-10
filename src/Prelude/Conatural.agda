@@ -162,7 +162,7 @@ module Nat∞ where
     using (_≲_)
     using (_[≲]_)
 
-  open [Nat∞]
+  open [Nat∞] public
     using (π)
 
   mutual
@@ -177,5 +177,5 @@ open Nat∞ public
   hiding (module Nat∞)
   using (Nat∞)
   using ([Nat∞])
-  using (ze)
   using (su_)
+  using (ze)
