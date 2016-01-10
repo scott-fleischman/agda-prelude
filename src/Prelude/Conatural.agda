@@ -173,5 +173,6 @@ module Nat∞ where
 open Nat∞ public
   hiding (module Nat∞)
   using (Nat∞)
+  using ([Nat∞])
   using (ze)
   using (su_)
