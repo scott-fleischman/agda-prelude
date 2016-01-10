@@ -64,10 +64,10 @@ mutual
     → ([Stage] {s} A → [Stage] {s} B)
   π ([bind] k m) = bind k (π m)
 
-  instance
-    functor : ∀ ..{s ℓ} → Functor (Stage {s}{ℓ})
-    Functor.#.map functor = map
+instance
+  functor : ∀ ..{s ℓ} → Functor (Stage {s}{ℓ})
+  Functor.#.map functor = map
 
-    monad : ∀ ..{s ℓ} → Monad (Stage {s}{ℓ})
-    Monad.#.return monad = return
-    Monad.#.bind monad = bind
+  monad : ∀ ..{s ℓ} → Monad (Stage {s}{ℓ})
+  Monad.#.return monad = return
+  Monad.#.bind monad = bind
