@@ -257,16 +257,17 @@ module ≡ where
 
   open # public
 
-  ind#
-    : ∀ {ℓ₀ ℓ₁} {A : Set ℓ₀} {a : A}
-    → (Φ : (b : A) → a ≡ b → Set ℓ₁)
-    → (ϕ : Φ a idn)
-    → ((b : A) (ψ : a ≡ b) → Φ b ψ)
-  ind# Φ ϕ b idn = ϕ
+  record From {ℓ} {A : Set ℓ} (dom : A) : Set ℓ where
+    constructor [_]
+    field
+      {cod} : A
+      π : dom ≡ cod
+  syntax From {A = A} dom = dom ↘ A
+  open From public
 
-  ind
-    : ∀ {ℓ₀ ℓ₁} {A : Set ℓ₀}
-    → (Φ : (a b : A) → a ≡ b → Set ℓ₁)
-    → (ϕ : (a : A) → Φ a a idn)
-    → ((a b : A) (ψ : a ≡ b) → Φ a b ψ)
-  ind Φ ϕ a = ind# (Φ a) (ϕ a)
+  elim
+    : ∀ {ℓ₀ ℓ₁} {A : Set ℓ₀} {a : A}
+    → (Ψ : a ↘ A → Set ℓ₁)
+    → (⊙ : Ψ [ idn ])
+    → Π (a ↘ A) Ψ
+  elim Ψ ⊙ [ idn ] = ⊙
