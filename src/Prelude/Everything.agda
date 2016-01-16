@@ -9,6 +9,7 @@ import Prelude.Coalgebra
 import Prelude.Cofinite
 import Prelude.Colist
 import Prelude.Conatural
+import Prelude.Covector
 import Prelude.Comonad
 import Prelude.Decidable
 import Prelude.Evaluation.Strategy

@@ -23,7 +23,7 @@ module Vec where
   _++_
     : ∀ ..{ℓ} {m n} {A : Set ℓ}
     → Vec A m → Vec A n
-    → Vec A (m Nat.+ n)
+    → Vec A (n Nat.+ m)
   [] ++ ys = ys
   (x ∷ xs) ++ ys = x ∷ (xs ++ ys)
 
@@ -37,7 +37,7 @@ module Vec where
 
   idx
     : ∀ ..{ℓ} {n} {A : Set ℓ}
-    → Vec A n
+    → (Vec A n)
     → (Fin n → A)
   idx (x ∷ xs) ze = x
   idx (x ∷ xs) (su i) = idx xs i
@@ -49,7 +49,7 @@ module Vec where
   tab {n = su n} f = f ze ∷ tab λ i → f (su i)
 
 open Vec public
+  hiding (module Vec)
   using (Vec)
   using ([])
   using (_∷_)
-  hiding (module Vec)
