@@ -6,6 +6,7 @@ import Prelude.Algebra
 import Prelude.Applicative
 import Prelude.Bool
 import Prelude.Coalgebra
+import Prelude.Cofinite
 import Prelude.Colist
 import Prelude.Conatural
 import Prelude.Comonad
