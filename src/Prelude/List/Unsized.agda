@@ -7,6 +7,7 @@ open import Prelude.Functor using (Functor)
 open import Prelude.Monad
 open import Prelude.Natural
 open import Prelude.Monoidal.Product.Indexed
+open import Prelude.Path
 
 module List where
   infixr 1 _∷_
@@ -23,6 +24,26 @@ module List where
     → List A → List A → List A
   [] ++ ys = ys
   (x ∷ xs) ++ ys = x ∷ (xs ++ ys)
+
+  ++-idn-l
+    : ∀ ..{ℓ} {A : Set ℓ}
+    → (xs : List A)
+    → ([] ++ xs) ≡ xs
+  ++-idn-l xs = refl
+
+  ++-idn-r
+    : ∀ ..{ℓ} {A : Set ℓ}
+    → (xs : List A)
+    → (xs ++ []) ≡ xs
+  ++-idn-r [] = refl
+  ++-idn-r (x ∷ xs) rewrite ++-idn-r xs = refl
+
+  ++-assoc
+    : ∀ ..{ℓ} {A : Set ℓ}
+    → (xs ys zs : List A)
+    → (xs ++ (ys ++ zs)) ≡ ((xs ++ ys) ++ zs)
+  ++-assoc [] ys zs = refl
+  ++-assoc (x ∷ xs) ys zs rewrite ++-assoc xs ys zs = refl
 
   len
     : ∀ ..{ℓ} {A : Set ℓ}
