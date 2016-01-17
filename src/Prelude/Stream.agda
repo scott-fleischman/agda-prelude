@@ -22,7 +22,7 @@ module Stream where
     field
       head : A
       tail : ∀ {s′ : Size.< s} → Stream {s′} A
-  open Stream
+  open Stream public
 
   zipWith
     : ∀ ..{s ℓ}
@@ -140,3 +140,8 @@ module Stream where
     → (xs : Stream A)
     → ((n : Nat) → A)
   idx xs n = head (drop n xs)
+
+open Stream public
+  using (Stream)
+  using (_∷_)
+  hiding (module Stream)
