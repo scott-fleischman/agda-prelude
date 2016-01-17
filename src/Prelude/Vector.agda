@@ -48,6 +48,18 @@ module Vec where
   tab {n = ze} f = []
   tab {n = su n} f = f ze ∷ tab λ i → f (su i)
 
+  head
+    : ∀ ..{ℓ} {n} {A : Set ℓ}
+    → Vec A (su n)
+    → A
+  head (x ∷ xs) = x
+
+  tail
+    : ∀ ..{ℓ} {n} {A : Set ℓ}
+    → Vec A (su n)
+    → Vec A n
+  tail (x ∷ xs) = xs
+
 open Vec public
   hiding (module Vec)
   using (Vec)
