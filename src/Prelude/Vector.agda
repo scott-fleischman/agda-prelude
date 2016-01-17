@@ -23,7 +23,7 @@ module Vec where
   _++_
     : ∀ ..{ℓ} {m n} {A : Set ℓ}
     → Vec A m → Vec A n
-    → Vec A (n Nat.+ m)
+    → Vec A (m Nat.+ n)
   [] ++ ys = ys
   (x ∷ xs) ++ ys = x ∷ (xs ++ ys)
 

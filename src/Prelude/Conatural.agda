@@ -167,11 +167,11 @@ module Nat∞ where
 
   mutual
     _+_ : Nat∞ → Nat∞ → Nat∞
-    m + (ze) = m
-    m + (su n) = su (m [+] n)
+    (ze) + n = n
+    (su m) + n = su (m [+] n)
 
-    _[+]_ : Nat∞ → [Nat∞] → [Nat∞]
-    π (m [+] n) = m + π n
+    _[+]_ : [Nat∞] → Nat∞ → [Nat∞]
+    π (m [+] n) = π m + n
 
 open Nat∞ public
   hiding (module Nat∞)

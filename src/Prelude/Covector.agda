@@ -40,15 +40,15 @@ module Vec∞ where
       : ∀ ..{ℓ} {m n} {A : Set ℓ}
       → Vec∞ A m
       → Vec∞ A n
-      → Vec∞ A (n Nat∞.+ m)
+      → Vec∞ A (m Nat∞.+ n)
     [] ++ ys = ys
     (x ∷ xs) ++ ys = x ∷ (xs [++] ys)
 
     _[++]_
       : ∀ ..{ℓ} {m n} {A : Set ℓ}
       → [Vec∞] A m
-      →  Vec∞ A n
-      → [Vec∞] A (n Nat∞.+ m)
+      →  Vec∞  A n
+      → [Vec∞] A (m Nat∞.+ n)
     π (xs [++] ys) = π xs ++ ys
 
   mutual

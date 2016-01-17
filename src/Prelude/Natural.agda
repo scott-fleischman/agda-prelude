@@ -71,13 +71,13 @@ module Nat where
   open ≤
 
   _+_ : (m n : Nat) → Nat
-  m + (ze) = m
-  m + (su n) = su (m + n)
+  (ze) + n = n
+  (su m) + n = su (m + n)
   {-# BUILTIN NATPLUS _+_ #-}
 
   _*_ : (m n : Nat) → Nat
-  m * (ze) = ze
-  m * (su n) = m + (m * n)
+  (ze) * n = ze
+  (su m) * n = n + (m * n)
   {-# BUILTIN NATTIMES _*_ #-}
 
   _≟_ : (m n : Nat) → Decidable (m ≡ n)
