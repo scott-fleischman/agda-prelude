@@ -80,6 +80,11 @@ module Nat where
   (su m) * n = n + (m * n)
   {-# BUILTIN NATTIMES _*_ #-}
 
+  max : (m n : Nat) → Nat
+  max ze n = n
+  max m ze = m
+  max (su m) (su n) = su (max m n)
+
   _≟_ : (m n : Nat) → Decidable (m ≡ n)
   ze ≟ ze = ⊕.inr ≡.idn
   ze ≟ su n = ⊕.inl λ()
