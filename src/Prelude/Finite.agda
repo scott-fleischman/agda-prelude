@@ -16,6 +16,18 @@ module Fin where
       → (i : Fin n)
       → Fin (su n)
 
+  max-inj₁ : {m n : Nat} → Fin m → Fin (Nat.max m n)
+  max-inj₁ {ze} ()
+  max-inj₁ {su m} {ze} i = i
+  max-inj₁ {su m} {su n} ze = ze
+  max-inj₁ {su m} {su n} (su i) = su (max-inj₁ i)
+
+  max-inj₂ : {m n : Nat} → Fin n → Fin (Nat.max m n)
+  max-inj₂ {ze} i = i
+  max-inj₂ {su m} {ze} ()
+  max-inj₂ {su m} {su n} ze = ze
+  max-inj₂ {su m} {su n} (su i) = su (max-inj₂ {m} i)
+
 open Fin public
   hiding (module Fin)
   using (Fin)
