@@ -1,4 +1,4 @@
-{-# OPTIONS --without-K #-}
+{-# OPTIONS --experimental-irrelevance --without-K #-}
 
 module Prelude.Signature.Tree.Wellfounded where
 
@@ -18,7 +18,7 @@ open import Prelude.Size
 module W where
   data W ..{s} (Σ : Sig) : Set where
     sup
-      : ∀ ..{s′ : Size.< s}
+      : ∀ .{s′ : Size.< s}
       → (head : Sig.op Σ)
       → (tail : Sig.ar Σ head → W {s′} Σ)
       → W {s} Σ

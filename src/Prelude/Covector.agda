@@ -1,4 +1,4 @@
-{-# OPTIONS --without-K #-}
+{-# OPTIONS --experimental-irrelevance --without-K #-}
 
 module Prelude.Covector where
 
@@ -20,7 +20,7 @@ module Vec∞ where
       []
         : Vec∞ {s} A ze
       _∷_
-        : ∀ ..{s′ : Size.< s} {n}
+        : ∀ .{s′ : Size.< s} {n}
         → (x : A)
         → (xs : [Vec∞] {s′} A (Nat∞.π n))
         → Vec∞ {s} A (su n)
@@ -61,7 +61,7 @@ module Vec∞ where
     map f (x ∷ xs) = f x ∷ [map] f xs
 
     [map]
-      : ∀ ..{s ℓ}
+      : ∀ .{s}..{ℓ}
       → ∀ {A : Set ℓ} {B : Set} {n}
       → (f : A → B)
       → ([Vec∞] {s} A n → [Vec∞] {s} B n)
