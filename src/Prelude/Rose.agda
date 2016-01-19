@@ -6,7 +6,7 @@ open import Agda.Primitive
 open import Prelude.Applicative
 open import Prelude.Comonad
 open import Prelude.Functor using (Functor)
-open import Prelude.List.Unsized
+open import Prelude.List
 open import Prelude.Monad
 open import Prelude.Monoidal.Product.Indexed
 open import Prelude.Size

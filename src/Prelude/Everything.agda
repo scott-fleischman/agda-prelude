@@ -20,7 +20,6 @@ import Prelude.Inspect
 import Prelude.Integer
 import Prelude.Lift
 import Prelude.List
-import Prelude.List.Unsized
 import Prelude.Monad
 import Prelude.Monoidal
 import Prelude.Monoidal.Coproduct
