@@ -1,4 +1,4 @@
-{-# OPTIONS --without-K #-}
+{-# OPTIONS --experimental-irrelevance --without-K #-}
 
 module Prelude.Signature.Tree.Antifounded where
 
@@ -22,7 +22,7 @@ module M where
     constructor inf
     field
       head : Sig.op Σ
-      tail : ∀ ..{s′ : Size.< s} → Sig.ar Σ head → M {s′} Σ
+      tail : ∀ .{s′ : Size.< s} → Sig.ar Σ head → M {s′} Σ
 
   tail#
     : ∀ ..{s} ..{s′ : Size.< s}

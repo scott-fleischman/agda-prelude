@@ -1,4 +1,4 @@
-{-# OPTIONS --without-K #-}
+{-# OPTIONS --experimental-irrelevance --without-K #-}
 
 module Prelude.Rose where
 
@@ -15,7 +15,7 @@ open import Prelude.String
 module Rose where
   data Rose ..{s ℓ} (A : Set ℓ) : Set ℓ where
     node
-      : {s′ : Size.< s}
+      : .{s′ : Size.< s}
       → (head : A)
       → (tail : List (Rose {s′} A))
       → Rose {s} A
@@ -24,7 +24,7 @@ module Rose where
     : ∀ ..{s ℓ} {A B : Set ℓ}
     → (A → B)
     → (Rose {s} A → Rose {s} B)
-  map f (node head tail) = node (f head) (List.map (map f) tail)
+  map {s} f (node {s′} head tail) = node (f head) (List.map (map f) tail)
 
   return
     : ∀ ..{ℓ} {A : Set ℓ}
@@ -32,7 +32,7 @@ module Rose where
   return x = node x []
 
   bind
-    : ∀ ..{s₀ s₁} ..{ℓ₀ ℓ₁} {A : Set ℓ₀} {B : Set ℓ₁}
+    : ∀ ..{s₀ s₁ ℓ₀ ℓ₁} {A : Set ℓ₀} {B : Set ℓ₁}
     → (A → Rose {s₀} B)
     → (Rose {s₁} A → Rose {Size.∞} B)
   bind {B = B} k (node head tail) with k head
@@ -48,7 +48,7 @@ module Rose where
   extract (node head tail) = head
 
   extend
-    : ∀ ..{s} ..{ℓ₀ ℓ₁} {A : Set ℓ₀} {B : Set ℓ₁}
+    : ∀ ..{s ℓ₀ ℓ₁} {A : Set ℓ₀} {B : Set ℓ₁}
     → (Rose {s} A → B)
     → (Rose {s} A → Rose {s} B)
   extend k (node head tail) =

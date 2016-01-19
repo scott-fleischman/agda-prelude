@@ -24,7 +24,7 @@ module List where
       → List {s} A
 
   _++_
-    : ∀ .{s}..{ℓ} {A : Set ℓ}
+    : ∀ ..{s ℓ} {A : Set ℓ}
     → List {s} A
     → List {s} A
     → List {Size.∞} A
@@ -38,7 +38,7 @@ module List where
   len (_ ∷ xs) = su (len xs)
 
   map
-    : ∀ .{s}..{ℓ₀ ℓ₁} {A : Set ℓ₀} {B : Set ℓ₁}
+    : ∀ ..{s ℓ₀ ℓ₁} {A : Set ℓ₀} {B : Set ℓ₁}
     → (A → B)
     → List {s} A
     → List {s} B
@@ -51,7 +51,7 @@ module List where
   return = _∷ []
 
   bind
-    : ∀ .{s}..{ℓ₀ ℓ₁} {A : Set ℓ₀} {B : Set ℓ₁}
+    : ∀ ..{s ℓ₀ ℓ₁} {A : Set ℓ₀} {B : Set ℓ₁}
     → (A → List {s} B)
     → (List {s} A → List {Size.∞} B)
   bind k [] = []

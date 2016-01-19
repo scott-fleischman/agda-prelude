@@ -1,4 +1,4 @@
-{-# OPTIONS --without-K #-}
+{-# OPTIONS --experimental-irrelevance --without-K #-}
 
 module Prelude.Colist where
 
@@ -10,7 +10,7 @@ module List∞ where
   mutual
     data List∞ ..{s ℓ} (A : Set ℓ) : Set ℓ where
       [] : List∞ {s} A
-      _∷_ : {s′ : Size.< s} (x : A) (xs : [List∞] {s′} A) → List∞ {s} A
+      _∷_ : .{s′ : Size.< s} (x : A) (xs : [List∞] {s′} A) → List∞ {s} A
 
     record [List∞] ..{s ℓ} (A : Set ℓ) : Set ℓ where
       coinductive

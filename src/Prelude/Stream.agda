@@ -1,4 +1,4 @@
-{-# OPTIONS --without-K #-}
+{-# OPTIONS --experimental-irrelevance --without-K #-}
 
 module Prelude.Stream where
 
@@ -21,7 +21,7 @@ module Stream where
     constructor _∷_
     field
       head : A
-      tail : ∀ {s′ : Size.< s} → Stream {s′} A
+      tail : ∀ .{s′ : Size.< s} → Stream {s′} A
   open Stream public
 
   zipWith
@@ -52,7 +52,7 @@ module Stream where
   tail (unfold xs step) = unfold (⊗.snd (step xs)) step
 
   interleave
-    : ∀ ..{s ℓ}
+    : ∀ .{s}..{ℓ}
     → {A : Set ℓ}
     → (xs : Stream {s} A)
     → (ys : ∀ {s′ : Size.< Size.↑ s} → Stream {s′} A)
@@ -98,7 +98,7 @@ module Stream where
   embed xs κ = xs ++ repeat κ
 
   map
-    : ∀ ..{s ℓ₀ ℓ₁}
+    : ∀ .{s}..{ℓ₀ ℓ₁}
     → {A : Set ℓ₀}
     → {B : Set ℓ₁}
     → (f : A → B)

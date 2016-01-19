@@ -1,3 +1,5 @@
+{-# OPTIONS --experimental-irrelevance --without-K #-}
+
 module Prelude.Stage where
 
 open import Agda.Primitive
@@ -16,7 +18,7 @@ mutual
     coinductive
     constructor ι
     field
-      π : ..{s′ : Size.< s} → Stage {s′} A
+      π : .{s′ : Size.< s} → Stage {s′} A
 open [Stage]
 
 loop : ∀ ..{ℓ} {A : Set ℓ} → [Stage] A

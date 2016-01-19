@@ -1,4 +1,4 @@
-{-# OPTIONS --without-K #-}
+{-# OPTIONS --experimental-irrelevance --without-K #-}
 
 module Prelude.Vector where
 
@@ -15,7 +15,7 @@ module Vec where
     []
       : Vec {s} A ze
     _∷_
-      : ∀ ..{s′ : Size.< s} {n}
+      : ∀ .{s′ : Size.< s} {n}
       → (x : A)
       → (xs : Vec {s′} A n)
       → Vec {s} A (su n)
