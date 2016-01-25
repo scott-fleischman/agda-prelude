@@ -7,11 +7,11 @@ open import Prelude.Monoidal.Product.Indexed
 
 module Σ where
   infix 0 Σ
-  infix 1 ⟨_,_⟩
-  infixr 1 _,_
+  infix 1 ⟨_▸_⟩
+  infixr 1 _▸_
 
   record Σ ..{ℓ₀ ℓ₁} (A : Set ℓ₀) (B : A → Set ℓ₁) : Set (ℓ₀ ⊔ ℓ₁) where
-    constructor _,_
+    constructor _▸_
     field
       fst : A
       snd : B fst
@@ -21,11 +21,11 @@ module Σ where
 
   el : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
     → {A : Set ℓ₀} {B : A → Set ℓ₁} {Φ : Σ A B → Set ℓ₂}
-    → (k : (x : A) (y : B x) → Φ (x , y))
+    → (k : (x : A) (y : B x) → Φ (x ▸ y))
     → (∀ x → Φ x)
-  el k (x , y) = k x y
+  el k (x ▸ y) = k x y
 
-  ⟨_,_⟩
+  ⟨_▸_⟩
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
     → {X : Set ℓ₀}
     → {A : X → Set ℓ₁}
@@ -33,7 +33,7 @@ module Σ where
     → (f : (x : X) → A x)
     → (g : (x : X) → B (f x))
     → ((x : X) → Σ (A x) B)
-  ⟨ f , g ⟩ x = (f x , g x)
+  ⟨ f ▸ g ⟩ x = (f x ▸ g x)
 
   ⟨_⊗_⟩
     : ∀ ..{ℓ₀ ℓ₁ ℓ₂ ℓ₃}
@@ -44,8 +44,9 @@ module Σ where
     → (f : X₀ → A)
     → (g : ∀ {x₀} → X₁ x₀ → B (f x₀))
     → (Σ X₀ X₁ → Σ A B)
-  ⟨ f ⊗ g ⟩ = ⟨ f Π.⟔ fst , g Π.⟔ snd ⟩
+  ⟨ f ⊗ g ⟩ = ⟨ f Π.⟔ fst ▸ g Π.⟔ snd ⟩
 
 open Σ public
-  using (Σ)
   hiding (module Σ)
+  using (Σ)
+  using (_▸_)

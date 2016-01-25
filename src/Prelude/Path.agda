@@ -41,14 +41,14 @@ module ≡ where
         → {A : Set ℓ}
         → {a b c : A}
         → ((b ≡ c) ⊗ (a ≡ b)) ⇒ (a ≡ c)
-      cmp (idn ⊗., idn) = idn
+      cmp (idn , idn) = idn
 
       seq
         : ∀ ..{ℓ}
         → {A : Set ℓ}
         → {a b c : A}
         → ((a ≡ b) ⊗ (b ≡ c)) ⇒ (a ≡ c)
-      seq (idn ⊗., idn) = idn
+      seq (idn , idn) = idn
 
       inv
         : ∀ ..{ℓ} {A : Set ℓ} {a b : A}
@@ -62,7 +62,7 @@ module ≡ where
         → (ρ₁ : b ≡ c)
         → (ρ₀ : a ≡ b)
         → a ≡ c
-      ρ₁ ⟔ ρ₀ = cmp (ρ₁ ⊗., ρ₀)
+      ρ₁ ⟔ ρ₀ = cmp (ρ₁ , ρ₀)
 
       _⟓_
         : ∀ ..{ℓ}
@@ -71,7 +71,7 @@ module ≡ where
         → (ρ₀ : a ≡ b)
         → (ρ₁ : b ≡ c)
         → a ≡ c
-      ρ₀ ⟓ ρ₁ = seq (ρ₀ ⊗., ρ₁)
+      ρ₀ ⟓ ρ₁ = seq (ρ₀ , ρ₁)
 
       _⁻¹ : _
       _⁻¹ = inv
@@ -106,15 +106,15 @@ module ≡ where
         → ∀ {a₀ a₁}
         → ∀ {b₀ b₁}
         → (F : (A ⊗ B) ⇒ C)
-        → ((a₀ ≡ a₁) ⊗ (b₀ ≡ b₁)) ⇒ (F (a₀ ⊗., b₀) ≡ F (a₁ ⊗., b₁))
-      ap² F (idn ⊗., idn) = idn
+        → ((a₀ ≡ a₁) ⊗ (b₀ ≡ b₁)) ⇒ (F (a₀ , b₀) ≡ F (a₁ , b₁))
+      ap² F (idn , idn) = idn
 
       _·_ : _
       _·_ = ap¹
 
       {-# DISPLAY idn* _ = idn #-}
-      {-# DISPLAY cmp (ρ₁ ⊗., ρ₀) = ρ₁ ᵈ.⟔ ρ₀ #-}
-      {-# DISPLAY seq (ρ₀ ⊗., ρ₁) = ρ₀ ᵈ.⟓ ρ₁ #-}
+      {-# DISPLAY cmp (ρ₁ , ρ₀) = ρ₁ ᵈ.⟔ ρ₀ #-}
+      {-# DISPLAY seq (ρ₀ , ρ₁) = ρ₀ ᵈ.⟓ ρ₁ #-}
       {-# DISPLAY inv ρ = ρ ᵈ.⁻¹ #-}
       {-# DISPLAY coe* Ψ ρ x = [ ρ ]* x #-}
       {-# DISPLAY ap¹ f ρ = f ᵈ.· ρ #-}

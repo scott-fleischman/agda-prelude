@@ -9,6 +9,7 @@ open import Prelude.Path
 open import Prelude.Monoidal.Coproduct
 open import Prelude.Monoidal.Coproduct.Indexed
 open import Prelude.Monoidal.Product
+open import Prelude.Monoidal.Product.Indexed
 open import Prelude.Monoidal.Unit
 open import Prelude.Monoidal.Void
 
@@ -19,15 +20,15 @@ record Sig : Set₁ where
     co : (ϑ : op) → Set₀
     ar : (ϑ : op) → Set₀
 
-module _ (Σ : Sig) where
+module _ (⊢Σ : Sig) where
   open Sig
 
   infixr 2 ⟦_⟧◃_
 
   ⟦_⟧◃_ : (X : Set) → Set
-  ⟦_⟧◃_ X = ⊕.Σ[ op Σ ∋ ϑ ] (co Σ ϑ ⊗ (ar Σ ϑ → X))
+  ⟦_⟧◃_ X = Σ[ op ⊢Σ ∋ ϑ ] (co ⊢Σ ϑ ⊗ (ar ⊢Σ ϑ → X))
 
-  pattern F◃ ϑ n ρ = ϑ ⊕.Σ., (n ⊗., ρ)
+  pattern F◃ ϑ n ρ = ϑ ▸ (n , ρ)
 
   map◃ : ∀ {X Y} → (X → Y) → (⟦_⟧◃_ X → ⟦_⟧◃_ Y)
-  map◃ f (F◃ ϑ n ρ) = F◃ ϑ n (f ⊗.Π.⟔ ρ)
+  map◃ f (F◃ ϑ n ρ) = F◃ ϑ n (f Π.⟔ ρ)

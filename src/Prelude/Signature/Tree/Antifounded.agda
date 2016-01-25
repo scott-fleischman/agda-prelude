@@ -42,7 +42,7 @@ module M where
   module _ {Σ : Sig} where
     from : CoAlg ⟦ Σ ⟧◃
     CoAlg.car from = M Σ
-    CoAlg.act from = Σ.⟨ M.head , tail# ⟩
+    CoAlg.act from = Σ.⟨ M.head ▸ tail# ⟩
 
     into : Alg ⟦ Σ ⟧◃
     Alg.car into = M Σ
@@ -59,7 +59,7 @@ module M where
   emb {s}{Σ} = iter coalg where
     coalg : CoAlg ⟦ Σ ⟧◃
     CoAlg.car coalg = W Σ
-    CoAlg.act coalg (W.sup ϑ α) = (ϑ Σ., α)
+    CoAlg.act coalg (W.sup ϑ α) = (ϑ ▸ α)
 
 open M public
   using (M)

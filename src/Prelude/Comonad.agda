@@ -5,6 +5,7 @@ module Prelude.Comonad where
 open import Agda.Primitive
 open import Prelude.Functor as Functor
 open import Prelude.Monoidal.Product
+open import Prelude.Monoidal.Product.Indexed
 
 module Comonad where
   record # ..{ℓ₀ ℓ₁}
@@ -29,7 +30,7 @@ module Comonad where
     ⦃ com : # W ⦄ where
 
     split : ∀ {A} → W A → W (W A)
-    split = #.extend com ⊗.Π.idn
+    split = #.extend com Π.idn
   open Ext ⦃ … ⦄ public
 
   open # ⦃ … ⦄ public

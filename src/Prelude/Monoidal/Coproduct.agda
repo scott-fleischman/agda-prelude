@@ -133,8 +133,6 @@ module ⊕ where
     → (A ⊗ B) ⊕ (A ⊗ C) ⇐ A ⊗ (B ⊕ C)
   δ⇐ = λ⇓[ a ] [ inl ⟔ _,_ a , inr ⟔ _,_ a ]
 
-  open import Prelude.Monoidal.Coproduct.Indexed public
-
   {-# DISPLAY inl a = ᵈ.inl a #-}
   {-# DISPLAY inr b = ᵈ.inr b #-}
   {-# DISPLAY _⊕_ A B = A ᵈ.ᵈ.⊕ B #-}

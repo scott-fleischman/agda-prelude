@@ -37,17 +37,17 @@ module W where
   module _ {Σ : Sig} where
     from : CoAlg ⟦ Σ ⟧◃
     CoAlg.car from = W Σ
-    CoAlg.act from (sup ϑ α) = (ϑ Σ., α)
+    CoAlg.act from (sup ϑ α) = (ϑ ▸ α)
 
     into : Alg ⟦ Σ ⟧◃
     Alg.car into = W Σ
-    Alg.act into (ϑ Σ., α) = sup ϑ α
+    Alg.act into (ϑ ▸ α) = sup ϑ α
 
     iter
       : ∀ ..{s}
       → (ψ : Alg ⟦ Σ ⟧◃)
       → (W {s} Σ → Alg.car ψ)
-    iter ψ (sup ϑ ρ) = Alg.act ψ (ϑ Σ., iter ψ ⇒.⟔ ρ)
+    iter ψ (sup ϑ ρ) = Alg.act ψ (ϑ ▸ iter ψ ⇒.⟔ ρ)
 
 open W public
   using (W)

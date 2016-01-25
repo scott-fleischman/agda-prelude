@@ -116,14 +116,14 @@ module Fam where
     → {B : Set}
     → (f : A ⇒ B)
     → Fam lzero A ⇒ Fam lzero B
-  Σ[ f ] Ψ b = ⊕.Σ[ _ ∋ a ] ((f a ≡ b) ⊗ (a ∈ Ψ))
+  Σ[ f ] Ψ b = Σ[ _ ∋ a ] ((f a ≡ b) ⊗ (a ∈ Ψ))
 
   Π[_]
     : {A : Set}
     → {B : Set}
     → (f : A ⇒ B)
     → Fam lzero A ⇒ Fam lzero B
-  Π[ f ] Ψ b = ⊗.Π[ _ ∋ a ] ((b ≡ f a) ⇒ (a ∈ Ψ))
+  Π[ f ] Ψ b = Π[ _ ∋ a ] ((b ≡ f a) ⇒ (a ∈ Ψ))
 
 module Fib where
   fam
@@ -131,4 +131,4 @@ module Fib where
     → {I : Set ℓ₀}
     → Fam (ℓ₁) I
     → Fib (ℓ₀ ⊔ ℓ₁) I
-  fam Ψ = (Fam.total Ψ Σ., Fam.display)
+  fam Ψ = (Fam.total Ψ ▸ Fam.display)

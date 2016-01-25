@@ -113,12 +113,11 @@ module ⊗ where
     → (A ⊗ B) ⇒ (B ⊗ A)
   β = ⟨ snd , fst ⟩
 
-  open import Prelude.Monoidal.Product.Indexed public
-
   {-# DISPLAY fst p = ᵈ.fst p #-}
   {-# DISPLAY snd p = ᵈ.snd p #-}
   {-# DISPLAY _⊗_ A B = A ᵈ.ᵈ.⊗ B #-}
 
 open ⊗ public
-  using (_⊗_)
   hiding (module _⊗_)
+  using (_⊗_)
+  using (_,_)

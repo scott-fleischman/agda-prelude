@@ -38,5 +38,5 @@ module Free where
   fork {Σ = op ◃ ar} = Σ.el π.fork
 
 module Cofree where
-  node : {Σ : Sig} {A : Set} → A → Sig.⟦ Σ ⟧◃ (cofree Σ A) → cofree Σ A
-  node {Σ = op ◃ ar} a (ϑ Σ., ρ) = W.sup (a ⊗., ϑ) ⊕.[ 𝟘.¡ , ρ ]
+  node : {⊢Σ : Sig} {A : Set} → A → Sig.⟦ ⊢Σ ⟧◃ (cofree ⊢Σ A) → cofree ⊢Σ A
+  node {⊢Σ = op ◃ ar} a (ϑ ▸ ρ) = W.sup (a , ϑ) ⊕.[ 𝟘.¡ , ρ ]
