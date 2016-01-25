@@ -24,7 +24,7 @@ module ≡ where
     module # where
       infixr 1 _⟔_
       infixr 1 _⟓_
-      infixr 1 [_]*_
+      infixr 3 [_]*_
       infixl 2 _⁻¹
 
       pattern idn = refl
