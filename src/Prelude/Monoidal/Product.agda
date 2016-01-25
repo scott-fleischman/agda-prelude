@@ -3,7 +3,6 @@
 module Prelude.Monoidal.Product where
 
 open import Agda.Primitive
-open import Prelude.Display
 open import Prelude.Monoidal.Exponential.Boot
 open import Prelude.Monoidal.Unit
 
@@ -112,10 +111,6 @@ module ⊗ where
     → {B : Set ℓ₁}
     → (A ⊗ B) ⇒ (B ⊗ A)
   β = ⟨ snd , fst ⟩
-
-  {-# DISPLAY fst p = ᵈ.fst p #-}
-  {-# DISPLAY snd p = ᵈ.snd p #-}
-  {-# DISPLAY _⊗_ A B = A ᵈ.ᵈ.⊗ B #-}
 
 open ⊗ public
   hiding (module _⊗_)

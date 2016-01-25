@@ -3,7 +3,6 @@
 module Prelude.Monoidal.Unit where
 
 open import Agda.Primitive
-open import Prelude.Display
 
 module 𝟙↑ ..{ℓ} where
   record 𝟙 : Set ℓ where
@@ -11,8 +10,6 @@ module 𝟙↑ ..{ℓ} where
 
   ! : ∀ ..{ℓ₀} {A : Set ℓ₀} → A → 𝟙
   ! _ = *
-
-  {-# DISPLAY * = ᵈ.* #-}
 
   instance
     trivial : 𝟙
@@ -29,6 +26,3 @@ open 𝟙↑ public
   using ()
   renaming (𝟙 to 𝟙↑)
   hiding (module 𝟙)
-
-{-# DISPLAY 𝟙↑ = ᵈ.𝟙 #-}
-{-# DISPLAY 𝟙 = ᵈ.𝟙 #-}

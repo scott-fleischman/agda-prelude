@@ -3,7 +3,6 @@
 module Prelude.Monoidal.Product.Indexed where
 
 open import Agda.Primitive
-open import Prelude.Display
 
 module Π where
   infixr 0 _⊆_
@@ -47,8 +46,8 @@ module Π where
   _⟓_ : _
   _⟓_ = seq
 
-  {-# DISPLAY cmp g f = g ᵈ.⟔ f #-}
-  {-# DISPLAY seq f g = f ᵈ.⟓ g #-}
+  {-# DISPLAY cmp g f = g ⟔ f #-}
+  {-# DISPLAY seq f g = f ⟓ g #-}
 
 open Π public
   using (Π)

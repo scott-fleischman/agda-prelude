@@ -3,7 +3,6 @@
 module Prelude.Monoidal.Coproduct where
 
 open import Agda.Primitive
-open import Prelude.Display
 open import Prelude.Monoidal.Exponential
 open import Prelude.Monoidal.Product
 open import Prelude.Monoidal.Void
@@ -132,10 +131,6 @@ module ⊕ where
     → {C : Set ℓ₂}
     → (A ⊗ B) ⊕ (A ⊗ C) ⇐ A ⊗ (B ⊕ C)
   δ⇐ = λ⇓[ a ] [ inl ⟔ _,_ a , inr ⟔ _,_ a ]
-
-  {-# DISPLAY inl a = ᵈ.inl a #-}
-  {-# DISPLAY inr b = ᵈ.inr b #-}
-  {-# DISPLAY _⊕_ A B = A ᵈ.ᵈ.⊕ B #-}
 
 open ⊕ public
   using (_⊕_)

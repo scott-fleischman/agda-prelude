@@ -3,7 +3,6 @@
 module Prelude.Bool where
 
 open import Agda.Primitive
-open import Prelude.Display
 open import Prelude.Monoidal.Unit
 open import Prelude.Monoidal.Void
 
@@ -40,8 +39,8 @@ module 𝟚↑ ..{ℓ} where
   ⟦ ff ⟧ = 𝟘↑
   ⟦ tt ⟧ = 𝟙↑
 
-  {-# DISPLAY or p q = p ᵈ.∨ q #-}
-  {-# DISPLAY and p q = p ᵈ.∧ q #-}
+  {-# DISPLAY or p q = p ∨ q #-}
+  {-# DISPLAY and p q = p ∧ q #-}
 
 module 𝟚 where
   open 𝟚↑ {lzero} public

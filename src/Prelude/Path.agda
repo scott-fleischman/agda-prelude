@@ -3,7 +3,6 @@
 module Prelude.Path where
 
 open import Agda.Primitive
-open import Prelude.Display
 open import Prelude.Monoidal.Coproduct
 open import Prelude.Monoidal.Exponential
 open import Prelude.Monoidal.Product
@@ -113,11 +112,11 @@ module ≡ where
       _·_ = ap¹
 
       {-# DISPLAY idn* _ = idn #-}
-      {-# DISPLAY cmp (ρ₁ , ρ₀) = ρ₁ ᵈ.⟔ ρ₀ #-}
-      {-# DISPLAY seq (ρ₀ , ρ₁) = ρ₀ ᵈ.⟓ ρ₁ #-}
-      {-# DISPLAY inv ρ = ρ ᵈ.⁻¹ #-}
+      {-# DISPLAY cmp (ρ₁ , ρ₀) = ρ₁ ⟔ ρ₀ #-}
+      {-# DISPLAY seq (ρ₀ , ρ₁) = ρ₀ ⟓ ρ₁ #-}
+      {-# DISPLAY inv ρ = ρ ⁻¹ #-}
       {-# DISPLAY coe* Ψ ρ x = [ ρ ]* x #-}
-      {-# DISPLAY ap¹ f ρ = f ᵈ.· ρ #-}
+      {-# DISPLAY ap¹ f ρ = f · ρ #-}
 
   module ≾ where
     idn
