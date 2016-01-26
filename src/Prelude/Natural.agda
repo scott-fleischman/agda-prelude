@@ -3,6 +3,7 @@
 module Prelude.Natural where
 
 open import Agda.Primitive
+  hiding (_⊔_)
 open import Prelude.Decidable
 open import Prelude.Monoidal
   hiding (*)
@@ -80,10 +81,21 @@ module Nat where
   (su m) * n = n + (m * n)
   {-# BUILTIN NATTIMES _*_ #-}
 
+  min : (m n : Nat) → Nat
+  min ze n = ze
+  min m ze = ze
+  min (su m) (su n) = su (min m n)
+
+  _⊓_ = min
+  {-# DISPLAY min m n = m ⊓ n #-}
+
   max : (m n : Nat) → Nat
   max ze n = n
   max m ze = m
   max (su m) (su n) = su (max m n)
+
+  _⊔_ = max
+  {-# DISPLAY max m n = m ⊔ n #-}
 
   _≟_ : (m n : Nat) → Decidable (m ≡ n)
   ze ≟ ze = ⊕.inr ≡.idn
