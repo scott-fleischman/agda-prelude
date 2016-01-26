@@ -23,6 +23,17 @@ module Fin∞ where
       → (i : Fin∞ (π n))
       → Fin∞ (su n)
 
+  module _ where
+    open import Prelude.Natural
+
+    ⊆nat : ∀ {n} → Fin∞ n → Nat
+    ⊆nat ze = ze
+    ⊆nat (su i) = su (⊆nat i)
+
+    ⊆nat∞ : ∀ {n} → Fin∞ n → Nat∞
+    ⊆nat∞ ze = ze
+    ⊆nat∞ (su i) = su [Nat∞].ι (⊆nat∞ i)
+
   Nat : Set
   Nat = Fin∞ ∞
 

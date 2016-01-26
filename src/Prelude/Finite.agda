@@ -3,6 +3,7 @@
 module Prelude.Finite where
 
 open import Agda.Primitive
+open import Prelude.Conatural
 open import Prelude.Monoidal.Coproduct
 open import Prelude.Natural
 
@@ -16,21 +17,25 @@ module Fin where
       → (i : Fin n)
       → Fin (su n)
 
-  max-inj₁ : {m n : Nat} → Fin m → Fin (Nat.max m n)
-  max-inj₁ {ze} ()
-  max-inj₁ {su m} {ze} i = i
-  max-inj₁ {su m} {su n} ze = ze
-  max-inj₁ {su m} {su n} (su i) = su (max-inj₁ i)
+  ⊆nat : ∀ {n} → Fin n → Nat
+  ⊆nat ze = ze
+  ⊆nat (su i) = su (⊆nat i)
 
-  max-inj₂ : {m n : Nat} → Fin n → Fin (Nat.max m n)
-  max-inj₂ {ze} i = i
-  max-inj₂ {su m} {ze} ()
-  max-inj₂ {su m} {su n} ze = ze
-  max-inj₂ {su m} {su n} (su i) = su (max-inj₂ {m} i)
+  ⊆nat∞ : ∀ {n} → Fin n → Nat∞
+  ⊆nat∞ ze = ze
+  ⊆nat∞ (su i) = su [Nat∞].ι (⊆nat∞ i)
 
-  to-nat : {n : Nat} → Fin n → Nat
-  to-nat ze = ze
-  to-nat (su i) = su to-nat i
+  max-inl : ∀ {m n} → Fin m → Fin (Nat.max m n)
+  max-inl {ze} ()
+  max-inl {su m} {ze} i = i
+  max-inl {su m} {su n} ze = ze
+  max-inl {su m} {su n} (su i) = su (max-inl i)
+
+  max-inr : ∀ {m n} → Fin n → Fin (Nat.max m n)
+  max-inr {ze} i = i
+  max-inr {su m} {ze} ()
+  max-inr {su m} {su n} ze = ze
+  max-inr {su m} {su n} (su i) = su (max-inr {m} i)
 
 open Fin public
   hiding (module Fin)
