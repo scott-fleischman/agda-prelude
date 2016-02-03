@@ -38,7 +38,7 @@ module List where
   len (_ ∷ xs) = su (len xs)
 
   map
-    : ∀ ..{s ℓ₀ ℓ₁} {A : Set ℓ₀} {B : Set ℓ₁}
+    : ∀ .{s}..{ℓ₀ ℓ₁} {A : Set ℓ₀} {B : Set ℓ₁}
     → (A → B)
     → List {s} A
     → List {s} B

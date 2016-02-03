@@ -28,7 +28,7 @@ module Vec where
   (x ∷ xs) ++ ys = x ∷ (xs ++ ys)
 
   map
-    : ∀ ..{s ℓ}
+    : ∀ .{s}..{ℓ}
     → ∀ {A : Set ℓ} {B : Set} {n}
     → (f : A → B)
     → (Vec {s} A n → Vec {s} B n)
