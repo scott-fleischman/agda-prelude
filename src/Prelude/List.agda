@@ -38,7 +38,8 @@ module List where
   len (_ ∷ xs) = su (len xs)
 
   map
-    : ∀ .{s}..{ℓ₀ ℓ₁} {A : Set ℓ₀} {B : Set ℓ₁}
+    : ∀ .{s}..{ℓ₀ ℓ₁}
+    → {A : Set ℓ₀}{B : Set ℓ₁}
     → (A → B)
     → List {s} A
     → List {s} B
@@ -67,6 +68,7 @@ module List where
 
   module ⊢ where
     open import Prelude.Path
+    open import Prelude.Monoidal.Exponential
 
     λ⇒
       : ∀ ..{ℓ} {A : Set ℓ}
@@ -78,33 +80,66 @@ module List where
       : ∀ ..{ℓ} {A : Set ℓ}
       → (xs : List A)
       → xs ≡ ([] ++ xs)
-    λ⇐ xs = λ⇒ xs ≡.⁻¹
+    λ⇐ [] = ≡.idn
+    λ⇐ (x ∷ xs) = ≡.ap¹ (_∷_ x) (λ⇐ xs)
 
     ρ⇒
       : ∀ ..{ℓ} {A : Set ℓ}
       → (xs : List A)
       → (xs ++ []) ≡ xs
     ρ⇒ [] = ≡.idn
-    ρ⇒ (x ∷ xs) = ≡.ap¹ (λ X → x ∷ X) (ρ⇒ xs)
+    ρ⇒ (x ∷ xs) = ≡.ap¹ (_∷_ x) (ρ⇒ xs)
 
     ρ⇐
       : ∀ ..{ℓ} {A : Set ℓ}
       → (xs : List A)
       → xs ≡ (xs ++ [])
-    ρ⇐ xs = ρ⇒ xs ≡.⁻¹
+    ρ⇐ [] = ≡.idn
+    ρ⇐ (x ∷ xs) = ≡.ap¹ (_∷_ x) (ρ⇐ xs)
 
     α⇒
       : ∀ ..{ℓ} {A : Set ℓ}
-      → (xs ys zs : List A)
+      → (xs : List A)
+      → {ys zs : List A}
       → ((xs ++ ys) ++ zs) ≡ (xs ++ (ys ++ zs))
-    α⇒ [] ys zs = ≡.idn
-    α⇒ (x ∷ xs) ys zs = ≡.ap¹ (λ X → x ∷ X) (α⇒ xs ys zs)
+    α⇒ [] = ≡.idn
+    α⇒ (x ∷ xs) = ≡.ap¹ (_∷_ x) (α⇒ xs)
 
     α⇐
       : ∀ ..{ℓ} {A : Set ℓ}
-      → (xs ys zs : List A)
+      → (xs : List A)
+      → {ys zs : List A}
       → (xs ++ (ys ++ zs)) ≡ ((xs ++ ys) ++ zs)
-    α⇐ xs ys zs = α⇒ xs ys zs ≡.⁻¹
+    α⇐ [] = ≡.idn
+    α⇐ (x ∷ xs) = ≡.ap¹ (_∷_ x) (α⇐ xs)
+
+    map-↻
+      : {A : Set}
+      → {xs : List A}
+      → xs ≡ map ⇒.↻ xs
+    map-↻ {xs = []} =
+      ≡.idn
+    map-↻ {A}{xs = x ∷ xs} =
+      ≡.ap¹ (_∷_ x) map-↻
+
+    map-⟔
+      : {A B C : Set}
+      → {xs : List A}
+      → {f : A → B}
+      → {g : B → C}
+      → map g (map f xs) ≡ map (g ⇒.⟔ f) xs
+    map-⟔ {xs = []}{f}{g} =
+      ≡.idn
+    map-⟔ {xs = x ∷ xs}{f}{g} =
+      ≡.ap¹ (_∷_ (g (f x))) map-⟔
+
+    map-⟓
+      : {A B C : Set}
+      → {xs : List A}
+      → {f : A → B}
+      → {g : B → C}
+      → map g (map f xs) ≡ map (f ⇒.⟓ g) xs
+    map-⟓ = map-⟔
 
 open List public
   using (List)

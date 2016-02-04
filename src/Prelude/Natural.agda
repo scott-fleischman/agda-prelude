@@ -116,6 +116,44 @@ module Nat where
   su m ≤? su n | ⊕.inr φ =
     ⊕.inr (s≤s φ)
 
+  module ⊢ where
+    open import Prelude.Path
+
+    λ⇒
+      : ∀ {n}
+      → 0 + n ≡ n
+    λ⇒ = ≡.idn
+
+    λ⇐
+      : ∀ {n}
+      → n ≡ 0 + n
+    λ⇐ {ze} = ≡.idn
+    λ⇐ {su n} = ≡.ap¹ su_ λ⇐
+
+    ρ⇒
+      : ∀ {n}
+      → n + 0 ≡ n
+    ρ⇒ {ze} = ≡.idn
+    ρ⇒ {su n} = ≡.ap¹ su_ ρ⇒
+
+    ρ⇐
+      : ∀ {n}
+      → n ≡ n + 0
+    ρ⇐ {ze} = ≡.idn
+    ρ⇐ {su n} = ≡.ap¹ su_ ρ⇐
+
+    α⇒
+      : ∀ m {n o}
+      → (m + n) + o ≡ m + (n + o)
+    α⇒ ze = ≡.idn
+    α⇒ (su m) = ≡.ap¹ su_ (α⇒ m)
+
+    α⇐
+      : ∀ m {n o}
+      → m + (n + o) ≡ (m + n) + o
+    α⇐ ze = ≡.idn
+    α⇐ (su m) = ≡.ap¹ su_ (α⇐ m)
+
 open Nat public
   using (Nat)
   using (ze)
