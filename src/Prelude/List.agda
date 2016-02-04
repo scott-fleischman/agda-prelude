@@ -194,7 +194,7 @@ module List where
       → □ φ (x ∷ xs)
 
   ◇?
-    : ∀ ..{s}..{ℓ₀ ℓ₁}
+    : ∀ .{s}..{ℓ₀ ℓ₁}
     → {A : Set ℓ₀}
     → {Φ : A → Set ℓ₁}
     → (ω : ∀ a → Decidable (Φ a))
@@ -213,7 +213,7 @@ module List where
     ⊕.inr (step φ)
 
   □?
-    : ∀ ..{s}..{ℓ₀ ℓ₁}
+    : ∀ .{s}..{ℓ₀ ℓ₁}
     → {A : Set ℓ₀}
     → {Φ : A → Set ℓ₁}
     → (ω : ∀ a → Decidable (Φ a))
