@@ -165,7 +165,6 @@ module Vec where
     map-⟓
       : ∀ ..{ℓ₀ ℓ₁ ℓ₂}{n}
       → {A : Set ℓ₀}{B : Set ℓ₁}{C : Set ℓ₂}
-      → {A B C : Set}
       → {xs : Vec A n}
       → {f : A → B}
       → {g : B → C}
