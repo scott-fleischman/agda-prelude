@@ -69,6 +69,15 @@ module List where
     Monad.#.return monad = return
     Monad.#.bind monad = bind
 
+  rep
+    : ∀ ..{ℓ}
+    → {A : Set ℓ}
+    → Nat
+    → A
+    → List A
+  rep (ze) a = []
+  rep (su n) a = a ∷ rep n a
+
   module ⊢ where
     open import Prelude.Path
     open import Prelude.Monoidal.Exponential

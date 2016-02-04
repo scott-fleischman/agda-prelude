@@ -65,6 +65,15 @@ module Vec where
     → Vec A n
   tail (x ∷ xs) = xs
 
+  rep
+    : ∀ ..{ℓ}
+    → {A : Set ℓ}
+    → (n : Nat)
+    → A
+    → Vec A n
+  rep (ze) a = []
+  rep (su n) a = a ∷ rep n a
+
   module ⊢ where
     open import Prelude.Monoidal.Exponential
     open import Prelude.Path
