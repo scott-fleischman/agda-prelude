@@ -180,6 +180,39 @@ module Vec where
       → map g (map f xs) ≡ map (f ⇒.⟓ g) xs
     map-⟓ = map-⟔
 
+  data ◇ ..{s}..{ℓ₀ ℓ₁}
+    {A : Set ℓ₀}
+    (φ : Nat → A → Set ℓ₁)
+    : ∀ {n}
+    → Vec A n
+    → Set (ℓ₀ ⊔ ℓ₁)
+    where
+    stop
+      : ∀ {n x}{xs : Vec A n}
+      → φ n x
+      → ◇ φ (x ∷ xs)
+    step
+      : ∀ .{s′ : Size.< s}
+      → ∀ {n x}{xs : Vec A n}
+      → ◇ {s′} φ xs
+      → ◇ φ (x ∷ xs)
+
+  data □ ..{s}..{ℓ₀ ℓ₁}
+    {A : Set ℓ₀}
+    (φ : Nat → A → Set ℓ₁)
+    : ∀ {n}
+    → Vec A n
+    → Set (ℓ₀ ⊔ ℓ₁)
+    where
+    stop
+      : □ φ []
+    step
+      : ∀ .{s′ : Size.< s}
+      → ∀ {n x}{xs : Vec A n}
+      → φ n x
+      → □ {s′} φ xs
+      → □ φ (x ∷ xs)
+
 open Vec public
   hiding (module Vec)
   using (Vec)

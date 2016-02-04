@@ -159,6 +159,37 @@ module List where
       → map g (map f xs) ≡ map (f ⇒.⟓ g) xs
     map-⟓ = map-⟔
 
+  data ◇ ..{s}..{ℓ₀ ℓ₁}
+    {A : Set ℓ₀}
+    (φ : A → Set ℓ₁)
+    : List A
+    → Set (ℓ₀ ⊔ ℓ₁)
+    where
+    stop
+      : ∀ {x xs}
+      → φ x
+      → ◇ φ (x ∷ xs)
+    step
+      : ∀ .{s′ : Size.< s}
+      → ∀ {x xs}
+      → ◇ {s′} φ xs
+      → ◇ φ (x ∷ xs)
+
+  data □ ..{s}..{ℓ₀ ℓ₁}
+    {A : Set ℓ₀}
+    (φ : A → Set ℓ₁)
+    : List A
+    → Set (ℓ₀ ⊔ ℓ₁)
+    where
+    stop
+      : □ φ []
+    step
+      : ∀ .{s′ : Size.< s}
+      → ∀ {x xs}
+      → φ x
+      → □ {s′} φ xs
+      → □ φ (x ∷ xs)
+
 open List public
   using (List)
   using ([])
