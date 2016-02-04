@@ -24,7 +24,8 @@ module List where
       → List {s} A
 
   _++_
-    : ∀ ..{s ℓ} {A : Set ℓ}
+    : ∀ ..{s ℓ}
+    → {A : Set ℓ}
     → List {s} A
     → List {s} A
     → List {Size.∞} A
@@ -32,7 +33,8 @@ module List where
   (x ∷ xs) ++ ys = x ∷ (xs ++ ys)
 
   len
-    : ∀ ..{ℓ} {A : Set ℓ}
+    : ∀ ..{ℓ}
+    → {A : Set ℓ}
     → List A → Nat
   len [] = ze
   len (_ ∷ xs) = su (len xs)
@@ -52,7 +54,8 @@ module List where
   return = _∷ []
 
   bind
-    : ∀ ..{s ℓ₀ ℓ₁} {A : Set ℓ₀} {B : Set ℓ₁}
+    : ∀ ..{s ℓ₀ ℓ₁}
+    → {A : Set ℓ₀}{B : Set ℓ₁}
     → (A → List {s} B)
     → (List {s} A → List {Size.∞} B)
   bind k [] = []
@@ -71,34 +74,39 @@ module List where
     open import Prelude.Monoidal.Exponential
 
     λ⇒
-      : ∀ ..{ℓ} {A : Set ℓ}
+      : ∀ ..{ℓ}
+      → {A : Set ℓ}
       → (xs : List A)
       → ([] ++ xs) ≡ xs
     λ⇒ xs = ≡.idn
 
     λ⇐
-      : ∀ ..{ℓ} {A : Set ℓ}
+      : ∀ ..{ℓ}
+      → {A : Set ℓ}
       → (xs : List A)
       → xs ≡ ([] ++ xs)
     λ⇐ [] = ≡.idn
     λ⇐ (x ∷ xs) = ≡.ap¹ (_∷_ x) (λ⇐ xs)
 
     ρ⇒
-      : ∀ ..{ℓ} {A : Set ℓ}
+      : ∀ ..{ℓ}
+      → {A : Set ℓ}
       → (xs : List A)
       → (xs ++ []) ≡ xs
     ρ⇒ [] = ≡.idn
     ρ⇒ (x ∷ xs) = ≡.ap¹ (_∷_ x) (ρ⇒ xs)
 
     ρ⇐
-      : ∀ ..{ℓ} {A : Set ℓ}
+      : ∀ ..{ℓ}
+      → {A : Set ℓ}
       → (xs : List A)
       → xs ≡ (xs ++ [])
     ρ⇐ [] = ≡.idn
     ρ⇐ (x ∷ xs) = ≡.ap¹ (_∷_ x) (ρ⇐ xs)
 
     α⇒
-      : ∀ ..{ℓ} {A : Set ℓ}
+      : ∀ ..{ℓ}
+      → {A : Set ℓ}
       → (xs : List A)
       → {ys zs : List A}
       → ((xs ++ ys) ++ zs) ≡ (xs ++ (ys ++ zs))
@@ -106,7 +114,8 @@ module List where
     α⇒ (x ∷ xs) = ≡.ap¹ (_∷_ x) (α⇒ xs)
 
     α⇐
-      : ∀ ..{ℓ} {A : Set ℓ}
+      : ∀ ..{ℓ}
+      → {A : Set ℓ}
       → (xs : List A)
       → {ys zs : List A}
       → (xs ++ (ys ++ zs)) ≡ ((xs ++ ys) ++ zs)
