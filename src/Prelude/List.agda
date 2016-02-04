@@ -3,12 +3,15 @@
 module Prelude.List where
 
 open import Agda.Primitive
-open import Prelude.Size
+open import Prelude.Decidable
 open import Prelude.Functor
   using (Functor)
 open import Prelude.Monad
-open import Prelude.Natural
+open import Prelude.Monoidal.Coproduct
+open import Prelude.Monoidal.Void
 open import Prelude.Monoidal.Product.Indexed
+open import Prelude.Natural
+open import Prelude.Size
 
 module List where
   infixr 1 _∷_
@@ -189,6 +192,42 @@ module List where
       → φ x
       → □ {s′} φ xs
       → □ φ (x ∷ xs)
+
+  ◇?
+    : ∀ ..{s}..{ℓ₀ ℓ₁}
+    → {A : Set ℓ₀}
+    → {Φ : A → Set ℓ₁}
+    → (ω : ∀ a → Decidable (Φ a))
+    → (xs : List {s} A)
+    → Decidable (◇ Φ xs)
+  ◇? ω [] = ⊕.inl λ()
+  ◇? ω (x ∷ xs) with ω x
+  ◇? ω (x ∷ xs) | ⊕.inr φ = ⊕.inr (stop φ)
+  ◇? ω (x ∷ xs) | ⊕.inl k with ◇? ω xs
+  ◇? ω (x ∷ xs) | ⊕.inl k₀ | ⊕.inl k₁ =
+    ⊕.inl λ
+      { (stop φ) → k₀ φ
+      ; (step φ) → k₁ φ
+      }
+  ◇? ω (x ∷ xs) | ⊕.inl k  | ⊕.inr φ =
+    ⊕.inr (step φ)
+
+  □?
+    : ∀ ..{s}..{ℓ₀ ℓ₁}
+    → {A : Set ℓ₀}
+    → {Φ : A → Set ℓ₁}
+    → (ω : ∀ a → Decidable (Φ a))
+    → (xs : List {s} A)
+    → Decidable (□ Φ xs)
+  □? ω [] = ⊕.inr stop
+  □? ω (x ∷ xs) with ω x
+  □? ω (x ∷ xs) | ⊕.inl k =
+    ⊕.inl λ { (step φ _) → k φ }
+  □? ω (x ∷ xs) | ⊕.inr φ with □? ω xs
+  □? ω (x ∷ xs) | ⊕.inr φ | ⊕.inl k =
+    ⊕.inl λ { (step _ φ*) → k φ* }
+  □? ω (x ∷ xs) | ⊕.inr φ | ⊕.inr φ* =
+    ⊕.inr (step φ φ*)
 
 open List public
   using (List)
