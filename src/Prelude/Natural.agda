@@ -14,6 +14,9 @@ open import Prelude.Size
 module Nat where
   infix 0 _≟_
   infix 0 _≤?_
+  infix 0 _<?_
+  infix 0 _≥?_
+  infix 0 _>?_
 
   data Nat : Set where
     ze : Nat
@@ -37,10 +40,22 @@ module Nat where
 
   module ≤ where
     infix 0 _≤_
+    infix 0 _<_
+    infix 0 _≥_
+    infix 0 _>_
 
     data _≤_ (m : Nat) : Nat → Set where
       stop : m ≤ m
       step : ∀ {n} (φ : m ≤ n) → m ≤ su n
+
+    _<_ : (m n : Nat) → Set
+    m < n = su m ≤ n
+
+    _≥_ : (n m : Nat) → Set
+    n ≥ m = m ≤ n
+
+    _>_ : (n m : Nat) → Set
+    n > m = n ≥ su m
 
     idn : ∀ {n} → n ≤ n
     idn = stop
@@ -67,6 +82,9 @@ module Nat where
   open ≤ public
     hiding (module _≤_)
     using (_≤_)
+    using (_<_)
+    using (_≥_)
+    using (_>_)
     using (stop)
     using (step)
   open ≤
@@ -115,6 +133,15 @@ module Nat where
     ⊕.inl (k ⇒.⟔ p≤p)
   su m ≤? su n | ⊕.inr φ =
     ⊕.inr (s≤s φ)
+
+  _<?_ : (m n : Nat) → Decidable (m < n)
+  m <? n = su m ≤? n
+
+  _≥?_ : (n m : Nat) → Decidable (n ≥ m)
+  n ≥? m = m ≤? n
+
+  _>?_ : (n m : Nat) → Decidable (n > m)
+  n >? m = n ≥? su m
 
   module ⊢ where
     open import Prelude.Path
