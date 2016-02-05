@@ -33,7 +33,7 @@ record Monad ..{ℓ₀ ℓ₁}
 
   syntax bind (λ x → v) m = x ⇐ m ▸ v
 
-  applicative : Applicative M ⦃ fun = fun ⦄
+  applicative : Applicative M
   Applicative.pure applicative = return_
   Applicative.apply applicative mf mx =
     seq
