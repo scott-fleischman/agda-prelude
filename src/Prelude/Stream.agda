@@ -4,6 +4,7 @@ module Prelude.Stream where
 
 open import Agda.Primitive
 open import Prelude.Comonad
+  using (Comonad)
 open import Prelude.Functor
   using (Functor)
 open import Prelude.List
@@ -125,11 +126,11 @@ module Stream where
 
   instance
     functor : ∀ ..{ℓ} → Functor (Stream {ℓ = ℓ})
-    Functor.#.map functor = map
+    Functor.map functor = map
 
     comonad : ∀ ..{ℓ} → Comonad (Stream {ℓ = ℓ})
-    Comonad.#.extract comonad = extract
-    Comonad.#.extend comonad = extend
+    Comonad.extract comonad = extract
+    Comonad.extend comonad = extend
 
   tab : ∀ ..{ℓ} {A : Set ℓ}
     → (f : Nat → A)

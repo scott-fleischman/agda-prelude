@@ -3,9 +3,12 @@
 module Prelude.Stage where
 
 open import Agda.Primitive
+open import Prelude.Applicative
+  using (Applicative)
 open import Prelude.Functor
   using (Functor)
 open import Prelude.Monad
+  using (Monad)
 open import Prelude.Size
 
 mutual
@@ -31,8 +34,8 @@ step : ∀ ..{ℓ} {A : Set ℓ} → Stage A → Stage A
 step (stop x) = stop x
 step (hold m) = π m
 
-return : ∀ ..{s ℓ} {A : Set ℓ} → A → Stage {s} A
-return = stop
+pure_ : ∀ ..{s ℓ} {A : Set ℓ} → A → Stage {s} A
+pure_ = stop
 
 mutual
   map
@@ -68,8 +71,11 @@ mutual
 
 instance
   functor : ∀ ..{s ℓ} → Functor (Stage {s}{ℓ})
-  Functor.#.map functor = map
+  Functor.map functor = map
 
   monad : ∀ ..{s ℓ} → Monad (Stage {s}{ℓ})
-  Monad.#.return monad = return
-  Monad.#.bind monad = bind
+  Monad.return monad = pure_
+  Monad.bind monad = bind
+
+  applicative : ∀ ..{s ℓ} → Applicative (Stage {s}{ℓ = ℓ})
+  applicative = Monad.applicative monad

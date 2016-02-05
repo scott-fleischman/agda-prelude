@@ -5,6 +5,7 @@ module Prelude.Signature where
 open import Agda.Primitive
 open import Prelude.Families
 open import Prelude.Functor
+  using (Functor)
 open import Prelude.Monoidal.Coproduct
 open import Prelude.Monoidal.Coproduct.Indexed
 open import Prelude.Monoidal.Diagonal
@@ -86,7 +87,7 @@ module Sig where
 
   instance
     functor : ∀ {Σ} → Functor ⟦ Σ ⟧◃
-    Functor.#.map (functor {Σ}) = map Σ
+    Functor.map (functor {Σ}) = map Σ
 
 open Sig public
   using (Sig)

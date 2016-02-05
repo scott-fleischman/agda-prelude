@@ -12,7 +12,7 @@ record Applicative ..{ℓ₀ ℓ₁}
     : Set (lsuc ℓ₀ ⊔ ℓ₁) where
   infixl 1 _⊛_
   field
-    pure : ∀ {A} → A → T A
+    pure_ : ∀ {A} → A → T A
     apply : ∀ {A B} → T (A → B) → (T A → T B)
 
   _⊛_ : ∀ {A B} → T (A → B) → (T A → T B)

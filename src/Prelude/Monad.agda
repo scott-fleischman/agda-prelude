@@ -7,47 +7,51 @@ open import Prelude.Applicative
 open import Prelude.Functor
 open import Prelude.Monoidal.Product.Indexed
 
-module Monad where
-  record # ..{ℓ₀ ℓ₁}
-    (M : Set ℓ₀ → Set ℓ₁)
-    ⦃ fun : Functor M ⦄
-      : Set (lsuc ℓ₀ ⊔ ℓ₁) where
-    infixr 0 _=≪_
-    infixl 0 _≫=_
-    field
-      return : ∀ {A} → A → M A
-      bind : ∀ {A B} → (A → M B) → (M A → M B)
+infix 0 seq_
+infix 0 [_]
 
-    _=≪_ : ∀ {A B} → (A → M B) → (M A → M B)
-    _=≪_ = bind
+pattern seq_ x = x
+pattern [_] x = x
 
-    _≫=_ : ∀ {A B} → M A → (A → M B) → M B
-    m ≫= k = bind k m
+record Monad ..{ℓ₀ ℓ₁}
+  (M : Set ℓ₀ → Set ℓ₁)
+  ⦃ fun : Functor M ⦄
+    : Set (lsuc ℓ₀ ⊔ ℓ₁) where
+  infixr 1 bind
+  infixr 1 _=≪_
+  infixl 1 _≫=_
 
-    instance
-      applicative : Applicative M
-      applicative = record
-        { pure = return
-        ; apply = λ fm fx →
-            fm ≫= λ f →
-            fx ≫= λ x →
-            return (f x)
-        }
+  field
+    return_ : ∀ {A} → A → M A
+    bind : ∀ {A B} → (A → M B) → (M A → M B)
 
-    open Applicative applicative public
+  _=≪_ : ∀ {A B} → (A → M B) → (M A → M B)
+  _=≪_ = bind
 
-  module Ext ..{ℓ}
-    {M : Set ℓ → Set ℓ}
-    ⦃ fun : Functor M ⦄
-    ⦃ mon : # M ⦄ where
+  _≫=_ : ∀ {A B} → M A → (A → M B) → M B
+  m ≫= k = bind k m
 
-    join : ∀ {A} → M (M A) → M A
-    join = #.bind {M = M} {fun = fun} mon Π.idn
-  open Ext ⦃ … ⦄ public
+  syntax bind (λ x → v) m = x ⇐ m ▸ v
 
-  open # ⦃ … ⦄ public
+  applicative : Applicative M ⦃ fun = fun ⦄
+  Applicative.pure applicative = return_
+  Applicative.apply applicative mf mx =
+    seq
+      [ f ⇐ mf
+      ▸ x ⇐ mx
+      ▸ return f x
+      ]
 
-open Monad public
-  renaming (# to Monad)
-  hiding (module #)
-  using ()
+  open Applicative applicative public
+
+module Ext ..{ℓ}
+  {M : Set ℓ → Set ℓ}
+  ⦃ fun : Functor M ⦄
+  ⦃ mon : Monad M ⦄
+  where
+
+  join : ∀ {A} → M (M A) → M A
+  join = Monad.bind {M = M} {fun = fun} mon Π.idn
+
+open Ext ⦃ … ⦄ public
+open Monad ⦃ … ⦄ public

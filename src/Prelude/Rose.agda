@@ -4,10 +4,14 @@ module Prelude.Rose where
 
 open import Agda.Primitive
 open import Prelude.Applicative
+  using (Applicative)
 open import Prelude.Comonad
-open import Prelude.Functor using (Functor)
+  using (Comonad)
+open import Prelude.Functor
+  using (Functor)
 open import Prelude.List
 open import Prelude.Monad
+  using (Monad)
 open import Prelude.Monoidal.Product.Indexed
 open import Prelude.Size
 open import Prelude.String
@@ -26,10 +30,10 @@ module Rose where
     → (Rose {s} A → Rose {s} B)
   map {s} f (node {s′} head tail) = node (f head) (List.map (map f) tail)
 
-  return
+  pure_
     : ∀ ..{ℓ} {A : Set ℓ}
     → A → Rose A
-  return x = node x []
+  pure_ x = node x []
 
   bind
     : ∀ ..{s₀ s₁ ℓ₀ ℓ₁} {A : Set ℓ₀} {B : Set ℓ₁}
@@ -56,18 +60,18 @@ module Rose where
 
   instance
     functor : ∀ ..{ℓ} → Functor (Rose {ℓ = ℓ})
-    Functor.#.map functor = map
+    Functor.map functor = map
 
     monad : ∀ ..{ℓ} → Monad (Rose {ℓ = ℓ})
-    Monad.#.return monad = return
-    Monad.#.bind monad = bind
+    Monad.return monad = pure_
+    Monad.bind monad = bind
 
     applicative : ∀ ..{ℓ} → Applicative (Rose {ℓ = ℓ})
-    applicative = Monad.applicative
+    applicative = Monad.applicative monad
 
     comonad : ∀ ..{ℓ} → Comonad (Rose {ℓ = ℓ})
-    Comonad.#.extract comonad = extract
-    Comonad.#.extend comonad = extend
+    Comonad.extract comonad = extract
+    Comonad.extend comonad = extend
 
 open Rose public
   using (Rose)

@@ -4,9 +4,16 @@ module Prelude.List where
 
 open import Agda.Primitive
 open import Prelude.Decidable
+open import Prelude.Applicative
+  using (Applicative)
 open import Prelude.Functor
   using (Functor)
 open import Prelude.Monad
+  using (Monad)
+  using (bind)
+  using (_≫=_)
+  using (seq_)
+  using ([_])
 open import Prelude.Monoidal.Coproduct
 open import Prelude.Monoidal.Void
 open import Prelude.Monoidal.Product.Indexed
@@ -51,26 +58,29 @@ module List where
   map f [] = []
   map f (x ∷ xs) = f x ∷ map f xs
 
-  return
+  pure_
     : ∀ ..{ℓ} {A : Set ℓ}
     → A → List A
-  return = _∷ []
+  pure_ = _∷ []
 
-  bind
+  bind*
     : ∀ ..{s ℓ₀ ℓ₁}
     → {A : Set ℓ₀}{B : Set ℓ₁}
     → (A → List {s} B)
     → (List {s} A → List {Size.∞} B)
-  bind k [] = []
-  bind k (x ∷ xs) = k x ++ bind k xs
+  bind* k [] = []
+  bind* k (x ∷ xs) = k x ++ bind* k xs
 
   instance
     functor : ∀ ..{ℓ} → Functor (List {ℓ = ℓ})
-    Functor.#.map functor = map
+    Functor.map functor = map
 
     monad : ∀ ..{ℓ} → Monad (List {ℓ = ℓ})
-    Monad.#.return monad = return
-    Monad.#.bind monad = bind
+    Monad.return monad = pure_
+    Monad.bind monad = bind*
+
+    applicative : ∀ ..{ℓ} → Applicative (List {ℓ = ℓ})
+    applicative = Monad.applicative monad
 
   rep
     : ∀ ..{ℓ}
