@@ -31,14 +31,14 @@ record Monad ..{ℓ₀ ℓ₁}
   _≫=_ : ∀ {A B} → M A → (A → M B) → M B
   m ≫= k = bind k m
 
-  syntax bind (λ x → v) m = x ⇐ m ▸ v
+  syntax bind (λ x → v) m = x ← m ▸ v
 
   applicative : Applicative M
   Applicative.pure applicative = return_
   Applicative.apply applicative mf mx =
     seq
-      [ f ⇐ mf
-      ▸ x ⇐ mx
+      [ f ← mf
+      ▸ x ← mx
       ▸ return f x
       ]
 
