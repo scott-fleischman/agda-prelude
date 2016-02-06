@@ -45,4 +45,5 @@ import Prelude.Size
 import Prelude.Stage
 import Prelude.Stream
 import Prelude.String
+import Prelude.Unsafe
 import Prelude.Vector
