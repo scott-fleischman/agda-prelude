@@ -35,6 +35,7 @@ import Prelude.Natural
 import Prelude.Path
 import Prelude.Point
 import Prelude.Rose
+import Prelude.Rose.Higher
 import Prelude.Signature
 import Prelude.Signature.Indexed
 import Prelude.Signature.Weighted
