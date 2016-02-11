@@ -12,33 +12,33 @@ open import Prelude.Functor
   using (Functor)
 open import Prelude.Monad
   using (Monad)
-open import Prelude.Natural
 open import Prelude.Size
 
 infixl 0 _∷_
 
 private
-  module M where
+  module P where
+    open import Prelude.Natural public
     open import Prelude.Monoidal.Unit public
 
 mutual
-  data Rose⇑ ..{s} (A : Set) : (n : Nat) → Set where
+  data Rose⇑ ..{s} (A : Set) : (n : P.Nat) → Set where
     _∷_
       : ∀ .{s′ : Size.< s}
       → ∀ {n}
       → (a : A)
-      → (ω : Tree⇑ (Rose⇑ {s′} A (su n)) n)
-      → Rose⇑ A (su n)
+      → (ω : Tree⇑ (Rose⇑ {s′} A (P.su n)) n)
+      → Rose⇑ A (P.su n)
 
-  data Tree⇑ ..{s} (A : Set) (n : Nat) : Set where
+  data Tree⇑ ..{s} (A : Set) (n : P.Nat) : Set where
     []  : Tree⇑ A n
     [_] : (ψ : Rose⇑ {s} A n) → Tree⇑ A n
 
-Rose[_] : ∀ (n : Nat) ..{s} (A : Set) → Set
+Rose[_] : ∀ (n : P.Nat) ..{s} (A : Set) → Set
 Rose[ n ] {s} A = Rose⇑ {s} A n
 {-# DISPLAY Rose⇑ {s} A n = Rose[ n ] {s} A #-}
 
-Tree[_] : ∀ (n : Nat) ..{s} (A : Set) → Set
+Tree[_] : ∀ (n : P.Nat) ..{s} (A : Set) → Set
 Tree[ n ] {s} A = Tree⇑ {s} A n
 {-# DISPLAY Tree⇑ {s} A n = Tree[ n ] {s} A #-}
 
@@ -133,16 +133,6 @@ open List
   using ([]·)
   using (_∷·_)
 
-module Positive where
-  Positive : Set
-  Positive = Rose[ 2 ] M.𝟙
-
-  one : Positive
-  one = []+ M.*
-
-  succ : Positive → Positive
-  succ n = M.* ∷+ n
-
 module Rose where
   Rose : (A : Set) → Set
   Rose A = Rose[ 3 ] A
@@ -170,6 +160,30 @@ open Tree
   using (leaf)
   using (node)
 
+module Positive where
+  Pos : Set
+  Pos = Rose[ 2 ] P.𝟙
+
+  one+ : Pos
+  one+ = []+ P.*
+
+  su+ : Pos → Pos
+  su+ n = P.* ∷+ n
+
+module Natural where
+  Nat : Set
+  Nat = Tree[ 2 ] P.𝟙
+
+  ze : Nat
+  ze = []·
+
+  su : Nat → Nat
+  su n = P.* ∷· n
+
+open P
+  using (ze)
+  using (su_)
+
 mutual
   tree-map
     : ∀ ..{s}
@@ -193,8 +207,8 @@ mutual
     : ∀ {n}
     → {A : Set}
     → A
-    → Tree[ n ] (Rose[ su n ] A)
-    → Tree[ n ] (Rose[ su n ] A)
+    → Tree[ n ] (Rose[ P.su n ] A)
+    → Tree[ n ] (Rose[ P.su n ] A)
   tree-rose-∷ {ze} v ω = ω
   tree-rose-∷ {su n} v [] = [ v ∷ [] ∷ [] ]
   tree-rose-∷ {su n} v [ ψ ∷ ω ] = [ v ∷ [ ψ ∷ [] ] ∷ ω ]
