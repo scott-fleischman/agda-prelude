@@ -280,11 +280,11 @@ rose-pure
 rose-pure a = a ∷ []
 
 rose-bind
-  : ∀ ..{s₀ s₁}
+  : ∀ ..{s}
   → ∀ {n}
   → {A B : Set}
-  → (A → Rose[ n ] {s₀} B)
-  → (Rose[ n ] {s₁} A → Rose[ n ] B)
+  → (A → Rose[ n ] B)
+  → (Rose[ n ] {s} A → Rose[ n ] B)
 rose-bind {n = ze} k ()
 rose-bind {n = su n} k (a₀ ∷ ω₀) with k a₀
 … | a₁ ∷ ω₁ = a₁ ∷ tree-rose-++ ω₁ (tree-map (rose-bind k) ω₀)
@@ -297,11 +297,11 @@ tree-pure
 tree-pure a = [ rose-pure a ]
 
 tree-bind
-  : ∀ ..{s₀ s₁}
+  : ∀ ..{s}
   → ∀ {n}
   → {A B : Set}
-  → (A → Tree[ n ] {s₀} B)
-  → (Tree[ n ] {s₁} A → Tree[ n ] B)
+  → (A → Tree[ n ] B)
+  → (Tree[ n ] {s} A → Tree[ n ] B)
 tree-bind k [] = []
 tree-bind k [ a₀ ∷ [] ] = k a₀
 tree-bind k [ a₀ ∷ [ ψ₀ ] ] with k a₀
