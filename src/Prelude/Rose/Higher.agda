@@ -42,6 +42,211 @@ Tree[_] : ∀ (n : P.Nat) ..{s} (A : Set) → Set
 Tree[ n ] {s} A = Tree⇑ {s} A n
 {-# DISPLAY Tree⇑ {s} A n = Tree[ n ] {s} A #-}
 
+module _ where
+  open P
+    using (ze)
+    using (su_)
+
+  mutual
+    tree-map
+      : ∀ ..{s}
+      → ∀ {n}
+      → {A B : Set}
+      → (k : A → B)
+      → (Tree[ n ] {s} A → Tree[ n ] {s} B)
+    tree-map k [] = []
+    tree-map k [ ψ ] = [ rose-map k ψ ]
+
+    rose-map
+      : ∀ ..{s}
+      → ∀ {n}
+      → {A B : Set}
+      → (k : A → B)
+      → (Rose[ n ] {s} A → Rose[ n ] {s} B)
+    rose-map k (a ∷ ω) = k a ∷ tree-map (rose-map k) ω
+
+  mutual
+    tree-rose-∷
+      : ∀ {n}
+      → {A : Set}
+      → A
+      → Tree[ n ] (Rose[ P.su n ] A)
+      → Tree[ n ] (Rose[ P.su n ] A)
+    tree-rose-∷ {ze} v ω = ω
+    tree-rose-∷ {su n} v [] = [ v ∷ [] ∷ [] ]
+    tree-rose-∷ {su n} v [ ψ ∷ ω ] = [ v ∷ [ ψ ∷ [] ] ∷ ω ]
+
+    tree-∷
+      : ∀ {n}
+      → {A : Set}
+      → A
+      → Tree[ su su n ] A
+      → Tree[ su su n ] A
+    tree-∷ v [] = [ v ∷ [] ]
+    tree-∷ v [ a ∷ ω ] = [ v ∷ tree-rose-∷ a ω ]
+
+  mutual
+    rose-rose-++
+      : ∀ {n}
+      → {A : Set}
+      → Rose[ n ] (Rose[ su n ] A)
+      → Rose[ n ] (Rose[ su n ] A)
+      → Rose[ n ] (Rose[ su n ] A)
+    rose-rose-++ (ψ₀ ∷ ω₀) (ψ₁ ∷ ω₁) = rose-++ ψ₀ ψ₁ ∷ tree-rose-++ ω₀ ω₁
+
+    rose-tree-++
+      : ∀ {n}
+      → {A : Set}
+      → Rose[ n ] (Tree[ su n ] A)
+      → Rose[ n ] (Tree[ su n ] A)
+      → Rose[ n ] (Tree[ su n ] A)
+    rose-tree-++ (ψ₀ ∷ ω₀) (ψ₁ ∷ ω₁) = tree-++ ψ₀ ψ₁ ∷ tree-rose-++ ω₀ ω₁
+
+    tree-rose-++
+      : ∀ {n}
+      → {A : Set}
+      → Tree[ n ] (Rose[ su n ] A)
+      → Tree[ n ] (Rose[ su n ] A)
+      → Tree[ n ] (Rose[ su n ] A)
+    tree-rose-++ [] ys = ys
+    tree-rose-++ xs [] = xs
+    tree-rose-++ [ ψ₀ ] [ ψ₁ ] = [ rose-rose-++ ψ₀ ψ₁ ]
+
+    tree-tree-++
+      : ∀ {n}
+      → {A : Set}
+      → Tree[ n ] (Tree[ su n ] A)
+      → Tree[ n ] (Tree[ su n ] A)
+      → Tree[ n ] (Tree[ su n ] A)
+    tree-tree-++ [] ys = ys
+    tree-tree-++ xs [] = xs
+    tree-tree-++ [ ψ₀ ] [ ψ₁ ] = [ rose-tree-++ ψ₀ ψ₁ ]
+
+    rose-++
+      : ∀ {n}
+      → {A : Set}
+      → Rose[ n ] A
+      → Rose[ n ] A
+      → Rose[ n ] A
+    rose-++ (a₀ ∷ ω₀) (a₁ ∷ ω₁) = a₀ ∷ tree-rose-++ ω₀ (tree-rose-∷ a₁ ω₁)
+
+    tree-++
+      : ∀ {n}
+      → {A : Set}
+      → Tree[ n ] A
+      → Tree[ n ] A
+      → Tree[ n ] A
+    tree-++ ω₀ [] = ω₀
+    tree-++ [] ω₁ = ω₁
+    tree-++ [ ψ₀ ] [ ψ₁ ] = [ rose-++ ψ₀ ψ₁ ]
+
+  tree-sequence
+    : ∀ ..{s}
+    → ∀ {n}
+    → {A : Set}
+    → Rose[ n ] {s} (Tree[ su n ] A)
+    → Tree[ n ] (Rose[ su n ] A)
+  tree-sequence ([] ∷ ω₁) = []
+  tree-sequence ([ ψ₀ ] ∷ []) = [ ψ₀ ∷ [] ]
+  tree-sequence ([ ψ₀ ] ∷ [ ψ₁ ]) = [ ψ₀ ∷ tree-sequence (rose-map tree-sequence ψ₁) ]
+
+  rose-pure
+    : ∀ {n}
+    → {A : Set}
+    → A
+    → Rose[ su n ] A
+  rose-pure a = a ∷ []
+
+  rose-bind
+    : ∀ ..{s}
+    → ∀ {n}
+    → {A B : Set}
+    → (A → Rose[ n ] B)
+    → (Rose[ n ] {s} A → Rose[ n ] B)
+  rose-bind {n = ze} k ()
+  rose-bind {n = su n} k (a₀ ∷ ω₀) with k a₀
+  … | a₁ ∷ ω₁ = a₁ ∷ tree-rose-++ ω₁ (tree-map (rose-bind k) ω₀)
+
+  extract
+    : ∀ {n}
+    → {A : Set}
+    → Rose[ n ] A
+    → A
+  extract (a ∷ ω) = a
+
+  extend
+    : ∀ ..{s}
+    → ∀ {n}
+    → {A B : Set}
+    → (Rose[ n ] A → B)
+    → (Rose[ n ] {s} A → Rose[ n ] B)
+  extend k (a ∷ ω) = k (a ∷ ω) ∷ tree-map (extend k) ω
+
+  tree-pure
+    : ∀ {n}
+    → {A : Set}
+    → A
+    → Tree[ su n ] A
+  tree-pure a = [ rose-pure a ]
+
+  tree-bind
+    : ∀ ..{s}
+    → ∀ {n}
+    → {A B : Set}
+    → (A → Tree[ n ] B)
+    → (Tree[ n ] {s} A → Tree[ n ] B)
+  tree-bind k [] = []
+  tree-bind k [ a₀ ∷ [] ] = k a₀
+  tree-bind k [ a₀ ∷ [ ψ₀ ] ] with k a₀
+  … | [] = []
+  … | [ a₁ ∷ ω₁ ] =
+    [
+      a₁ ∷
+        (tree-rose-++
+          ω₁
+          (tree-sequence (rose-map (λ x → tree-bind k [ x ]) ψ₀)))
+    ]
+
+  instance
+    rose-functor
+      : ∀ {n}
+      → Functor Rose[ n ]
+    Functor.map rose-functor = rose-map
+
+    rose-monad
+      : ∀ {n}
+      → Monad Rose[ su n ]
+    Monad.return rose-monad = rose-pure
+    Monad.bind rose-monad = rose-bind
+
+    rose-comonad
+      : ∀ {n}
+      → Comonad Rose[ su n ]
+    Comonad.extract rose-comonad = extract
+    Comonad.extend rose-comonad = extend
+
+    rose-applicative
+      : ∀ {n}
+      → Applicative Rose[ su n ]
+    rose-applicative = Monad.applicative rose-monad
+
+  instance
+    tree-functor
+      : ∀ {n}
+      → Functor Tree[ n ]
+    Functor.map tree-functor = tree-map
+
+    tree-monad
+      : ∀ {n}
+      → Monad Tree[ su n ]
+    Monad.return tree-monad = tree-pure
+    Monad.bind tree-monad = tree-bind
+
+    tree-applicative
+      : ∀ {n}
+      → Applicative Tree[ su n ]
+    tree-applicative = Monad.applicative tree-monad
+
 module Void where
   Void : (A : Set) → Set
   Void A = Rose[ 0 ] A
@@ -167,8 +372,11 @@ module Positive where
   one+ : Pos
   one+ = []+ P.*
 
-  su+ : Pos → Pos
-  su+ n = P.* ∷+ n
+  su+_ : Pos → Pos
+  su+_ n = P.* ∷+ n
+
+  add : Pos → Pos → Pos
+  add = rose-++
 
 module Natural where
   Nat : Set
@@ -177,209 +385,16 @@ module Natural where
   ze : Nat
   ze = []·
 
-  su : Nat → Nat
-  su n = P.* ∷· n
+  su_ : Nat → Nat
+  su_ n = P.* ∷· n
 
-open P
-  using (ze)
-  using (su_)
+  add : Nat → Nat → Nat
+  add = tree-++
 
-mutual
-  tree-map
-    : ∀ ..{s}
-    → ∀ {n}
-    → {A B : Set}
-    → (k : A → B)
-    → (Tree[ n ] {s} A → Tree[ n ] {s} B)
-  tree-map k [] = []
-  tree-map k [ ψ ] = [ rose-map k ψ ]
+  fromNat : P.Nat → Nat
+  fromNat (P.ze) = ze
+  fromNat (P.su n) = su (fromNat n)
 
-  rose-map
-    : ∀ ..{s}
-    → ∀ {n}
-    → {A B : Set}
-    → (k : A → B)
-    → (Rose[ n ] {s} A → Rose[ n ] {s} B)
-  rose-map k (a ∷ ω) = k a ∷ tree-map (rose-map k) ω
-
-mutual
-  tree-rose-∷
-    : ∀ {n}
-    → {A : Set}
-    → A
-    → Tree[ n ] (Rose[ P.su n ] A)
-    → Tree[ n ] (Rose[ P.su n ] A)
-  tree-rose-∷ {ze} v ω = ω
-  tree-rose-∷ {su n} v [] = [ v ∷ [] ∷ [] ]
-  tree-rose-∷ {su n} v [ ψ ∷ ω ] = [ v ∷ [ ψ ∷ [] ] ∷ ω ]
-
-  tree-∷
-    : ∀ {n}
-    → {A : Set}
-    → A
-    → Tree[ su su n ] A
-    → Tree[ su su n ] A
-  tree-∷ v [] = [ v ∷ [] ]
-  tree-∷ v [ a ∷ ω ] = [ v ∷ tree-rose-∷ a ω ]
-
-mutual
-  rose-rose-++
-    : ∀ {n}
-    → {A : Set}
-    → Rose[ n ] (Rose[ su n ] A)
-    → Rose[ n ] (Rose[ su n ] A)
-    → Rose[ n ] (Rose[ su n ] A)
-  rose-rose-++ (ψ₀ ∷ ω₀) (ψ₁ ∷ ω₁) = rose-++ ψ₀ ψ₁ ∷ tree-rose-++ ω₀ ω₁
-
-  rose-tree-++
-    : ∀ {n}
-    → {A : Set}
-    → Rose[ n ] (Tree[ su n ] A)
-    → Rose[ n ] (Tree[ su n ] A)
-    → Rose[ n ] (Tree[ su n ] A)
-  rose-tree-++ (ψ₀ ∷ ω₀) (ψ₁ ∷ ω₁) = tree-++ ψ₀ ψ₁ ∷ tree-rose-++ ω₀ ω₁
-
-  tree-rose-++
-    : ∀ {n}
-    → {A : Set}
-    → Tree[ n ] (Rose[ su n ] A)
-    → Tree[ n ] (Rose[ su n ] A)
-    → Tree[ n ] (Rose[ su n ] A)
-  tree-rose-++ [] ys = ys
-  tree-rose-++ xs [] = xs
-  tree-rose-++ [ ψ₀ ] [ ψ₁ ] = [ rose-rose-++ ψ₀ ψ₁ ]
-
-  tree-tree-++
-    : ∀ {n}
-    → {A : Set}
-    → Tree[ n ] (Tree[ su n ] A)
-    → Tree[ n ] (Tree[ su n ] A)
-    → Tree[ n ] (Tree[ su n ] A)
-  tree-tree-++ [] ys = ys
-  tree-tree-++ xs [] = xs
-  tree-tree-++ [ ψ₀ ] [ ψ₁ ] = [ rose-tree-++ ψ₀ ψ₁ ]
-
-  rose-++
-    : ∀ {n}
-    → {A : Set}
-    → Rose[ n ] A
-    → Rose[ n ] A
-    → Rose[ n ] A
-  rose-++ (a₀ ∷ ω₀) (a₁ ∷ ω₁) = a₀ ∷ tree-rose-++ ω₀ (tree-rose-∷ a₁ ω₁)
-
-  tree-++
-    : ∀ {n}
-    → {A : Set}
-    → Tree[ n ] A
-    → Tree[ n ] A
-    → Tree[ n ] A
-  tree-++ ω₀ [] = ω₀
-  tree-++ [] ω₁ = ω₁
-  tree-++ [ ψ₀ ] [ ψ₁ ] = [ rose-++ ψ₀ ψ₁ ]
-
-tree-sequence
-  : ∀ ..{s}
-  → ∀ {n}
-  → {A : Set}
-  → Rose[ n ] {s} (Tree[ su n ] A)
-  → Tree[ n ] (Rose[ su n ] A)
-tree-sequence ([] ∷ ω₁) = []
-tree-sequence ([ ψ₀ ] ∷ []) = [ ψ₀ ∷ [] ]
-tree-sequence ([ ψ₀ ] ∷ [ ψ₁ ]) = [ ψ₀ ∷ tree-sequence (rose-map tree-sequence ψ₁) ]
-
-rose-pure
-  : ∀ {n}
-  → {A : Set}
-  → A
-  → Rose[ su n ] A
-rose-pure a = a ∷ []
-
-rose-bind
-  : ∀ ..{s}
-  → ∀ {n}
-  → {A B : Set}
-  → (A → Rose[ n ] B)
-  → (Rose[ n ] {s} A → Rose[ n ] B)
-rose-bind {n = ze} k ()
-rose-bind {n = su n} k (a₀ ∷ ω₀) with k a₀
-… | a₁ ∷ ω₁ = a₁ ∷ tree-rose-++ ω₁ (tree-map (rose-bind k) ω₀)
-
-extract
-  : ∀ {n}
-  → {A : Set}
-  → Rose[ n ] A
-  → A
-extract (a ∷ ω) = a
-
-extend
-  : ∀ ..{s}
-  → ∀ {n}
-  → {A B : Set}
-  → (Rose[ n ] A → B)
-  → (Rose[ n ] {s} A → Rose[ n ] B)
-extend k (a ∷ ω) = k (a ∷ ω) ∷ tree-map (extend k) ω
-
-tree-pure
-  : ∀ {n}
-  → {A : Set}
-  → A
-  → Tree[ su n ] A
-tree-pure a = [ rose-pure a ]
-
-tree-bind
-  : ∀ ..{s}
-  → ∀ {n}
-  → {A B : Set}
-  → (A → Tree[ n ] B)
-  → (Tree[ n ] {s} A → Tree[ n ] B)
-tree-bind k [] = []
-tree-bind k [ a₀ ∷ [] ] = k a₀
-tree-bind k [ a₀ ∷ [ ψ₀ ] ] with k a₀
-… | [] = []
-… | [ a₁ ∷ ω₁ ] =
-  [
-    a₁ ∷
-      (tree-rose-++
-        ω₁
-        (tree-sequence (rose-map (λ x → tree-bind k [ x ]) ψ₀)))
-  ]
-
-instance
-  rose-functor
-    : ∀ {n}
-    → Functor Rose[ n ]
-  Functor.map rose-functor = rose-map
-
-  rose-monad
-    : ∀ {n}
-    → Monad Rose[ su n ]
-  Monad.return rose-monad = rose-pure
-  Monad.bind rose-monad = rose-bind
-
-  rose-comonad
-    : ∀ {n}
-    → Comonad Rose[ su n ]
-  Comonad.extract rose-comonad = extract
-  Comonad.extend rose-comonad = extend
-
-  rose-applicative
-    : ∀ {n}
-    → Applicative Rose[ su n ]
-  rose-applicative = Monad.applicative rose-monad
-
-instance
-  tree-functor
-    : ∀ {n}
-    → Functor Tree[ n ]
-  Functor.map tree-functor = tree-map
-
-  tree-monad
-    : ∀ {n}
-    → Monad Tree[ su n ]
-  Monad.return tree-monad = tree-pure
-  Monad.bind tree-monad = tree-bind
-
-  tree-applicative
-    : ∀ {n}
-    → Applicative Tree[ su n ]
-  tree-applicative = Monad.applicative tree-monad
+  instance
+    tree⊆nat : P.Nat.⊆ Nat
+    tree⊆nat = record { fromNat = fromNat }
