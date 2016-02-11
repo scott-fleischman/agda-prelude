@@ -6,11 +6,12 @@ open import Agda.Primitive
 open import Prelude.Applicative
   using (Applicative)
   using (pure_)
+open import Prelude.Comonad
+  using (Comonad)
 open import Prelude.Functor
   using (Functor)
 open import Prelude.Monad
   using (Monad)
-  using (_≫=_)
 open import Prelude.Natural
 open import Prelude.Size
 
@@ -289,6 +290,21 @@ rose-bind {n = ze} k ()
 rose-bind {n = su n} k (a₀ ∷ ω₀) with k a₀
 … | a₁ ∷ ω₁ = a₁ ∷ tree-rose-++ ω₁ (tree-map (rose-bind k) ω₀)
 
+extract
+  : ∀ {n}
+  → {A : Set}
+  → Rose[ n ] A
+  → A
+extract (a ∷ ω) = a
+
+extend
+  : ∀ ..{s}
+  → ∀ {n}
+  → {A B : Set}
+  → (Rose[ n ] A → B)
+  → (Rose[ n ] {s} A → Rose[ n ] B)
+extend k (a ∷ ω) = k (a ∷ ω) ∷ tree-map (extend k) ω
+
 tree-pure
   : ∀ {n}
   → {A : Set}
@@ -325,6 +341,12 @@ instance
     → Monad Rose[ su n ]
   Monad.return rose-monad = rose-pure
   Monad.bind rose-monad = rose-bind
+
+  rose-comonad
+    : ∀ {n}
+    → Comonad Rose[ su n ]
+  Comonad.extract rose-comonad = extract
+  Comonad.extend rose-comonad = extend
 
   rose-applicative
     : ∀ {n}
