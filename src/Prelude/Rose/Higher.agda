@@ -206,7 +206,7 @@ mutual
     → Tree[ su su n ] A
     → Tree[ su su n ] A
   tree-∷ v [] = [ v ∷ [] ]
-  tree-∷ v [ a ∷ ω ] = [ v ∷ tree-rose-∷ v ω ]
+  tree-∷ v [ a ∷ ω ] = [ v ∷ tree-rose-∷ a ω ]
 
 mutual
   rose-rose-++
