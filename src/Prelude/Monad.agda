@@ -51,7 +51,7 @@ module Ext ..{ℓ}
   where
 
   join : ∀ {A} → M (M A) → M A
-  join = Monad.bind {M = M} {fun = fun} mon Π.idn
+  join = Monad.bind {M = M} ⦃ fun = fun ⦄ mon Π.idn
 
 open Ext ⦃ … ⦄ public
 open Monad ⦃ … ⦄ public
