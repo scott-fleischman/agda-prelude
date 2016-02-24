@@ -39,9 +39,9 @@ module W where
     CoAlg.car from = W Σ
     CoAlg.act from (sup ϑ α) = (ϑ ▸ α)
 
-    into : Alg ⟦ Σ ⟧◃
-    Alg.car into = W Σ
-    Alg.act into (ϑ ▸ α) = sup ϑ α
+    -- into : Alg ⟦ Σ ⟧◃
+    -- Alg.car into = W Σ
+    -- Alg.act into (ϑ ▸ α) = sup ϑ α
 
     iter
       : ∀ ..{s}

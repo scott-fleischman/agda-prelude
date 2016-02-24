@@ -40,9 +40,9 @@ module M where
   inf# head tail = inf head tail
 
   module _ {Σ : Sig} where
-    from : CoAlg ⟦ Σ ⟧◃
-    CoAlg.car from = M Σ
-    CoAlg.act from = Σ.⟨ M.head ▸ tail# ⟩
+    -- from : CoAlg ⟦ Σ ⟧◃
+    -- CoAlg.car from = M Σ
+    -- CoAlg.act from = Σ.⟨ M.head ▸ tail# ⟩
 
     into : Alg ⟦ Σ ⟧◃
     Alg.car into = M Σ
