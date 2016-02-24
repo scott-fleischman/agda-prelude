@@ -12,8 +12,6 @@ open import Prelude.Monad
   using (Monad)
   using (bind)
   using (_≫=_)
-  using (seq_)
-  using ([_])
 open import Prelude.Monoidal.Coproduct
 open import Prelude.Monoidal.Void
 open import Prelude.Monoidal.Product.Indexed
