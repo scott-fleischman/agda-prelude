@@ -132,6 +132,9 @@ module List where
       → 𝟘.¬ (◇ Δ.ʲ[ 𝟘 ] is)
     absurd _ (stop ())
     absurd _ (step fs) = absurd _ fs
+  open ◇ public
+    hiding (module ◇)
+    using (◇)
 
   module □ where
     open import Prelude.Monoidal.Diagonal
@@ -214,6 +217,9 @@ module List where
       → □ Δ.ʲ[ 𝟙 ] is
     trivial [] = stop
     trivial (i ∷ is) = step * (trivial is)
+  open □ public
+    hiding (module □)
+    using (□)
 
   open Ext public
 
