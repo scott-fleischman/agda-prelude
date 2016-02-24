@@ -20,9 +20,8 @@ module 𝟙 where
 
 open 𝟙 public
   using (𝟙)
-  using (*)
   hiding (module 𝟙)
 open 𝟙↑ public
-  using ()
+  using (*)
   renaming (𝟙 to 𝟙↑)
   hiding (module 𝟙)

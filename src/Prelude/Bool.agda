@@ -45,10 +45,11 @@ module 𝟚↑ ..{ℓ} where
 module 𝟚 where
   open 𝟚↑ {lzero} public
 
-open 𝟚 public
-  using (𝟚)
+open 𝟚↑ public
   using (ff)
   using (tt)
+open 𝟚 public
+  using (𝟚)
   using (_∧_)
   using (_∨_)
   using (if_then_else_)
