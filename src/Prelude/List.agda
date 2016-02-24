@@ -20,7 +20,6 @@ open import Prelude.Size
 
 module List where
   infixr 1 _∷_
-  infixr 0 _++_
 
   data  List ..{s ℓ} (A : Set ℓ) : Set ℓ where
     []
@@ -31,14 +30,192 @@ module List where
       → (xs : List {s′} A)
       → List {s} A
 
-  _++_
-    : ∀ ..{s ℓ}
-    → {A : Set ℓ}
-    → List {s} A
-    → List {s} A
-    → List {Size.∞} A
-  [] ++ ys = ys
-  (x ∷ xs) ++ ys = x ∷ (xs ++ ys)
+  private
+    module Ext where
+      infixr 1 _++_
+
+      _++_
+        : ∀ ..{s ℓ}
+        → {A : Set ℓ}
+        → List {s} A
+        → List {s} A
+        → List {Size.∞} A
+      [] ++ ys = ys
+      (x ∷ xs) ++ ys = x ∷ xs ++ ys
+
+      map
+        : ∀ .{s}..{ℓ₀ ℓ₁}
+        → {A : Set ℓ₀}{B : Set ℓ₁}
+        → (A → B)
+        → List {s} A
+        → List {s} B
+      map f [] = []
+      map f (x ∷ xs) = f x ∷ map f xs
+
+  module ◇ where
+    open import Prelude.Monoidal.Coproduct
+    open import Prelude.Monoidal.Diagonal
+    open import Prelude.Monoidal.Void
+
+    data ◇ ..{s}..{ℓ₀ ℓ₁}
+      {A : Set ℓ₀}
+      (φ : A → Set ℓ₁)
+      : List A
+      → Set (ℓ₀ ⊔ ℓ₁)
+      where
+      stop
+        : ∀ {x xs}
+        → φ x
+        → ◇ φ (x ∷ xs)
+      step
+        : ∀ .{s′ : Size.< s}
+        → ∀ {x xs}
+        → ◇ {s′} φ xs
+        → ◇ φ (x ∷ xs)
+
+    _⊢?_
+      : ∀ .{s}..{ℓ₀ ℓ₁}
+      → {A : Set ℓ₀}
+      → {Φ : A → Set ℓ₁}
+      → (ω : ∀ a → Decidable (Φ a))
+      → (xs : List {s} A)
+      → Decidable (◇ Φ xs)
+    ω ⊢? [] = ⊕.inl λ()
+    ω ⊢? (x ∷ xs) with ω x
+    ω ⊢? (x ∷ xs) | ⊕.inr φ = ⊕.inr (stop φ)
+    ω ⊢? (x ∷ xs) | ⊕.inl k with ω ⊢? xs
+    ω ⊢? (x ∷ xs) | ⊕.inl k₀ | ⊕.inl k₁ =
+      ⊕.inl λ
+        { (stop φ) → k₀ φ
+        ; (step φ) → k₁ φ
+        }
+    ω ⊢? (x ∷ xs) | ⊕.inl k  | ⊕.inr φ =
+      ⊕.inr (step φ)
+
+    inl
+      : {I : Set}
+      → {F : I → Set}
+      → {is js : List I}
+      → ◇ F is
+      → ◇ F (is Ext.++ js)
+    inl (stop f) = stop f
+    inl (step fs) = step (inl fs)
+
+    inr
+      : {I : Set}
+      → {F : I → Set}
+      → {is js : List I}
+      → ◇ F js
+      → ◇ F (is Ext.++ js)
+    inr {is = []} gs = gs
+    inr {is = i ∷ is} gs = step (inr {is = is} gs)
+
+    split
+      : {I : Set}
+      → {R : I → Set}
+      → ∀ {is js}
+      → ◇ R (is Ext.++ js)
+      → ◇ R is ⊕ ◇ R js
+    split {is = []} (stop r) =
+      ⊕.inr (stop r)
+    split {is = []} (step rs) =
+      ⊕.inr (step rs)
+    split {is = i ∷ is} (stop l) =
+      ⊕.inl (stop l)
+    split {is = i ∷ is} (step rs) with split {is = is} rs
+    … | ⊕.inl lhs = ⊕.inl (step lhs)
+    … | ⊕.inr rhs = ⊕.inr rhs
+
+    absurd
+      : {I : Set}
+      → (is : List I)
+      → 𝟘.¬ (◇ Δ.ʲ[ 𝟘 ] is)
+    absurd _ (stop ())
+    absurd _ (step fs) = absurd _ fs
+
+  module □ where
+    open import Prelude.Monoidal.Diagonal
+    open import Prelude.Monoidal.Product
+    open import Prelude.Monoidal.Unit
+
+    data □ ..{s}..{ℓ₀ ℓ₁}
+      {A : Set ℓ₀}
+      (φ : A → Set ℓ₁)
+      : List A
+      → Set (ℓ₀ ⊔ ℓ₁)
+      where
+      stop
+        : □ φ []
+      step
+        : ∀ .{s′ : Size.< s}
+        → ∀ {x xs}
+        → φ x
+        → □ {s′} φ xs
+        → □ φ (x ∷ xs)
+
+    _⊢?_
+      : ∀ .{s}..{ℓ₀ ℓ₁}
+      → {A : Set ℓ₀}
+      → {Φ : A → Set ℓ₁}
+      → (ω : ∀ a → Decidable (Φ a))
+      → (xs : List {s} A)
+      → Decidable (□ Φ xs)
+    ω ⊢? [] = ⊕.inr stop
+    ω ⊢? (x ∷ xs) with ω x
+    ω ⊢? (x ∷ xs) | ⊕.inl k =
+      ⊕.inl λ { (step φ _) → k φ }
+    ω ⊢? (x ∷ xs) | ⊕.inr φ with ω ⊢? xs
+    ω ⊢? (x ∷ xs) | ⊕.inr φ | ⊕.inl k =
+      ⊕.inl λ { (step _ φ*) → k φ* }
+    ω ⊢? (x ∷ xs) | ⊕.inr φ | ⊕.inr φ* =
+      ⊕.inr (step φ φ*)
+
+    pair
+      : {I : Set}
+      → {F : I → Set}
+      → {is js : List I}
+      → □ F is
+      → □ F js
+      → □ F (is Ext.++ js)
+    pair □.stop qs = qs
+    pair (□.step ψ ps) qs = □.step ψ (pair ps qs)
+
+    split
+      : {I : Set}
+      → {R : I → Set}
+      → ∀ is {js}
+      → □ R (is Ext.++ js)
+      → □ R is ⊗ □ R js
+    split [] rs =
+      stop , rs
+    split (i ∷ is) (step r rs) with split is rs
+    … | fs′ , rs′ =
+      step r fs′ , rs′
+
+    take
+      : {I : Set}
+      → {R : I → Set}
+      → ∀ is {js}
+      → □ R (is Ext.++ js)
+      → □ R (is)
+    take is rs = ⊗.fst (split is rs)
+
+    drop
+      : {I : Set}
+      → {R : I → Set}
+      → ∀ is {js}
+      → □ R (is Ext.++ js)
+      → □ R (js)
+    drop is rs = ⊗.snd (split is rs)
+
+    trivial
+      : {I : Set}
+      → (is : List I)
+      → □ Δ.ʲ[ 𝟙 ] is
+    trivial [] = stop
+    trivial (i ∷ is) = step * (trivial is)
+
+  open Ext public
 
   len
     : ∀ ..{ℓ}
@@ -46,15 +223,6 @@ module List where
     → List A → Nat
   len [] = ze
   len (_ ∷ xs) = su (len xs)
-
-  map
-    : ∀ .{s}..{ℓ₀ ℓ₁}
-    → {A : Set ℓ₀}{B : Set ℓ₁}
-    → (A → B)
-    → List {s} A
-    → List {s} B
-  map f [] = []
-  map f (x ∷ xs) = f x ∷ map f xs
 
   pure_
     : ∀ ..{ℓ} {A : Set ℓ}
@@ -97,14 +265,14 @@ module List where
       : ∀ ..{ℓ}
       → {A : Set ℓ}
       → (xs : List A)
-      → ([] ++ xs) ≡ xs
+      → [] ++ xs ≡ xs
     λ⇒ xs = ≡.idn
 
     λ⇐
       : ∀ ..{ℓ}
       → {A : Set ℓ}
       → (xs : List A)
-      → xs ≡ ([] ++ xs)
+      → xs ≡ [] ++ xs
     λ⇐ [] = ≡.idn
     λ⇐ (x ∷ xs) = ≡.ap¹ (_∷_ x) (λ⇐ xs)
 
@@ -112,7 +280,7 @@ module List where
       : ∀ ..{ℓ}
       → {A : Set ℓ}
       → (xs : List A)
-      → (xs ++ []) ≡ xs
+      → xs ++ [] ≡ xs
     ρ⇒ [] = ≡.idn
     ρ⇒ (x ∷ xs) = ≡.ap¹ (_∷_ x) (ρ⇒ xs)
 
@@ -120,7 +288,7 @@ module List where
       : ∀ ..{ℓ}
       → {A : Set ℓ}
       → (xs : List A)
-      → xs ≡ (xs ++ [])
+      → xs ≡ xs ++ []
     ρ⇐ [] = ≡.idn
     ρ⇐ (x ∷ xs) = ≡.ap¹ (_∷_ x) (ρ⇐ xs)
 
@@ -129,7 +297,7 @@ module List where
       → {A : Set ℓ}
       → (xs : List A)
       → {ys zs : List A}
-      → ((xs ++ ys) ++ zs) ≡ (xs ++ (ys ++ zs))
+      → (xs ++ ys) ++ zs ≡ xs ++ (ys ++ zs)
     α⇒ [] = ≡.idn
     α⇒ (x ∷ xs) = ≡.ap¹ (_∷_ x) (α⇒ xs)
 
@@ -138,7 +306,7 @@ module List where
       → {A : Set ℓ}
       → (xs : List A)
       → {ys zs : List A}
-      → (xs ++ (ys ++ zs)) ≡ ((xs ++ ys) ++ zs)
+      → xs ++ (ys ++ zs) ≡ (xs ++ ys) ++ zs
     α⇐ [] = ≡.idn
     α⇐ (x ∷ xs) = ≡.ap¹ (_∷_ x) (α⇐ xs)
 
@@ -169,73 +337,6 @@ module List where
       → {g : B → C}
       → map g (map f xs) ≡ map (f ⇒.⟓ g) xs
     map-⟓ = map-⟔
-
-  data ◇ ..{s}..{ℓ₀ ℓ₁}
-    {A : Set ℓ₀}
-    (φ : A → Set ℓ₁)
-    : List A
-    → Set (ℓ₀ ⊔ ℓ₁)
-    where
-    stop
-      : ∀ {x xs}
-      → φ x
-      → ◇ φ (x ∷ xs)
-    step
-      : ∀ .{s′ : Size.< s}
-      → ∀ {x xs}
-      → ◇ {s′} φ xs
-      → ◇ φ (x ∷ xs)
-
-  data □ ..{s}..{ℓ₀ ℓ₁}
-    {A : Set ℓ₀}
-    (φ : A → Set ℓ₁)
-    : List A
-    → Set (ℓ₀ ⊔ ℓ₁)
-    where
-    stop
-      : □ φ []
-    step
-      : ∀ .{s′ : Size.< s}
-      → ∀ {x xs}
-      → φ x
-      → □ {s′} φ xs
-      → □ φ (x ∷ xs)
-
-  ◇?
-    : ∀ .{s}..{ℓ₀ ℓ₁}
-    → {A : Set ℓ₀}
-    → {Φ : A → Set ℓ₁}
-    → (ω : ∀ a → Decidable (Φ a))
-    → (xs : List {s} A)
-    → Decidable (◇ Φ xs)
-  ◇? ω [] = ⊕.inl λ()
-  ◇? ω (x ∷ xs) with ω x
-  ◇? ω (x ∷ xs) | ⊕.inr φ = ⊕.inr (stop φ)
-  ◇? ω (x ∷ xs) | ⊕.inl k with ◇? ω xs
-  ◇? ω (x ∷ xs) | ⊕.inl k₀ | ⊕.inl k₁ =
-    ⊕.inl λ
-      { (stop φ) → k₀ φ
-      ; (step φ) → k₁ φ
-      }
-  ◇? ω (x ∷ xs) | ⊕.inl k  | ⊕.inr φ =
-    ⊕.inr (step φ)
-
-  □?
-    : ∀ .{s}..{ℓ₀ ℓ₁}
-    → {A : Set ℓ₀}
-    → {Φ : A → Set ℓ₁}
-    → (ω : ∀ a → Decidable (Φ a))
-    → (xs : List {s} A)
-    → Decidable (□ Φ xs)
-  □? ω [] = ⊕.inr stop
-  □? ω (x ∷ xs) with ω x
-  □? ω (x ∷ xs) | ⊕.inl k =
-    ⊕.inl λ { (step φ _) → k φ }
-  □? ω (x ∷ xs) | ⊕.inr φ with □? ω xs
-  □? ω (x ∷ xs) | ⊕.inr φ | ⊕.inl k =
-    ⊕.inl λ { (step _ φ*) → k φ* }
-  □? ω (x ∷ xs) | ⊕.inr φ | ⊕.inr φ* =
-    ⊕.inr (step φ φ*)
 
 open List public
   using (List)
