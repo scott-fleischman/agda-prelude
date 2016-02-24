@@ -23,6 +23,7 @@ import Prelude.Integer
 import Prelude.Lift
 import Prelude.List
 import Prelude.Monad
+import Prelude.Monad.Indexed
 import Prelude.Monoidal
 import Prelude.Monoidal.Coproduct
 import Prelude.Monoidal.Coproduct.Indexed
