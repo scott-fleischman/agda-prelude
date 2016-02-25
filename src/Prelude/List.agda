@@ -56,75 +56,77 @@ module List where
     open import Prelude.Monoidal.Coproduct
     open import Prelude.Monoidal.Diagonal
     open import Prelude.Monoidal.Void
+    open 𝟘
+      using (¬_)
 
     data ◇ ..{s}..{ℓ₀ ℓ₁}
       {A : Set ℓ₀}
-      (φ : A → Set ℓ₁)
+      (P : A → Set ℓ₁)
       : List A
       → Set (ℓ₀ ⊔ ℓ₁)
       where
       stop
         : ∀ {x xs}
-        → φ x
-        → ◇ φ (x ∷ xs)
+        → (◇ε : P x)
+        → ◇ P (x ∷ xs)
       step
         : ∀ .{s′ : Size.< s}
         → ∀ {x xs}
-        → ◇ {s′} φ xs
-        → ◇ φ (x ∷ xs)
+        → (◇δ : ◇ {s′} P xs)
+        → ◇ P (x ∷ xs)
 
     _⊢?_
       : ∀ .{s}..{ℓ₀ ℓ₁}
       → {A : Set ℓ₀}
-      → {Φ : A → Set ℓ₁}
-      → (ω : ∀ a → Decidable (Φ a))
+      → {P : A → Set ℓ₁}
+      → (ω : ∀ a → Decidable (P a))
       → (xs : List {s} A)
-      → Decidable (◇ Φ xs)
+      → Decidable (◇ P xs)
     ω ⊢? [] = ⊕.inl λ()
     ω ⊢? (x ∷ xs) with ω x
-    ω ⊢? (x ∷ xs) | ⊕.inr φ = ⊕.inr (stop φ)
+    ω ⊢? (x ∷ xs) | ⊕.inr ε = ⊕.inr (stop ε)
     ω ⊢? (x ∷ xs) | ⊕.inl k with ω ⊢? xs
     ω ⊢? (x ∷ xs) | ⊕.inl k₀ | ⊕.inl k₁ =
       ⊕.inl λ
-        { (stop φ) → k₀ φ
-        ; (step φ) → k₁ φ
+        { (stop ε) → k₀ ε
+        ; (step δ) → k₁ δ
         }
-    ω ⊢? (x ∷ xs) | ⊕.inl k  | ⊕.inr φ =
-      ⊕.inr (step φ)
+    ω ⊢? (x ∷ xs) | ⊕.inl k | ⊕.inr δ =
+      ⊕.inr (step δ)
 
     inl
       : {I : Set}
-      → {F : I → Set}
+      → {P : I → Set}
       → {is js : List I}
-      → ◇ F is
-      → ◇ F (is Ext.++ js)
-    inl (stop f) = stop f
-    inl (step fs) = step (inl fs)
+      → ◇ P is
+      → ◇ P (is Ext.++ js)
+    inl (stop ε) = stop ε
+    inl (step δ) = step (inl δ)
 
     inr
       : {I : Set}
-      → {F : I → Set}
+      → {P : I → Set}
       → {is js : List I}
-      → ◇ F js
-      → ◇ F (is Ext.++ js)
-    inr {is = []} gs = gs
-    inr {is = i ∷ is} gs = step (inr {is = is} gs)
+      → ◇ P js
+      → ◇ P (is Ext.++ js)
+    inr {is = []} ε = ε
+    inr {is = i ∷ is} δ = step (inr {is = is} δ)
 
     split
       : {I : Set}
-      → {R : I → Set}
+      → {P : I → Set}
       → ∀ {is js}
-      → ◇ R (is Ext.++ js)
-      → ◇ R is ⊕ ◇ R js
-    split {is = []} (stop r) =
-      ⊕.inr (stop r)
-    split {is = []} (step rs) =
-      ⊕.inr (step rs)
-    split {is = i ∷ is} (stop l) =
-      ⊕.inl (stop l)
-    split {is = i ∷ is} (step rs) with split {is = is} rs
-    … | ⊕.inl lhs = ⊕.inl (step lhs)
-    … | ⊕.inr rhs = ⊕.inr rhs
+      → ◇ P (is Ext.++ js)
+      → ◇ P is ⊕ ◇ P js
+    split {is = []} (stop ε) =
+      ⊕.inr (stop ε)
+    split {is = []} (step δ) =
+      ⊕.inr (step δ)
+    split {is = i ∷ is} (stop ε) =
+      ⊕.inl (stop ε)
+    split {is = i ∷ is} (step δ) with split {is = is} δ
+    … | ⊕.inl δ-λ = ⊕.inl (step δ-λ)
+    … | ⊕.inr ε-ρ = ⊕.inr ε-ρ
 
     absurd
       : {I : Set}
@@ -143,26 +145,26 @@ module List where
 
     data □ ..{s}..{ℓ₀ ℓ₁}
       {A : Set ℓ₀}
-      (φ : A → Set ℓ₁)
+      (P : A → Set ℓ₁)
       : List A
       → Set (ℓ₀ ⊔ ℓ₁)
       where
       stop
-        : □ φ []
+        : □ P []
       step
         : ∀ .{s′ : Size.< s}
         → ∀ {x xs}
-        → φ x
-        → □ {s′} φ xs
-        → □ φ (x ∷ xs)
+        → (□ε : P x)
+        → (□δ : □ {s′} P xs)
+        → □ P (x ∷ xs)
 
     _⊢?_
       : ∀ .{s}..{ℓ₀ ℓ₁}
       → {A : Set ℓ₀}
-      → {Φ : A → Set ℓ₁}
-      → (ω : ∀ a → Decidable (Φ a))
+      → {P : A → Set ℓ₁}
+      → (ω : ∀ a → Decidable (P a))
       → (xs : List {s} A)
-      → Decidable (□ Φ xs)
+      → Decidable (□ P xs)
     ω ⊢? [] = ⊕.inr stop
     ω ⊢? (x ∷ xs) with ω x
     ω ⊢? (x ∷ xs) | ⊕.inl k =
@@ -175,41 +177,41 @@ module List where
 
     pair
       : {I : Set}
-      → {F : I → Set}
+      → {P : I → Set}
       → {is js : List I}
-      → □ F is
-      → □ F js
-      → □ F (is Ext.++ js)
-    pair □.stop qs = qs
-    pair (□.step ψ ps) qs = □.step ψ (pair ps qs)
+      → □ P is
+      → □ P js
+      → □ P (is Ext.++ js)
+    pair (□.stop) ε = ε
+    pair (□.step ε δ-λ) δ-ρ = □.step ε (pair δ-λ δ-ρ)
 
     split
       : {I : Set}
-      → {R : I → Set}
+      → {P : I → Set}
       → ∀ is {js}
-      → □ R (is Ext.++ js)
-      → □ R is ⊗ □ R js
-    split [] rs =
-      stop , rs
-    split (i ∷ is) (step r rs) with split is rs
-    … | fs′ , rs′ =
-      step r fs′ , rs′
+      → □ P (is Ext.++ js)
+      → □ P is ⊗ □ P js
+    split [] δ-ρ =
+      stop , δ-ρ
+    split (i ∷ is) (step ε δ) with split is δ
+    … | δ-λ , δ-ρ =
+      step ε δ-λ , δ-ρ
 
     take
       : {I : Set}
-      → {R : I → Set}
+      → {P : I → Set}
       → ∀ is {js}
-      → □ R (is Ext.++ js)
-      → □ R (is)
-    take is rs = ⊗.fst (split is rs)
+      → □ P (is Ext.++ js)
+      → □ P (is)
+    take is δ = ⊗.fst (split is δ)
 
     drop
       : {I : Set}
-      → {R : I → Set}
+      → {P : I → Set}
       → ∀ is {js}
-      → □ R (is Ext.++ js)
-      → □ R (js)
-    drop is rs = ⊗.snd (split is rs)
+      → □ P (is Ext.++ js)
+      → □ P (js)
+    drop is δ = ⊗.snd (split is δ)
 
     trivial
       : {I : Set}
@@ -244,14 +246,20 @@ module List where
   bind* k (x ∷ xs) = k x ++ bind* k xs
 
   instance
-    functor : ∀ ..{ℓ} → Functor (List {ℓ = ℓ})
+    functor
+      : ∀ ..{ℓ}
+      → Functor (List {ℓ = ℓ})
     Functor.map functor = map
 
-    monad : ∀ ..{ℓ} → Monad (List {ℓ = ℓ})
+    monad
+      : ∀ ..{ℓ}
+      → Monad (List {ℓ = ℓ})
     Monad.return monad = pure_
     Monad.bind monad = bind*
 
-    applicative : ∀ ..{ℓ} → Applicative (List {ℓ = ℓ})
+    applicative
+      : ∀ ..{ℓ}
+      → Applicative (List {ℓ = ℓ})
     applicative = Monad.applicative monad
 
   rep
