@@ -55,9 +55,12 @@ module List where
   module ◇ where
     open import Prelude.Monoidal.Coproduct
     open import Prelude.Monoidal.Diagonal
+    open import Prelude.Families
     open import Prelude.Monoidal.Void
     open 𝟘
       using (¬_)
+    open Fam
+      using (_⊆_)
 
     data ◇ ..{s}..{ℓ₀ ℓ₁}
       {A : Set ℓ₀}
@@ -74,6 +77,15 @@ module List where
         → ∀ {x xs}
         → (◇δ : ◇ {s′} P xs)
         → ◇ P (x ∷ xs)
+
+    map
+      : ∀ ..{s}..{ℓ₀ ℓ₁}
+      → {I : Set ℓ₀}
+      → {F G : I → Set ℓ₁}
+      → (f : F ⊆ G)
+      → ◇ {s} F ⊆ ◇ {s} G
+    map f (stop □ε) = stop (f □ε)
+    map f (step □δ) = step (map f □δ)
 
     _⊢?_
       : ∀ .{s}..{ℓ₀ ℓ₁}
@@ -139,9 +151,12 @@ module List where
     using (◇)
 
   module □ where
+    open import Prelude.Families
     open import Prelude.Monoidal.Diagonal
     open import Prelude.Monoidal.Product
     open import Prelude.Monoidal.Unit
+    open Fam
+      using (_⊆_)
 
     data □ ..{s}..{ℓ₀ ℓ₁}
       {A : Set ℓ₀}
@@ -157,6 +172,15 @@ module List where
         → (□ε : P x)
         → (□δ : □ {s′} P xs)
         → □ P (x ∷ xs)
+
+    map
+      : ∀ ..{s}..{ℓ₀ ℓ₁}
+      → {I : Set ℓ₀}
+      → {F G : I → Set ℓ₁}
+      → (f : F ⊆ G)
+      → □ {s} F ⊆ □ {s} G
+    map f (stop) = stop
+    map f (step □ε □δ) = step (f □ε) (map f □δ)
 
     _⊢?_
       : ∀ .{s}..{ℓ₀ ℓ₁}
