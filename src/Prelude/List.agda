@@ -13,8 +13,9 @@ open import Prelude.Monad
   using (bind)
   using (_≫=_)
 open import Prelude.Monoidal.Coproduct
-open import Prelude.Monoidal.Void
+open import Prelude.Monoidal.Product
 open import Prelude.Monoidal.Product.Indexed
+open import Prelude.Monoidal.Void
 open import Prelude.Natural
 open import Prelude.Size
 
@@ -294,6 +295,15 @@ module List where
     → List A
   rep (ze) a = []
   rep (su n) a = a ∷ rep n a
+
+  unzip
+    : {A B : Set}
+    → List (A ⊗ B)
+    → List A ⊗ List B
+  unzip [] = [] , []
+  unzip ((a , b) ∷ rest) =
+    let (as , bs) = unzip rest in
+    a ∷ as , b ∷ bs
 
   module ⊢ where
     open import Prelude.Path
