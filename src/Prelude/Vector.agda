@@ -3,6 +3,7 @@
 module Prelude.Vector where
 
 open import Agda.Primitive
+open import Prelude.Monoidal.Product
 open import Prelude.Natural
 open import Prelude.Finite
 open import Prelude.Size
@@ -73,6 +74,56 @@ module Vec where
     → Vec A n
   rep (ze) a = []
   rep (su n) a = a ∷ rep n a
+
+  zip
+    : ∀ ..{ℓ₀ ℓ₁} {n}
+    → {A : Set ℓ₀}
+    → {B : Set ℓ₁}
+    → Vec A n
+    → Vec B n
+    → Vec (A ⊗ B) n
+  zip [] [] =
+    []
+  zip (x ∷ xs) (y ∷ ys) =
+    (x , y) ∷ zip xs ys
+
+  zipAp
+    : ∀ ..{ℓ₀ ℓ₁} {n}
+    → {A : Set ℓ₀}
+    → {B : Set ℓ₁}
+    → Vec (A → B) n
+    → Vec A n
+    → Vec B n
+  zipAp [] [] =
+    []
+  zipAp (f ∷ fs) (x ∷ xs) =
+    f x ∷ zipAp fs xs
+
+  zipWith
+    : ∀ ..{ℓ₀ ℓ₁ ℓ₂} {n}
+    → {A : Set ℓ₀}
+    → {B : Set ℓ₁}
+    → {C : Set ℓ₂}
+    → (f : A → B → C)
+    → Vec A n
+    → Vec B n
+    → Vec C n
+  zipWith f [] [] =
+    []
+  zipWith f (a ∷ as) (b ∷ bs) =
+    f a b ∷ zipWith f as bs
+
+  unzip
+    : ∀ ..{ℓ₀ ℓ₁} {n}
+    → {A : Set ℓ₀}
+    → {B : Set ℓ₁}
+    → Vec (A ⊗ B) n
+    → Vec A n ⊗ Vec B n
+  unzip [] =
+    [] , []
+  unzip ((a , b) ∷ as⊗bs) =
+    let (as , bs) = unzip as⊗bs in
+    a ∷ as , b ∷ bs
 
   module ⊢ where
     open import Prelude.Monoidal.Exponential

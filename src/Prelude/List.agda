@@ -296,13 +296,60 @@ module List where
   rep (ze) a = []
   rep (su n) a = a ∷ rep n a
 
+  zip
+    : ∀ ..{ℓ₀ ℓ₁}
+    → {A : Set ℓ₀}
+    → {B : Set ℓ₁}
+    → List A
+    → List B
+    → List (A ⊗ B)
+  zip [] ys =
+    []
+  zip (x ∷ xs) [] =
+    []
+  zip (x ∷ xs) (y ∷ ys) =
+    (x , y) ∷ zip xs ys
+
+  zipAp
+    : ∀ ..{ℓ₀ ℓ₁}
+    → {A : Set ℓ₀}
+    → {B : Set ℓ₁}
+    → List (A → B)
+    → List A
+    → List B
+  zipAp [] xs =
+    []
+  zipAp (f ∷ fs) [] =
+    []
+  zipAp (f ∷ fs) (x ∷ xs) =
+    f x ∷ zipAp fs xs
+
+  zipWith
+    : ∀ ..{ℓ₀ ℓ₁ ℓ₂}
+    → {A : Set ℓ₀}
+    → {B : Set ℓ₁}
+    → {C : Set ℓ₂}
+    → (f : A → B → C)
+    → List A
+    → List B
+    → List C
+  zipWith f [] ys =
+    []
+  zipWith f (x ∷ xs) [] =
+    []
+  zipWith f (x ∷ xs) (y ∷ ys) =
+    f x y ∷ zipWith f xs ys
+
   unzip
-    : {A B : Set}
+    : ∀ ..{ℓ₀ ℓ₁}
+    → {A : Set ℓ₀}
+    → {B : Set ℓ₁}
     → List (A ⊗ B)
     → List A ⊗ List B
-  unzip [] = [] , []
-  unzip ((a , b) ∷ rest) =
-    let (as , bs) = unzip rest in
+  unzip [] =
+    [] , []
+  unzip ((a , b) ∷ as⊗bs) =
+    let (as , bs) = unzip as⊗bs in
     a ∷ as , b ∷ bs
 
   module ⊢ where
