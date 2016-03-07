@@ -37,6 +37,7 @@ import Prelude.Monoidal.Unit
 import Prelude.Monoidal.Void
 import Prelude.Natural
 import Prelude.Path
+import Prelude.Path.Heterogeneous
 import Prelude.Point
 import Prelude.Rose
 import Prelude.Rose.Higher
