@@ -16,13 +16,7 @@ data _≅_ ..{ℓ} {A : Set ℓ} (a : A) : {B : Set ℓ} (b : B) → Set ℓ whe
 
 module ≅ where
 
-  set
-    : ∀ ..{ℓ}
-    → {A B : Set ℓ}
-    → {a : A}{b : B}
-    → a ≅ b
-    → A ≡ B
-  set refl = refl
+  pattern idn = refl
 
   private
     module # where
@@ -30,6 +24,30 @@ module ≅ where
       infixr 1 _⟓_
       infixr 3 [_]*_
       infixl 2 _⁻¹
+
+      ι
+        : ∀ ..{ℓ}
+        → {A : Set ℓ}
+        → {a b : A}
+        → a ≡ b
+        → a ≅ b
+      ι refl = refl
+
+      set
+        : ∀ ..{ℓ}
+        → {A B : Set ℓ}
+        → {a : A}{b : B}
+        → a ≅ b
+        → A ≡ B
+      set refl = refl
+
+      coh
+        : ∀ ..{ℓ}
+        → {A B : Set ℓ}
+        → {a : A}{b : B}
+        → (ρ : a ≅ b)
+        → ≡.coe* ⇒.↻ (set ρ) a ≡ b
+      coh refl = refl
 
       idn*
         : ∀ ..{ℓ}
