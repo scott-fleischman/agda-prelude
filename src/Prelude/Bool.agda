@@ -10,6 +10,10 @@ module 𝟚↑ ..{ℓ} where
   data 𝟚 : Set ℓ where
     ff tt : 𝟚
 
+  not : 𝟚 → 𝟚
+  not ff = tt
+  not tt = ff
+
   or : (p q : 𝟚) → 𝟚
   or tt q = tt
   or p tt = tt
