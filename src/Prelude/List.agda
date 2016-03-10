@@ -433,6 +433,16 @@ module List where
       → map g (map f xs) ≡ map (f ⇒.⟓ g) xs
     map-⟓ = map-⟔
 
+    map-++
+      : {A B : Set}
+      → ∀ xs {ys : List A}
+      → {f : A → B}
+      → map f xs ++ map f ys ≡ map f (xs ++ ys)
+    map-++ [] =
+      ≡.idn
+    map-++ (x ∷ xs) =
+      ≡.ap¹ (_∷_ _) (map-++ xs)
+
 open List public
   using (List)
   using ([])
