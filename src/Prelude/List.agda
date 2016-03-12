@@ -20,7 +20,7 @@ open import Prelude.Natural
 open import Prelude.Size
 
 module List where
-  infixr 1 _∷_
+  infixr 2 _∷_
 
   data  List ..{s ℓ} (A : Set ℓ) : Set ℓ where
     []
@@ -33,7 +33,7 @@ module List where
 
   private
     module Ext where
-      infixr 1 _++_
+      infixr 2 _++_
 
       _++_
         : ∀ ..{s ℓ}
