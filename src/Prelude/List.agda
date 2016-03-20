@@ -10,7 +10,6 @@ open import Prelude.Functor
   using (Functor)
 open import Prelude.Monad
   using (Monad)
-  using (bind)
   using (_≫=_)
 open import Prelude.Monoidal.Coproduct
 open import Prelude.Monoidal.Product
@@ -259,18 +258,13 @@ module List where
   len [] = ze
   len (_ ∷ xs) = su (len xs)
 
-  pure_
-    : ∀ ..{ℓ} {A : Set ℓ}
-    → A → List A
-  pure_ = _∷ []
-
-  bind*
+  bind
     : ∀ ..{s ℓ₀ ℓ₁}
     → {A : Set ℓ₀}{B : Set ℓ₁}
     → (A → List {s} B)
     → (List {s} A → List {Size.∞} B)
-  bind* k [] = []
-  bind* k (x ∷ xs) = k x ++ bind* k xs
+  bind k [] = []
+  bind k (x ∷ xs) = k x ++ bind k xs
 
   instance
     functor
@@ -281,8 +275,8 @@ module List where
     monad
       : ∀ ..{ℓ}
       → Monad (List {ℓ = ℓ})
-    Monad.return monad = pure_
-    Monad.bind monad = bind*
+    Monad.return monad = λ x → x ∷ []
+    Monad.bind monad = bind
 
     applicative
       : ∀ ..{ℓ}
