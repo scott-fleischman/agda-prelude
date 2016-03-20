@@ -23,6 +23,7 @@ import Prelude.Inspect
 import Prelude.Integer
 import Prelude.Lift
 import Prelude.List
+import Prelude.Maybe
 import Prelude.Monad
 import Prelude.Monad.Indexed
 import Prelude.Monoidal
