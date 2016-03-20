@@ -16,11 +16,13 @@ open import Prelude.Monoidal.Coproduct
 open import Prelude.Monoidal.Product
 open import Prelude.Monoidal.Product.Indexed
 open import Prelude.Monoidal.Void
+open import Prelude.Path
 open import Prelude.Natural
 open import Prelude.Size
 
 module List where
   infixr 2 _∷_
+  infix 0 _⊢_≟_
 
   data  List ..{s ℓ} (A : Set ℓ) : Set ℓ where
     []
@@ -442,6 +444,32 @@ module List where
       ≡.idn
     map-++ (x ∷ xs) =
       ≡.ap¹ (_∷_ _) (map-++ xs)
+
+    ∷-inj
+      : {A : Set}{x y : A}{xs ys : List A}
+      → x ∷ xs ≡ y ∷ ys
+      → (x ≡ y) ⊗ (xs ≡ ys)
+    ∷-inj refl = refl , refl
+
+  _⊢_≟_
+    : {A : Set}
+    → (φ : (x y : A) → Decidable (x ≡ y))
+    → (xs ys : List A)
+    → Decidable (xs ≡ ys)
+  φ ⊢ [] ≟ [] =
+    ⊕.inr refl
+  φ ⊢ [] ≟ (_ ∷ _) =
+    ⊕.inl λ()
+  φ ⊢ (_ ∷ _) ≟ [] =
+    ⊕.inl λ()
+  φ ⊢ (x ∷ xs) ≟ (y ∷ ys) with φ x y
+  φ ⊢ x ∷ xs ≟ y ∷ ys | ⊕.inl κ₀ =
+    ⊕.inl λ π → κ₀ (⊗.fst (⊢.∷-inj π))
+  φ ⊢ x ∷ xs ≟ y ∷ ys | ⊕.inr π₀ with φ ⊢ xs ≟ ys
+  φ ⊢ x ∷ xs ≟ y ∷ ys | ⊕.inr π₀ | ⊕.inl κ₁ =
+    ⊕.inl λ π₁ → κ₁ (⊗.snd (⊢.∷-inj π₁))
+  φ ⊢ x ∷ xs ≟ y ∷ ys | ⊕.inr π₀ | ⊕.inr π₁ =
+    ⊕.inr (≡.ap¹ (_∷ xs) π₀ ≡.⟓ ≡.ap¹ (y ∷_) π₁)
 
 open List public
   using (List)
