@@ -22,6 +22,7 @@ open import Prelude.Size
 module List where
   infixr 2 _∷_
   infix 0 _⊢_≟_
+  infixr 2 _++[_]++_
 
   data  List ..{s ℓ} (A : Set ℓ) : Set ℓ where
     []
@@ -466,6 +467,13 @@ module List where
     ⊕.inl λ π₁ → κ₁ (⊗.snd (⊢.∷-inj π₁))
   φ ⊢ x ∷ xs ≟ y ∷ ys | ⊕.inr π₀ | ⊕.inr π₁ =
     ⊕.inr (≡.ap¹ (_∷ xs) π₀ ≡.⟓ ≡.ap¹ (y ∷_) π₁)
+
+  _++[_]++_
+    : {A : Set}
+    → (xs : List A) (y : A) (ys : List A)
+    → List A
+  xs ++[ y ]++ ys = xs ++ y ∷ ys
+  {-# DISPLAY _++_ xs (y ∷ ys) = xs ++[ y ]++ ys #-}
 
 open List public
   using (List)
