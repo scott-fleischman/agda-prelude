@@ -32,6 +32,8 @@ module List where
       → (xs : List {s′} A)
       → List {s} A
 
+  pattern [_] x = x ∷ []
+
   private
     module Ext where
       infixr 2 _++_
