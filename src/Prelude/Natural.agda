@@ -22,7 +22,8 @@ module Nat where
     using (Nat)
     using (_+_)
     using (_-_)
-    renaming (zero to ze; suc to su_)
+    renaming (zero to ze)
+    renaming (suc to su_)
 
   record ⊆ (A : Set) : Set where
     no-eta-equality
@@ -173,7 +174,7 @@ module Nat where
     α⇐ (su m) = ≡.ap¹ su_ (α⇐ m)
 
 open Nat public
+  hiding (module Nat)
   using (Nat)
   using (ze)
   using (su_)
-  hiding (module Nat)

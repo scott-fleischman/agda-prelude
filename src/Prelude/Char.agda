@@ -13,25 +13,17 @@ open import Prelude.Unsafe
 module Char where
   open import Agda.Builtin.Char public
     using (Char)
-    using (primCharEquality)
-    using (primCharToNat)
+    renaming (primCharEquality to ⟦_≟_⟧)
+    renaming (primCharToNat to toNat)
 
   open import Agda.Builtin.String public
-    using (primShowChar)
-
-  show : Char → String
-  show = primShowChar
-
-  toNat : Char → Nat
-  toNat = primCharToNat
+    renaming (primShowChar to show)
+    using ()
 
   _≟_ : (c₀ c₁ : Char) → Decidable (c₀ ≡ c₁)
-  c₀ ≟ c₁ with primCharEquality c₀ c₁
-  … | tt = ⊕.inr Unsafe.trustMe
+  c₀ ≟ c₁ with ⟦ c₀ ≟ c₁ ⟧
+  … | tt = ⊕.inr Unsafe.≡.trustMe
   … | ff = ⊕.inl void where postulate void : _
-
-  ⟦_≟_⟧ : (c₀ c₁ : Char) → 𝟚
-  ⟦_≟_⟧ = primCharEquality
 
 open Char public
   using (Char)
