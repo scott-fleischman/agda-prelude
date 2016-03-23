@@ -359,14 +359,14 @@ module List where
       : ∀ ..{ℓ}
       → {A : Set ℓ}
       → (xs : List A)
-      → [] ++ xs ≡ xs
+      → ([] ++ xs) ≡ xs
     λ⇒ xs = ≡.idn
 
     λ⇐
       : ∀ ..{ℓ}
       → {A : Set ℓ}
       → (xs : List A)
-      → xs ≡ [] ++ xs
+      → xs ≡ ([] ++ xs)
     λ⇐ [] = ≡.idn
     λ⇐ (x ∷ xs) = ≡.ap¹ (_∷_ x) (λ⇐ xs)
 
@@ -374,7 +374,7 @@ module List where
       : ∀ ..{ℓ}
       → {A : Set ℓ}
       → (xs : List A)
-      → xs ++ [] ≡ xs
+      → (xs ++ []) ≡ xs
     ρ⇒ [] = ≡.idn
     ρ⇒ (x ∷ xs) = ≡.ap¹ (_∷_ x) (ρ⇒ xs)
 
@@ -382,7 +382,7 @@ module List where
       : ∀ ..{ℓ}
       → {A : Set ℓ}
       → (xs : List A)
-      → xs ≡ xs ++ []
+      → xs ≡ (xs ++ [])
     ρ⇐ [] = ≡.idn
     ρ⇐ (x ∷ xs) = ≡.ap¹ (_∷_ x) (ρ⇐ xs)
 
@@ -391,7 +391,7 @@ module List where
       → {A : Set ℓ}
       → (xs : List A)
       → {ys zs : List A}
-      → (xs ++ ys) ++ zs ≡ xs ++ (ys ++ zs)
+      → ((xs ++ ys) ++ zs) ≡ (xs ++ (ys ++ zs))
     α⇒ [] = ≡.idn
     α⇒ (x ∷ xs) = ≡.ap¹ (_∷_ x) (α⇒ xs)
 
@@ -400,7 +400,7 @@ module List where
       → {A : Set ℓ}
       → (xs : List A)
       → {ys zs : List A}
-      → xs ++ (ys ++ zs) ≡ (xs ++ ys) ++ zs
+      → (xs ++ (ys ++ zs)) ≡ ((xs ++ ys) ++ zs)
     α⇐ [] = ≡.idn
     α⇐ (x ∷ xs) = ≡.ap¹ (_∷_ x) (α⇐ xs)
 
@@ -436,7 +436,7 @@ module List where
       : {A B : Set}
       → ∀ xs {ys : List A}
       → {f : A → B}
-      → map f xs ++ map f ys ≡ map f (xs ++ ys)
+      → (map f xs ++ map f ys) ≡ (map f (xs ++ ys))
     map-++ [] =
       ≡.idn
     map-++ (x ∷ xs) =
@@ -444,7 +444,7 @@ module List where
 
     ∷-inj
       : {A : Set}{x y : A}{xs ys : List A}
-      → x ∷ xs ≡ y ∷ ys
+      → (x ∷ xs) ≡ (y ∷ ys)
       → (x ≡ y) ⊗ (xs ≡ ys)
     ∷-inj refl = refl , refl
 
