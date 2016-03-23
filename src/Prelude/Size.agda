@@ -15,3 +15,4 @@ module Size where
 
 open Size public
   using (Size)
+  using (_⊔ˢ_)
