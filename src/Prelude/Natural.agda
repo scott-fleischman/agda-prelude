@@ -18,10 +18,11 @@ module Nat where
   infix 0 _≥?_
   infix 0 _>?_
 
-  data Nat : Set where
-    ze : Nat
-    su_ : Nat → Nat
-  {-# BUILTIN NATURAL Nat #-}
+  open import Agda.Builtin.Nat public
+    using (Nat)
+    using (_+_)
+    using (_-_)
+    renaming (zero to ze; suc to su_)
 
   record ⊆ (A : Set) : Set where
     no-eta-equality
@@ -88,16 +89,6 @@ module Nat where
     using (stop)
     using (step)
   open ≤
-
-  _+_ : (m n : Nat) → Nat
-  (ze) + n = n
-  (su m) + n = su (m + n)
-  {-# BUILTIN NATPLUS _+_ #-}
-
-  _*_ : (m n : Nat) → Nat
-  (ze) * n = ze
-  (su m) * n = n + (m * n)
-  {-# BUILTIN NATTIMES _*_ #-}
 
   min : (m n : Nat) → Nat
   min ze n = ze

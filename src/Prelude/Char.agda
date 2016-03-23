@@ -11,14 +11,13 @@ open import Prelude.String
 open import Prelude.Unsafe
 
 module Char where
-  postulate
-    Char : Set
-  {-# BUILTIN CHAR Char #-}
+  open import Agda.Builtin.Char public
+    using (Char)
+    using (primCharEquality)
+    using (primCharToNat)
 
-  primitive
-    primCharEquality : Char → Char → 𝟚
-    primCharToNat : Char → Nat
-    primShowChar : Char → String
+  open import Agda.Builtin.String public
+    using (primShowChar)
 
   show : Char → String
   show = primShowChar

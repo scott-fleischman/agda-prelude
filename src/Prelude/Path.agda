@@ -10,12 +10,7 @@ open import Prelude.Monoidal.Product.Indexed
 open import Prelude.Monoidal.Unit
 open import Prelude.Point
 
-infix 0 _≡_
-
-data _≡_ ..{ℓ} {A : Set ℓ} (a : A) : A → Set ℓ where
-  refl : a ≡ a
-{-# BUILTIN EQUALITY _≡_ #-}
-{-# BUILTIN REFL refl #-}
+open import Agda.Builtin.Equality public
 
 module ≡ where
 
@@ -120,10 +115,10 @@ module ≡ where
 
   module ≾ where
     idn
-      : ∀ ..{ℓ}
+      : ∀ {ℓ}
       → {A : Set ℓ}
       → {a : A}
-      → refl {a = a} ≡ refl {a = a}
+      → refl {x = a} ≡ refl {x = a}
     idn = #.idn
 
     cmp
@@ -154,7 +149,7 @@ module ≡ where
       → {a b : A}
       → {ρ₀ ρ₁ : a ≡ b}
       → (α : ρ₀ ≡ ρ₁)
-      → ρ₀ #.⁻¹ ≡ ρ₁ #.⁻¹
+      → (ρ₀ #.⁻¹) ≡ (ρ₁ #.⁻¹)
     inv #.idn = #.idn
 
   module ⊢ where
