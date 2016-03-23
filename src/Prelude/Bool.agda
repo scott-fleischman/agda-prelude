@@ -6,9 +6,8 @@ open import Agda.Primitive
 open import Prelude.Monoidal.Unit
 open import Prelude.Monoidal.Void
 
-module 𝟚↑ ..{ℓ} where
-  data 𝟚 : Set ℓ where
-    ff tt : 𝟚
+module 𝟚 where
+  open import Agda.Builtin.Bool renaming (Bool to 𝟚; false to ff; true to tt) public
 
   not : 𝟚 → 𝟚
   not ff = tt
@@ -46,20 +45,12 @@ module 𝟚↑ ..{ℓ} where
   {-# DISPLAY or p q = p ∨ q #-}
   {-# DISPLAY and p q = p ∧ q #-}
 
-module 𝟚 where
-  open 𝟚↑ {lzero} public
-
-open 𝟚↑ public
-  using (ff)
-  using (tt)
 open 𝟚 public
   using (𝟚)
+  using (ff)
+  using (tt)
   using (_∧_)
   using (_∨_)
   using (if_then_else_)
   using (⟦_⟧)
   hiding (module 𝟚)
-
-{-# BUILTIN BOOL 𝟚 #-}
-{-# BUILTIN FALSE ff #-}
-{-# BUILTIN TRUE tt #-}
