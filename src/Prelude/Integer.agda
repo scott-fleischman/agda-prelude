@@ -6,12 +6,10 @@ open import Agda.Primitive
 open import Prelude.Natural
 
 module Int where
-  data Int : Set where
-    pos  : Nat → Int
-    negS : Nat → Int
-  {-# BUILTIN INTEGER Int #-}
-  {-# BUILTIN INTEGERPOS pos #-}
-  {-# BUILTIN INTEGERNEGSUC negS #-}
+  open import Agda.Builtin.Int public
+    using (Int)
+    using (pos)
+    renaming (negsuc to negS)
 
   record ⊆ (A : Set) : Set where
     no-eta-equality
